@@ -26,25 +26,22 @@ Nous pouvons représenter ce schéma de réalisation par le suivant :
 
 ![](.ressources/algo_gen_scheme.png)
 
-
-## Fonctionnement
-
 Dans un environnement déterminé ci-nommé `problème`, des individus ci-nommés `solutions` sont confrontés afin de déterminer lequel, selon des critères donnés, a le plus de valeur et sera sélectionné pour l'environnement confronté à le surmonter.
 
 **Autrement dit,** pour un problème établi, nous émettons des `hypothèses` de solution qui, au fur et à mesure de la simulation, établieront selon leur évaluation leur efficacité à résoudre le problème édicté.
 
-## Application
 
 Cette situation, bien que relativement simple, peut avoir des applications variées. Qu'il s'agisse d'une simulation naturelle ou d'un environnement économique où les individus sont des entreprises.
 
 ## Objectif
 
-### Méthode de sélection naturelle
-L'objectif de cette méthode de sélection est de déterminer l'individu le plus efficient et efficace et obtenir une solution rapide à une situation.
+L'objectif du principe de sélection naturelle est donc de déterminer l'individu le plus efficient et efficace et obtenir une solution rapide à une situation.
 
-> **Note :** Il est possible de coupler cet algorithme à un réseau de neurones informatique ou *Neural Network* basé sur les idées du psychologue *Franck Rosenblatt*. Notamment pour le calcul des poids de neurones.
-
-### Le projet
+> **Note :** Il est possible de coupler cet algorithme à un réseau de neurones artificiels ou [*Neural Network*](https://fr.wikipedia.org/wiki/R%C3%A9seau_de_neurones_artificiels) basé sur les idées du psychologue [*Franck Rosenblatt*](https://fr.wikipedia.org/wiki/Frank_Rosenblatt). Notamment pour le calcul des poids de neurones. *Quelques lectures peuvent être trouvées à ce sujet dont (en anglais) :*
+> - [*"Deep Learning with Darwin: Evolutionary Synthesis of Deep Neural Networks"*](https://arxiv.org/pdf/1606.04393.pdf) de M. J. Shafiee, A. Mishra et A. Wong ;
+> - [*"Evolutionary Robot Behaviors Based on Natural Selection and Neural Network"*](https://link.springer.com/chapter/10.1007/1-4020-8151-0_6) dans *Artificial Intelligence Applications and Innovations* de M. Bramer et V. Devedzic ;
+> - [*"Evolving Neural Networks"*](https://home.fnal.gov/~souvik/Brain/index.html) et [*"A biology-inspired neural network evolving through natural
+selection"*](https://home.fnal.gov/~souvik/Brain/BrainInWorld.pdf) de Souvik Das.
 
 L'objectif de ce projet est d'une première part, de **produire** un algorithme et une structure algorithmique permettant de calculer et **simuler** l'évolution d'une population d'individus dans un environnement et, d'une seconde part, d'**observer** leur comportement afin d'en extrapoler des résultats que nous tenterons d'expliquer et d'évaluer.
 
