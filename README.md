@@ -26,7 +26,7 @@ Nous pouvons représenter ce schéma de réalisation par le suivant :
 
 ![](.ressources/algo_gen_scheme.png)
 
-Dans un environnement déterminé ci-nommé `problème`, des individus ci-nommés `solutions` sont confrontés afin de déterminer lequel, selon des critères donnés, a le plus de valeur et sera sélectionné pour l'environnement confronté à le surmonter.
+Dans un environnement déterminé surnommé `problème`, des individus surnommés `solutions` sont confrontés afin de déterminer lequel, selon des critères donnés, a le plus de valeur et sera sélectionné pour l'environnement confronté à le surmonter.
 
 **Autrement dit,** pour un problème établi, nous émettons des `hypothèses` de solution qui, au fur et à mesure de la simulation, établieront selon leur évaluation leur efficacité à résoudre le problème édicté.
 
