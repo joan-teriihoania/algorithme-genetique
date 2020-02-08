@@ -31,5 +31,9 @@ Dans un environnement déterminé, des individus, chacun représentant une solut
 ## Objectif
 
 
+<<<<<<< HEAD
 ## Structure du projet
 Ce projet se déroulera en deux phases.  
+=======
+> **Note :** Il est possible de coupler cet algorithme à un réseau de neurones informatique ou *Neural Network* basé sur les idées du psychologue *Franck Rosenblatt*.
+>>>>>>> c5ca89e063e11f49eec2ed6f3dd5a8c6b52384bb
