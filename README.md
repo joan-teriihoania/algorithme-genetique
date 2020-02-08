@@ -43,5 +43,9 @@ L'objectif de cette méthode de sélection est de déterminer l'individu le plus
 
 L'objectif de ce projet est d'une première part, de **produire** un algorithme et une structure algorithmique permettant de calculer et **simuler** l'évolution d'une population d'individus dans un environnement et, d'une seconde part, d'**observer** leur comportement afin d'en extrapoler des résultats que nous tenterons d'expliquer et d'évaluer.
 
-## Structure du projet
-Ce projet se déroulera en deux phases. La première 
+# Déroulement
+
+Ce projet se déroulera en deux phases distincts.
+
+# Bibliographie
+
