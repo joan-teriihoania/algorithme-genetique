@@ -59,7 +59,6 @@ Afin d'obtenir les résultats escomptés par l'objectif de ce projet, il est opp
 | **Environnement** | Nous disposons d'un plateau de `W x W` cases. Chaque case peut contenir `Pièce` ou pas (*Ces pièces sont au nombre `nbPiece` répartis aléatoirement sur le plateau*). D'une position initiale `X` du pion `Pion` et d'un entier `n` |
 | **Mouvement** | Un mouvement `M` peut être **H**aut, **B**as, **G**auche, **D**roite relatif à la position actuelle de `Pion` et à l'orientation du plateau. |
 | **Validité d'un mouvement** | Un mouvement `M` est valide tant qu'il ne fait pas sortir le pion en dehors des limites du plateau. |
-| **** |  |
 | **Problème** | Quel est l'enchaînement de mouvement/pas `M` à partir de la position `X` qui permet de récupérer le plus de `Pièce` avec `n` pas ? |
 | **Individu** | Chaque *individu* de la population contiendra une solution/gène `G` : une suite de `n` caractère(s) chacun représentant un mouvement/pas de type `M`. |
 | **Evaluation** | Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur sélective` qui sera calculée en fonction du nombre de `Pièce` qu'il aura effectué, de la distance parcourue entre chacune et, éventuellement, du nombre de mouvement invalide. |
