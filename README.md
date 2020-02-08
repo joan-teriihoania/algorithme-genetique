@@ -43,7 +43,9 @@ L'objectif du principe de sélection naturelle est donc de déterminer l'individ
 > - [*"Evolving Neural Networks"*](https://home.fnal.gov/~souvik/Brain/index.html) et [*"A biology-inspired neural network evolving through natural
 selection"*](https://home.fnal.gov/~souvik/Brain/BrainInWorld.pdf) de Souvik Das.
 
-L'objectif de ce projet est d'une première part, de **produire** un algorithme et une structure algorithmique permettant de calculer et **simuler** l'évolution d'une population d'individus dans un environnement et, d'une seconde part, d'**observer** leur comportement afin d'en extrapoler des résultats que nous tenterons d'expliquer et d'évaluer.
+L'objectif de ce projet est :
+ - D'une première part, **produire** un algorithme et une structure algorithmique permettant de calculer et **simuler** l'évolution d'une population d'individus dans un environnement;
+ - D'une seconde part, **observer** leur comportement afin d'en extrapoler des résultats que nous tenterons d'expliquer et d'évaluer.
 
 # Déroulement
 
