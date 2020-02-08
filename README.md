@@ -1,4 +1,4 @@
-# ![](ressources/logo.jpeg) Algorithme génétique
+# ![](.ressources/logo.jpeg) Algorithme génétique
 ### IUT Montpellier-Sète – Département Informatique
 
 | `WARNING: Work in progress` |
@@ -24,7 +24,7 @@ L'algorithme génétique se base sur une évolution par sélection naturelle. Le
 
 Nous pouvons représenter ce schéma de réalisation par le suivant :
 
-![](ressources/algo_gen_scheme.png)
+![](.ressources/algo_gen_scheme.png)
 
 
 ## Fonctionnement
