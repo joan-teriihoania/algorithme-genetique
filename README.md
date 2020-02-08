@@ -26,9 +26,14 @@ Nous pouvons représenter ce schéma de réalisation par le suivant :
 
 ![](ressources/algo_gen_scheme.png)
 
+
+## Fonctionnement
+
 Dans un environnement déterminé ou `problème`, des individus ou `solutions` sont confrontés afin de déterminer lequel, selon des critères donnés, a le plus de valeur et sera sélectionné pour l'environnement confronté à le surmonter.
 
 **Autrement dit,** pour un problème établi, nous émettons des `hypothèses` de solution qui, au fur et à mesure de la simulation, établieront selon leur évaluation leur efficacité à résoudre le problème édicté.
+
+## Application
 
 Cette situation, bien que relativement simple, peut avoir des applications variées. Qu'il s'agisse d'une simulation naturelle ou d'un environnement économique où les individus sont des entreprises.
 
