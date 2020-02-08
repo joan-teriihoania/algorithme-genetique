@@ -60,5 +60,5 @@ Afin d'obtenir les résultats escomptés par l'objectif de ce projet, il est opp
 | **Mouvement** | Un mouvement `M` peut être **H**aut, **B**as, **G**auche, **D**roite relatif à la position actuelle de `Pion` et à l'axe du plateau. <br><br><center><img src=".ressources/mouvement.png" alt="table" width="150"/></center> |
 | **Validité d'un mouvement** | Un mouvement `M` est valide tant qu'il ne fait pas sortir le pion en dehors des limites du plateau. |
 | **Problème** | Quel est l'enchaînement de mouvement/pas `M` à partir de la position `X` qui permet de récupérer le plus de `Pièce` avec `n` pas ? |
-| **Individu** | Chaque *individu* de la population contiendra une solution/gène `G` : une suite de `n` caractère(s) chacun représentant un mouvement/pas de type `M`. |
+| **Individu** | Chaque *individu* de la population contiendra une solution/gène `G` : une suite de `n` caractère(s) chacun représentant un mouvement/pas de type `M`.<br><br><center><img src=".ressources/hhgb.png" alt="table" width="150"/></center> | |
 | **Evaluation** | Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur sélective` qui sera calculée en fonction du nombre de `Pièce` qu'il aura effectué, de la distance parcourue entre chacune et, éventuellement, du nombre de mouvement invalide. |
