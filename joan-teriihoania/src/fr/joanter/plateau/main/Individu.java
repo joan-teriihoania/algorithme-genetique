@@ -10,7 +10,7 @@ public class Individu {
 
     @Override
     public String toString() {
-        return "Individu{" +
+        return "\nIndividu{" +
                 "\nid='" + id + '\'' +
                 ",\n moves=" + moves +
                 '}';

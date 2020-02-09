@@ -1,6 +1,7 @@
 package fr.joanter.plateau.main;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 public class Plateau {
@@ -21,7 +22,7 @@ public class Plateau {
 
     @Override
     public String toString() {
-        return "Plateau{" +
+        return "\nPlateau{" +
                 "\nid='" + id + '\'' +
                 ",\n y=" + y +
                 ",\n x=" + x +
@@ -50,6 +51,8 @@ public class Plateau {
 
     public Plateau(int pas, int nbPieces, int W, int nbIndividus) {
         this.cases = new Boolean[W][W];
+        this.x = new Random().nextInt(W);
+        this.y = new Random().nextInt(W);
         this.pas = pas;
         this.nbPieces = nbPieces;
         this.id = UUID.randomUUID().toString();

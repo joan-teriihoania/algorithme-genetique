@@ -13,7 +13,7 @@ public class Mouvement {
 
     @Override
     public String toString() {
-        return "Mouvement{" +
+        return "\nMouvement{" +
                 "\nmoves=" + Arrays.toString(moves) +
                 '}';
     }
@@ -24,6 +24,10 @@ public class Mouvement {
     }
 
     public Mouvement(String[] moves, Individu individu) {
+        if (moves.length != individu.getPas()){
+            System.out.println("Invalid size of String[] moves on constructor call parameter in Mouvement.");
+            moves = new String[individu.getPas()];
+        }
         this.moves = moves;
         this.individu = individu;
     }
