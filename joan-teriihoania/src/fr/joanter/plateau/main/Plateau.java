@@ -64,4 +64,8 @@ public class Plateau {
         }
     }
 
+    public Boolean caseHasPiece(int x, int y){
+        return cases[x][y];
+    }
+
 }

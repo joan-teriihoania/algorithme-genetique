@@ -20,6 +20,10 @@ public class Individu {
         return plateau;
     }
 
+    public int evaluate(){
+        return 0;
+    }
+
     public Individu(Plateau plateau) {
         this.id = UUID.randomUUID().toString();
         this.plateau = plateau;
