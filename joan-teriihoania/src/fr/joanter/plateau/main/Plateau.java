@@ -18,4 +18,16 @@ public class Plateau {
 
     // Nombre de pièces
     private int nbPieces;
+
+    public Plateau(int n, int nbPieces, int W, int nbIndividus) {
+        this.cases = new Boolean[W][W];
+        this.n = n;
+        this.nbPieces = nbPieces;
+        this.id = UUID.randomUUID().toString();
+
+        for (int i = 0; i < nbIndividus; i++){
+            Individu individu = new Individu(this);
+            this.individus.add(individu);
+        }
+    }
 }
