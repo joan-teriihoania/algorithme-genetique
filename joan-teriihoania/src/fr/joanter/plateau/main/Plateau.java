@@ -19,6 +19,18 @@ public class Plateau {
     // Nombre de pièces
     private int nbPieces;
 
+    @Override
+    public String toString() {
+        return "Plateau{" +
+                "id='" + id + '\'' +
+                ", individus=" + individus +
+                ", y=" + y +
+                ", x=" + x +
+                ", pas=" + pas +
+                ", nbPieces=" + nbPieces +
+                '}';
+    }
+
     public int getPas() {
         return pas;
     }
@@ -28,6 +40,7 @@ public class Plateau {
         this.pas = pas;
         this.nbPieces = nbPieces;
         this.id = UUID.randomUUID().toString();
+        this.individus = new ArrayList<>();
 
         for (int i = 0; i < nbIndividus; i++){
             Individu individu = new Individu(this);

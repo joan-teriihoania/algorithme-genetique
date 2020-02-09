@@ -8,6 +8,14 @@ public class Individu {
     private Plateau plateau;
     private Mouvement moves;
 
+    @Override
+    public String toString() {
+        return "Individu{" +
+                "id='" + id + '\'' +
+                ", moves=" + moves +
+                '}';
+    }
+
     public Individu(Plateau plateau) {
         this.id = UUID.randomUUID().toString();
         this.plateau = plateau;

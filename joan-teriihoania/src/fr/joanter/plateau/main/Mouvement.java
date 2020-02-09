@@ -1,12 +1,20 @@
 package fr.joanter.plateau.main;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Mouvement {
 
     private String[] moves;
     private Individu individu;
-    static private String[] move = {"H", "B", "G", "D"};
+    static private String[] possibleMove = {"H", "B", "G", "D"};
+
+    @Override
+    public String toString() {
+        return "Mouvement{" +
+                "moves=" + Arrays.toString(moves) +
+                '}';
+    }
 
     public Mouvement(Individu individu) {
         this.individu = individu;
@@ -22,11 +30,11 @@ public class Mouvement {
     * TODO: Check for valid moves
     * */
     private String[] getRandomMoves(int n){
-        String[] moves = new String[n];
+        String[] toreturn = new String[n];
         for (int i = 0;i < n;i++){
-            moves[i] = getRandomMove(moves);
+            toreturn[i] = getRandomMove(possibleMove);
         }
-        return moves;
+        return toreturn;
     }
 
     private String getRandomMove(String[] validMove){
