@@ -52,6 +52,7 @@ Il est important de garder en tête que l'algorithme et toutes les phases qui le
 
 # Déroulement
 
+## Cas concret
 Afin d'obtenir les résultats escomptés par l'objectif de ce projet, il est opportun de réaliser un exercice. Avant de produire un algorithme génétique généralisant les cas d'utilisation d'une évolution, nous pouvons nous consacrer à la réalisation d'un cas concret et spécifique afin de l'utiliser comme base du cas général. Comme cas concret, nous prendrons le suivant :
 
 |  |  |
@@ -61,3 +62,16 @@ Afin d'obtenir les résultats escomptés par l'objectif de ce projet, il est opp
 | **Mouvement** | Un mouvement `M` peut être **H**aut, **B**as, **G**auche, **D**roite relatif à la position actuelle de `Pion` et à l'axe du plateau. Un mouvement `M` est valide tant qu'il ne fait pas sortir le pion en dehors des limites du plateau. <br><br><center><img src=".ressources/mouvement.png" alt="table" width="150"/></center> |
 | **Individu** | Chaque *individu* de la population contiendra une solution/gène `G` : une suite de `n` caractère(s) chacun représentant un mouvement/pas de type `M`.<br><br><center><img src=".ressources/hhgb.png" alt="table" width="150"/></center> | |
 | **Evaluation** | Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur sélective` qui sera calculée en fonction du nombre de `Pièce` qu'il aura effectué, de la distance parcourue entre chacune et, éventuellement, du nombre de mouvement invalide. *Il sera opportun d'évaluer chaque individu par rapport à la performance d'autrui en gardant en tête que l'évaluation de l'un ne devrait pas être équivalente à un autre même s'ils ont collectés le même nombre de pièces.* |
+
+### Classes
+Visiblement, nous aurons besoin d'au moins deux classes pour l'environnement (Plateau) et l'individu (Pion). A partir de cette situation, il nous est possible d'identifier plusieurs classes permettant la réalisation de cet algorithme :
+ - Plateau ;
+ - Et Individu.
+
+Eventuellement, il est possible de créer également les classes :
+ - Mouvement ;
+ - Et Case ;
+
+Les relations des classes peuvent être exprimées avec le schéma suivant :
+
+![](.ressources/uml_classes_plateau_1.png)
