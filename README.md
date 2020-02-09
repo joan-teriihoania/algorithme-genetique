@@ -64,14 +64,13 @@ Afin d'obtenir les résultats escomptés par l'objectif de ce projet, il est opp
 | **Evaluation** | Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur sélective` qui sera calculée en fonction du nombre de `Pièce` qu'il aura effectué, de la distance parcourue entre chacune et, éventuellement, du nombre de mouvement invalide. *Il sera opportun d'évaluer chaque individu par rapport à la performance d'autrui en gardant en tête que l'évaluation de l'un ne devrait pas être équivalente à un autre même s'ils ont collectés le même nombre de pièces.* |
 
 ### Classes
-Visiblement, nous aurons besoin d'au moins deux classes pour l'environnement (Plateau) et l'individu (Pion). A partir de cette situation, il nous est possible d'identifier plusieurs classes permettant la réalisation de cet algorithme :
- - Plateau ;
- - Et Individu.
-
-Eventuellement, il est possible de créer également les classes :
- - Mouvement ;
- - Et Case ;
+Visiblement, nous aurons besoin d'au moins deux classes pour l'environnement (`Plateau`) et l'individu (`Pion`). A partir de cette situation, il nous est possible d'identifier plusieurs classes permettant la réalisation de cet algorithme :
+ - `Plateau` ;
+ - Et `Individu`.
 
 Les relations des classes peuvent être exprimées avec le schéma suivant :
 
 ![](.ressources/uml_classes_plateau_1.png)
+
+
+Eventuellement, il est possible de créer également des classes intermédiaires qui se chargent du contrôle de chaque étape de vérification : `Mouvement` Et `Case`. Mais il est préférable de se tenir aux deux classes ci-dessus pour le moment.
