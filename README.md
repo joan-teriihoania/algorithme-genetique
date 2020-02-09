@@ -7,7 +7,7 @@
 [![Build Status](https://travis-ci.org/joan-teriihoania/remote-control.svg?branch=master)](https://travis-ci.org/joan-teriihoania/remote-control)
 
 # Le projet
-Projet créé et initié dans le cadre d'un projet tuteuré par des étudiants en formation de *DUT Année Spéciale en informatique* à l'*Institut Universitaire Technologie de Montpellier-Sète* pour la promotion 2019-2020 :
+Projet créé et initié dans le cadre d'un projet tuteuré par des étudiants en formation de *DUT Année Spéciale en informatique* à l'*Institut Universitaire Technologique de Montpellier-Sète* pour la promotion 2019-2020 :
  - [TERIIHOANIA Joan](http://joan-teriihoania.fr/),
  - ODOR Thibault,
  - FAVOT Lino,
@@ -52,15 +52,25 @@ Il est important de garder en tête que l'algorithme et toutes les phases qui le
 
 # Déroulement
 
+## Cas concret
 Afin d'obtenir les résultats escomptés par l'objectif de ce projet, il est opportun de réaliser un exercice. Avant de produire un algorithme génétique généralisant les cas d'utilisation d'une évolution, nous pouvons nous consacrer à la réalisation d'un cas concret et spécifique afin de l'utiliser comme base du cas général. Comme cas concret, nous prendrons le suivant :
 
 |  |  |
 | ------------- | ------------- |
-| **Environnement** | Nous disposons d'un plateau de `W x W` cases. Chaque case peut contenir `Pièce` ou pas (*Ces pièces sont au nombre `nbPiece` répartis aléatoirement sur le plateau*). D'une position initiale `X` du pion `Pion` et d'un entier `n`. <br><br><center><img src=".ressources/plateau.png" alt="table" width="200"/></center> |
-| **Mouvement** | Un mouvement `M` peut être **H**aut, **B**as, **G**auche, **D**roite relatif à la position actuelle de `Pion` et à l'axe du plateau. <br><br><center><img src=".ressources/mouvement.png" alt="table" width="150"/></center> |
-| **Validité d'un mouvement** | Un mouvement `M` est valide tant qu'il ne fait pas sortir le pion en dehors des limites du plateau. |
-| **Problème** | Quel est l'enchaînement de mouvement/pas `M` à partir de la position `X` qui permet de récupérer le plus de `Pièce` avec `n` pas ? |
+| **Environnement** | Nous disposons d'un plateau de `W x W` cases. Chaque case peut contenir `Pièce` ou pas (*Ces pièces sont au nombre `nbPiece` réparties aléatoirement sur le plateau*). D'une position initiale `X` du pion `Pion` et d'un entier `n`. <br><br><center><img src=".ressources/plateau.png" alt="table" width="300"/></center> |
+| **Problème** | *Quel est l'enchaînement de mouvement/pas `M` à partir de la position `X` qui permet de récupérer le plus de `Pièce` avec `n` pas ?* |
+| **Mouvement** | Un mouvement `M` peut être **H**aut, **B**as, **G**auche, **D**roite relatif à la position actuelle de `Pion` et à l'axe du plateau. Un mouvement `M` est valide tant qu'il ne fait pas sortir le pion en dehors des limites du plateau. <br><br><center><img src=".ressources/mouvement.png" alt="table" width="150"/></center> |
 | **Individu** | Chaque *individu* de la population contiendra une solution/gène `G` : une suite de `n` caractère(s) chacun représentant un mouvement/pas de type `M`.<br><br><center><img src=".ressources/hhgb.png" alt="table" width="150"/></center> | |
-| **Evaluation** | Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur sélective` qui sera calculée en fonction du nombre de `Pièce` qu'il aura effectué, de la distance parcourue entre chacune et, éventuellement, du nombre de mouvement invalide. |
+| **Evaluation** | Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur sélective` qui sera calculée en fonction du nombre de `Pièce` qu'il aura effectué, de la distance parcourue entre chacune et, éventuellement, du nombre de mouvement invalide. *Il sera opportun d'évaluer chaque individu par rapport à la performance d'autrui en gardant en tête que l'évaluation de l'un ne devrait pas être équivalente à un autre même s'ils ont collectés le même nombre de pièces.* |
 
-> **Note :** Il sera opportun d'évaluer chaque individu par rapport à la performance d'autrui en gardant en tête que l'évaluation de l'un ne devrait pas être équivalente à un autre même s'ils ont collectés le même nombre de pièces.
+### Classes
+Visiblement, nous aurons besoin d'au moins deux classes pour l'environnement (`Plateau`) et l'individu (`Pion`). A partir de cette situation, il nous est possible d'identifier plusieurs classes permettant la réalisation de cet algorithme :
+ - `Plateau` ;
+ - Et `Individu`.
+
+Les relations des classes peuvent être exprimées avec le schéma suivant :
+
+![](.ressources/uml_classes_plateau_1.png)
+
+
+Eventuellement, il est possible de créer également des classes intermédiaires qui se chargent du contrôle de chaque étape de vérification : `Mouvement` Et `Case`. Mais il est préférable de se tenir aux deux classes ci-dessus pour le moment.
