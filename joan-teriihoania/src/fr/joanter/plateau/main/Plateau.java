@@ -23,16 +23,29 @@ public class Plateau {
     public String toString() {
         return "Plateau{" +
                 "id='" + id + '\'' +
-                ", individus=" + individus +
                 ", y=" + y +
                 ", x=" + x +
                 ", pas=" + pas +
                 ", nbPieces=" + nbPieces +
+                ", W =" + cases.length +
+                ", individus=" + individus +
                 '}';
     }
 
     public int getPas() {
         return pas;
+    }
+
+    public int getSize(){
+        return this.cases.length;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
     }
 
     public Plateau(int pas, int nbPieces, int W, int nbIndividus) {

@@ -16,6 +16,10 @@ public class Individu {
                 '}';
     }
 
+    public Plateau getPlateau() {
+        return plateau;
+    }
+
     public Individu(Plateau plateau) {
         this.id = UUID.randomUUID().toString();
         this.plateau = plateau;
