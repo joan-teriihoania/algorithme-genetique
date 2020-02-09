@@ -14,7 +14,7 @@ public class Mouvement {
     @Override
     public String toString() {
         return "Mouvement{" +
-                "moves=" + Arrays.toString(moves) +
+                "\nmoves=" + Arrays.toString(moves) +
                 '}';
     }
 
@@ -69,7 +69,7 @@ public class Mouvement {
     private String[] removeEmptyEl(String[] array){
         List<String> values = new ArrayList<>();
         for(String data: array) {
-            if(!data.equals("")) {
+            if(data != null && !data.equals("")) {
                 values.add(data);
             }
         }

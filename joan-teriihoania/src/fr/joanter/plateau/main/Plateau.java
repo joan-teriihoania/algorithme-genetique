@@ -22,13 +22,13 @@ public class Plateau {
     @Override
     public String toString() {
         return "Plateau{" +
-                "id='" + id + '\'' +
-                ", y=" + y +
-                ", x=" + x +
-                ", pas=" + pas +
-                ", nbPieces=" + nbPieces +
-                ", W =" + cases.length +
-                ", individus=" + individus +
+                "\nid='" + id + '\'' +
+                ",\n y=" + y +
+                ",\n x=" + x +
+                ",\n pas=" + pas +
+                ",\n nbPieces=" + nbPieces +
+                ",\n W =" + cases.length +
+                ",\n individus=" + individus +
                 '}';
     }
 

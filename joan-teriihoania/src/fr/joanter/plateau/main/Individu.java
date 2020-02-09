@@ -11,8 +11,8 @@ public class Individu {
     @Override
     public String toString() {
         return "Individu{" +
-                "id='" + id + '\'' +
-                ", moves=" + moves +
+                "\nid='" + id + '\'' +
+                ",\n moves=" + moves +
                 '}';
     }
 
