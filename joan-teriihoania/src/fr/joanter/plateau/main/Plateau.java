@@ -24,14 +24,28 @@ public class Plateau {
 
     @Override
     public String toString() {
+        StringBuilder map = new StringBuilder("\n");
+        for (Boolean[] aCase : this.cases) {
+            map.append("|");
+            for (int j = 0; j < this.cases.length; j++) {
+                if (aCase[j]) {
+                    map.append(" X ");
+                } else {
+                    map.append("   ");
+                }
+                map.append("|");
+            }
+            map.append("\n");
+        }
         return "\nPlateau{" +
+                ",\n individus=" + individus +
                 "\nid='" + id + '\'' +
                 ",\n y=" + y +
                 ",\n x=" + x +
                 ",\n pas=" + pas +
                 ",\n nbPieces=" + nbPieces +
                 ",\n W =" + cases.length +
-                ",\n individus=" + individus +
+                "\n map='" + map +
                 '}';
     }
 
@@ -52,14 +66,15 @@ public class Plateau {
     }
 
     public Plateau(int pas, int nbPieces, int W, int nbIndividus) {
-        this.cases = new Boolean[W][W];
-        this.genPlateau();
         this.x = new Random().nextInt(W);
         this.y = new Random().nextInt(W);
         this.pas = pas;
         this.nbPieces = nbPieces;
         this.id = UUID.randomUUID().toString();
         this.individus = new ArrayList<>();
+
+        this.cases = new Boolean[W][W];
+        this.genPlateau();
 
         for (int i = 0; i < nbIndividus; i++){
             Individu individu = new Individu(this);
@@ -68,23 +83,21 @@ public class Plateau {
     }
 
     private void genPlateau(){
-        Boolean[][] toreturn = new Boolean[this.cases.length][this.cases.length];
         for (int i = 0;i < this.cases.length;i++){
             for (int j = 0;j < this.cases.length;j++){
-                toreturn[i][j] = false;
+                this.cases[i][j] = false;
             }
         }
 
         int ran_x = new Random().nextInt(this.cases.length);
         int ran_y = new Random().nextInt(this.cases.length);
         for (int i = 0;i < this.nbPieces;i++){
-            while(toreturn[ran_x][ran_y]){
+            while(caseHasPiece(ran_x, ran_y)){
                 ran_x = new Random().nextInt(this.cases.length);
                 ran_y = new Random().nextInt(this.cases.length);
             }
-            toreturn[ran_x][ran_y] = true;
+            this.cases[ran_x][ran_y] = true;
         }
-        this.cases = toreturn;
     }
 
     public Boolean caseHasPiece(int x, int y){
