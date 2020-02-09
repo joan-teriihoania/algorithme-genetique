@@ -25,15 +25,19 @@ public class Plateau {
     @Override
     public String toString() {
         StringBuilder map = new StringBuilder("\n");
-        for (Boolean[] aCase : this.cases) {
-            map.append("|");
+        for (int i = 0; i < this.cases.length; i++) {
+            map.append(i+":|");
             for (int j = 0; j < this.cases.length; j++) {
-                if (aCase[j]) {
+                if (cases[i][j]) {
                     map.append(" X ");
                 } else {
                     map.append("   ");
                 }
-                map.append("|");
+                if(i == x && j == y){
+                    map.append("<");
+                } else {
+                    map.append("|");
+                }
             }
             map.append("\n");
         }

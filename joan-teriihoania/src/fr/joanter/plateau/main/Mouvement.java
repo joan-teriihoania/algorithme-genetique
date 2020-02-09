@@ -18,6 +18,10 @@ public class Mouvement {
                 '}';
     }
 
+    public String[] getMoves() {
+        return moves;
+    }
+
     public Mouvement(Individu individu) {
         this.individu = individu;
         this.moves = getRandomMoves(individu.getPas(), individu.getPlateau());
