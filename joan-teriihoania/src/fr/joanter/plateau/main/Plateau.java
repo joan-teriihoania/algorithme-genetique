@@ -14,14 +14,18 @@ public class Plateau {
     private int x;
 
     // Nombre de pas
-    private int n;
+    private int pas;
 
     // Nombre de pièces
     private int nbPieces;
 
-    public Plateau(int n, int nbPieces, int W, int nbIndividus) {
+    public int getPas() {
+        return pas;
+    }
+
+    public Plateau(int pas, int nbPieces, int W, int nbIndividus) {
         this.cases = new Boolean[W][W];
-        this.n = n;
+        this.pas = pas;
         this.nbPieces = nbPieces;
         this.id = UUID.randomUUID().toString();
 
@@ -30,4 +34,5 @@ public class Plateau {
             this.individus.add(individu);
         }
     }
+
 }

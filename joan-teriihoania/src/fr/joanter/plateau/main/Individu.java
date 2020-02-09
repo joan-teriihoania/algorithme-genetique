@@ -11,6 +11,10 @@ public class Individu {
     public Individu(Plateau plateau) {
         this.id = UUID.randomUUID().toString();
         this.plateau = plateau;
-        this.moves = new Mouvement("", this);
+        this.moves = new Mouvement(this);
+    }
+
+    public int getPas(){
+        return plateau.getPas();
     }
 }
