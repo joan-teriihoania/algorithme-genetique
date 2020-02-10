@@ -34,4 +34,13 @@ public class Individu {
     public int getPas(){
         return plateau.getPas();
     }
+
+    public void croiser(Individu individu_croisement){
+        moves.croiser(individu_croisement.moves);
+    }
+
+    public void muter(){
+        /*Code à faire*/
+    }
+
 }

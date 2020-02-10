@@ -3,8 +3,11 @@ package fr.joanter.plateau.main;
 import com.sun.tools.attach.AgentInitializationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
+
+import static java.util.Collections.*;
 
 public class Plateau {
 
@@ -22,18 +25,81 @@ public class Plateau {
     // Nombre de pièces
     private int nbPieces;
 
-    @Override
-    public String toString() {
+    public void run(int nbCycles){
+        double nb_best = individus.size()*0.3;
+        Individu individu_croisement;
+        long index = 0;
+        for (int i = 0;i < nbCycles ; i++){
+            index++;
+            ArrayList<Individu> best_individus;
+            best_individus = bestIndividus((int)nb_best);
+            // We select the best individuals
+            for (int j = 0;j < best_individus.size();j=j+2) {
+                individus.remove(best_individus.get(j));
+                if(j+1<best_individus.size()){
+                    individu_croisement = best_individus.get(j+1);
+                    individus.remove(best_individus.get(j+1));
+                } else {
+                    individu_croisement = best_individus.get(j);
+                }
+
+                best_individus.get(j).croiser(individu_croisement);
+                best_individus.get(j).muter();
+                individus.add(best_individus.get(j));
+                if(j+1<best_individus.size()){
+                    individus.add(best_individus.get(j+1));
+                }
+
+            }
+            System.out.println("Tick " + index + "/"+nbCycles+" complete");
+        }
+    }
+
+    /*
+    * Return the nb best subjects of individus
+    * depending on their evaluation.
+    * */
+    public ArrayList<Individu> bestIndividus(int nb){
+        ArrayList<Individu> all_individus = new ArrayList<>();
+        ArrayList<Individu> sorted_individus = new ArrayList<>();
+        ArrayList<Individu> best_individus = new ArrayList<>();
+        all_individus.addAll(individus);
+        int max;
+        Individu max_individu;
+        max_individu = individus.get(0);
+        for (Individu individu: individus) {;
+            max = -999999;
+            for (Individu individub: all_individus) {
+                if(individub.evaluate()>max){
+                    max = individub.evaluate();
+                    max_individu = individub;
+                }
+            }
+            sorted_individus.add(max_individu);
+            all_individus.remove(max_individu);
+        }
+
+        if (nb > sorted_individus.size()){
+            nb = sorted_individus.size();
+        }
+
+        for (int i = 0;i < nb; i++) {
+            best_individus.add(sorted_individus.get(i));
+        }
+        return best_individus;
+    }
+
+    public StringBuilder map(){
         StringBuilder map = new StringBuilder("\n");
         for (int i = 0; i < this.cases.length; i++) {
-            map.append(i+":|");
+            map.append("y="+i+":|");
             for (int j = 0; j < this.cases.length; j++) {
                 if (cases[i][j]) {
                     map.append(" X ");
                 } else {
                     map.append("   ");
                 }
-                if(i == x && j == y){
+                if(j == x && i == y){
                     map.append("<");
                 } else {
                     map.append("|");
@@ -41,6 +107,12 @@ public class Plateau {
             }
             map.append("\n");
         }
+        return map;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder map = map();
         return "\nPlateau{" +
                 ",\n individus=" + individus +
                 "\nid='" + id + '\'' +

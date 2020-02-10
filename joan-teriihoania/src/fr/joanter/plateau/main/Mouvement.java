@@ -36,6 +36,50 @@ public class Mouvement {
         this.individu = individu;
     }
 
+    public String[] getNextValidMoves(String[] moves, int x, int y, int size, int n){
+        int offset_x = 0;
+        int offset_y = 0;
+        String[] validMoves;
+
+        for (int i = 0;i < n;i++){
+            if(moves[i] != null) {
+                if(moves[i].equals("H")){y--;}
+                if(moves[i].equals("B")){y++;}
+                if(moves[i].equals("G")){x--;}
+                if(moves[i].equals("D")){x++;}
+            }
+        }
+
+        validMoves = new String[4];
+        if(y < size-1){validMoves[0] = "B";}
+        if(y != 0){validMoves[1] = "H";}
+        if(x < size-1){validMoves[2] = "D";}
+        if(x > 0){validMoves[3] = "G";}
+        validMoves = removeEmptyEl(validMoves);
+
+        return validMoves;
+    }
+
+    public Boolean nextMoveIsValid(String move, String[] moves, int x, int y, int size, int n){
+        String[] validMoves = getNextValidMoves(moves, x, y, size, n);
+        for (String validMove: validMoves){
+            if(validMove.equals(move)) {return true;}
+        }
+        return false;
+    }
+
+    public void croiser(Mouvement croisement_moves){
+        int move_choosen;
+        for (int i = 0; i < croisement_moves.moves.length;i++){
+            move_choosen = new Random().nextInt(1);
+                if(move_choosen == 0){
+                    moves[i] = croisement_moves.moves[i];
+                } else {
+                    croisement_moves.moves[i] = moves[i];
+                }
+        }
+    }
+
     public int evaluate(){
         // Initialise visited cases map
         Boolean[][] visited_coor = new Boolean[this.individu.getPlateau().getSize()][this.individu.getPlateau().getSize()];
@@ -57,12 +101,12 @@ public class Mouvement {
         }
         visited_coor[x][y] = true;
         for (String move: this.moves) {
-            if (move.equals("H")){y++;}
-            if (move.equals("B")){y--;}
+            if (move.equals("H")){y--;}
+            if (move.equals("B")){y++;}
             if (move.equals("G")){x--;}
             if (move.equals("D")){x++;}
             if (this.individu.getPlateau().caseHasPiece(x, y) && !visited_coor[x][y]){
-                capital++;
+                capital = capital+3;
             } else {
                 capital--;
             }
@@ -85,21 +129,13 @@ public class Mouvement {
             validMoves = new String[4];
 
             // Créé un array avec uniquement les mouvements valides
-            if(y < size-1){validMoves[0] = "H";}
-            if(y > 0){validMoves[1] = "B";}
-            if(x < size-1){validMoves[2] = "D";}
-            if(x > 0){validMoves[3] = "G";}
-            validMoves = removeEmptyEl(validMoves);
+            validMoves = getNextValidMoves(toreturn, plateau.getX(), plateau.getY(), size, n);
 
             toreturn[i] = getRandomMove(validMoves);
-            if(toreturn[i].equals("H")){offset_y = 1;}
-            if(toreturn[i].equals("B")){offset_y = -1;}
-            if(toreturn[i].equals("G")){offset_x = -1;}
-            if(toreturn[i].equals("D")){offset_x = 1;}
-            x += offset_x;
-            y += offset_y;
-            offset_x = 0;
-            offset_y = 0;
+            if(toreturn[i].equals("H")){y--;}
+            if(toreturn[i].equals("B")){y++;}
+            if(toreturn[i].equals("G")){x--;}
+            if(toreturn[i].equals("D")){x++;}
         }
         return toreturn;
     }
