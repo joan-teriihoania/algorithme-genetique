@@ -36,6 +36,41 @@ public class Mouvement {
         this.individu = individu;
     }
 
+    public int evaluate(){
+        // Initialise visited cases map
+        Boolean[][] visited_coor = new Boolean[this.individu.getPlateau().getSize()][this.individu.getPlateau().getSize()];
+        for (int i = 0;i < visited_coor.length;i++){
+            for (int j = 0;j < visited_coor.length;j++){
+                visited_coor[i][j] = false;
+            }
+        }
+
+        int x = this.individu.getPlateau().getX();
+        int y = this.individu.getPlateau().getY();
+        int capital = 0;
+        // If case has piece and is not visited, add capital
+        // If case has no piece or is visited, remove capital
+        if (this.individu.getPlateau().caseHasPiece(x, y) && !visited_coor[x][y]){
+            capital++;
+        } else {
+            capital--;
+        }
+        visited_coor[x][y] = true;
+        for (String move: this.moves) {
+            if (move.equals("H")){y++;}
+            if (move.equals("B")){y--;}
+            if (move.equals("G")){x--;}
+            if (move.equals("D")){x++;}
+            if (this.individu.getPlateau().caseHasPiece(x, y) && !visited_coor[x][y]){
+                capital++;
+            } else {
+                capital--;
+            }
+            visited_coor[x][y] = true;
+        }
+        return capital;
+    }
+
     private String[] getRandomMoves(int n, Plateau plateau){
         int x = plateau.getX();
         int y = plateau.getY();
