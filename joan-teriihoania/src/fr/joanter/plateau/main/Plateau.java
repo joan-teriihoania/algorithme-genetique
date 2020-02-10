@@ -1,6 +1,7 @@
 package fr.joanter.plateau.main;
 
 import com.sun.tools.attach.AgentInitializationException;
+import me.tongfei.progressbar.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +30,8 @@ public class Plateau {
         double nb_best = individus.size()*0.3;
         Individu individu_croisement;
         long index = 0;
+        ProgressBar pb = new ProgressBar("Simulation", nbCycles);
+        pb.start();
         for (int i = 0;i < nbCycles ; i++){
             index++;
             ArrayList<Individu> best_individus;
@@ -51,8 +54,10 @@ public class Plateau {
                 }
 
             }
-            System.out.println("Tick " + index + "/"+nbCycles+" complete");
+            //long percentage = index * 100 / nbCycles;
+            pb.step();
         }
+        pb.stop();
     }
 
     /*
@@ -92,7 +97,16 @@ public class Plateau {
     public StringBuilder map(){
         StringBuilder map = new StringBuilder("\n");
         for (int i = 0; i < this.cases.length; i++) {
-            map.append("y="+i+":|");
+
+            StringBuilder space = new StringBuilder();
+            int space_needed = String.valueOf(this.getSize()).length();
+            space_needed = space_needed - String.valueOf(i).length();
+            for (int j = 0; j < space_needed;j++){
+                space.append(" ");
+            }
+            map.append("y="+i+space+":|");
+
+
             for (int j = 0; j < this.cases.length; j++) {
                 if (cases[i][j]) {
                     map.append(" X ");
