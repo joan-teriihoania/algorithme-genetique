@@ -46,6 +46,8 @@ public class Plateau {
                     individu_croisement = best_individus.get(j);
                 }
 
+                pb.setExtraMessage("Croisement: "+best_individus.get(j).getId()+" et "+individu_croisement.getId());
+
                 best_individus.get(j).croiser(individu_croisement);
                 best_individus.get(j).muter();
                 individus.add(best_individus.get(j));

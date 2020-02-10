@@ -21,6 +21,10 @@ public class Individu {
         return plateau;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public int evaluate(){
         return moves.evaluate();
     }
