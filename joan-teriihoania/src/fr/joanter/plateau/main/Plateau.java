@@ -30,7 +30,7 @@ public class Plateau {
         double nb_best = individus.size()*0.3;
         Individu individu_croisement;
         long index = 0;
-        ProgressBar pb = new ProgressBar("Simulation", nbCycles);
+        ProgressBar pb = new ProgressBar("Simulation: "+this.id, nbCycles, 100);
         pb.start();
         for (int i = 0;i < nbCycles ; i++){
             index++;
@@ -50,6 +50,7 @@ public class Plateau {
 
                 best_individus.get(j).croiser(individu_croisement);
                 best_individus.get(j).muter();
+                individu_croisement.muter();
                 individus.add(best_individus.get(j));
                 if(j+1<best_individus.size()){
                     individus.add(best_individus.get(j+1));
@@ -192,7 +193,15 @@ public class Plateau {
         }
     }
 
+    public Boolean caseExist(int x, int y){
+        if(x > cases.length-1 || x < 0 || y > cases.length-1 || y < 0){
+            return false;
+        }
+        return true;
+    }
+
     public Boolean caseHasPiece(int x, int y){
+        if (!caseExist(x, y)){return false;}
         return cases[x][y];
     }
 

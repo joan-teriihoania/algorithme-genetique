@@ -37,8 +37,6 @@ public class Mouvement {
     }
 
     public String[] getNextValidMoves(String[] moves, int x, int y, int size, int n){
-        int offset_x = 0;
-        int offset_y = 0;
         String[] validMoves;
 
         for (int i = 0;i < n;i++){
@@ -66,6 +64,42 @@ public class Mouvement {
             if(validMove.equals(move)) {return true;}
         }
         return false;
+    }
+
+    public static<T> T[] subArray(T[] array, int beg, int end) {
+        return Arrays.copyOfRange(array, beg, end + 1);
+    }
+
+    public Boolean isValid(){
+        int x = this.individu.getPlateau().getX();
+        int y = this.individu.getPlateau().getY();
+        int size = this.individu.getPlateau().getSize();
+        int n = this.individu.getPas();
+
+        for (int i = 0;i < this.moves.length;i++){
+            if(!nextMoveIsValid(moves[i], subArray(moves, 0, i), x, y, size, n)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void muter(){
+        double mutate_chance = 0.05;
+        double ran;
+        for (int i = 0;i < moves.length;i++){
+            ran = new Random().nextDouble();
+            if(ran<mutate_chance){
+
+                String[] save_moves = new String[moves.length];
+                for (int j = 0;j < moves.length;j++){
+                    save_moves[j] = moves[j];
+                }
+
+                String[] validMoves = getNextValidMoves(subArray(moves, 0, i), this.individu.getPlateau().getX(), this.individu.getPlateau().getY(), this.individu.getPlateau().getSize(), i);
+                moves[i] = getRandomMove(validMoves);
+            }
+        }
     }
 
     public void croiser(Mouvement croisement_moves){
@@ -101,10 +135,26 @@ public class Mouvement {
         }
         visited_coor[x][y] = true;
         for (String move: this.moves) {
-            if (move.equals("H")){y--;}
-            if (move.equals("B")){y++;}
-            if (move.equals("G")){x--;}
-            if (move.equals("D")){x++;}
+            if(move.equals("H")){
+                if(this.individu.getPlateau().caseExist(x, y-1)){
+                    y--;
+                }
+            }
+            if(move.equals("B")) {
+                if(this.individu.getPlateau().caseExist(x, y+1)){
+                    y++;
+                }
+            }
+            if (move.equals("G")) {
+                if(this.individu.getPlateau().caseExist(x-1, y)){
+                    x--;
+                }
+            }
+            if (move.equals("D")){
+                if(this.individu.getPlateau().caseExist(x+1, y)){
+                    x++;
+                }
+            }
             if (this.individu.getPlateau().caseHasPiece(x, y) && !visited_coor[x][y]){
                 capital = capital+3;
             } else {
@@ -132,10 +182,26 @@ public class Mouvement {
             validMoves = getNextValidMoves(toreturn, plateau.getX(), plateau.getY(), size, n);
 
             toreturn[i] = getRandomMove(validMoves);
-            if(toreturn[i].equals("H")){y--;}
-            if(toreturn[i].equals("B")){y++;}
-            if(toreturn[i].equals("G")){x--;}
-            if(toreturn[i].equals("D")){x++;}
+            if(toreturn[i].equals("H")){
+                if(this.individu.getPlateau().caseExist(x, y-1)){
+                    y--;
+                }
+            }
+            if(toreturn[i].equals("B")) {
+                if(this.individu.getPlateau().caseExist(x, y+1)){
+                    y++;
+                }
+            }
+            if (toreturn[i].equals("G")) {
+                if(this.individu.getPlateau().caseExist(x-1, y)){
+                    x--;
+                }
+            }
+            if (toreturn[i].equals("D")){
+                if(this.individu.getPlateau().caseExist(x+1, y)){
+                    x++;
+                }
+            }
         }
         return toreturn;
     }

@@ -44,7 +44,7 @@ public class Individu {
     }
 
     public void muter(){
-        /*Code à faire*/
+        moves.muter();
     }
 
 }
