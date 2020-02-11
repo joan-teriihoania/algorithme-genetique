@@ -1,13 +1,15 @@
+package main.java.fr.thibaultodor.essai_string;
+
 import  java.util.Random;
 
-public class individus {
+public class IndividusString {
 
     private String[] CodeGen;
     private String[] GenPre1;
     private String[] GenPre2;
     private char[] Tabfinal;
 
-    public individus(String[] codeGen, String[] genPre1, String[] genPre2,char[] tabfinal) {
+    public IndividusString(String[] codeGen, String[] genPre1, String[] genPre2, char[] tabfinal) {
         CodeGen = codeGen;
         GenPre1 = genPre1;
         GenPre2 = genPre2;

@@ -1,12 +1,14 @@
+package fr.thibaultodor.plateau.essai_char;
+
 import  java.util.Random;
 
-public class individus {
+public class IndividusChar {
 
     private char[] CodeGen;
     private char[] GenPre1;
     private char[] GenPre2;
 
-    public individus(char[] codeGen, char[] genPre1, char[] genPre2) {
+    public IndividusChar(char[] codeGen, char[] genPre1, char[] genPre2) {
         CodeGen = codeGen;
         GenPre1 = genPre1;
         GenPre2 = genPre2;

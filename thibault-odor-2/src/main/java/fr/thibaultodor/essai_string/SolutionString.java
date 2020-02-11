@@ -1,4 +1,6 @@
-public class Solution {
+package main.java.fr.thibaultodor.essai_string;
+
+public class SolutionString {
     public static void main(String[] args) {
         String tab1[] = {"HB","HB","HB","HB"};
         String tab2[] = {"DG","DG","DG","DG"};
@@ -7,8 +9,8 @@ public class Solution {
 
         char tabfinal[] = {'Z','Z','Z','Z'};    //Initialisation à un valeur impossible
 
-        individus toto;
-        toto = new individus(tabI,tab1,tab2,tabfinal);
+        IndividusString toto;
+        toto = new IndividusString(tabI,tab1,tab2,tabfinal);
 
         toto.croisement();
 
