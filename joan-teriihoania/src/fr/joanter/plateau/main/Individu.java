@@ -21,6 +21,10 @@ public class Individu {
         return plateau;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public int evaluate(){
         return moves.evaluate();
     }
@@ -34,4 +38,13 @@ public class Individu {
     public int getPas(){
         return plateau.getPas();
     }
+
+    public void croiser(Individu individu_croisement){
+        moves.croiser(individu_croisement.moves);
+    }
+
+    public void muter(){
+        moves.muter();
+    }
+
 }
