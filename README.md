@@ -22,6 +22,8 @@ L'algorithme génétique se base sur une évolution par sélection naturelle. Le
 
 > **Important :** Afin de préserver un potentiel d'évolutivité, l'algorithme ne doit ni être eugéniste (*[Eugénisme](https://fr.wikipedia.org/wiki/Eug%C3%A9nisme)*) ni élitiste. Les individus de la population, qu'ils soient faiblement ou moyennement évalués ne doivent pas être supprimés pour conserver une certaine diversité au sein de la population et éviter une stagnation.
 
+> Par la même occasion, la sélection des individus à croiser et muter ne doit pas totalement ignorer les individus faiblement ou moyennement évalués.
+
 Nous pouvons représenter ce schéma de réalisation par le suivant :
 
 ![](.ressources/algo_gen_scheme.png)
