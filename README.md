@@ -29,10 +29,26 @@ Nous pouvons représenter ce schéma de réalisation par le suivant :
 ![](.ressources/algo_gen_scheme.png)
 
 ### Sélection
-Texte
+L'algorithme sélectionne un certain nombre d'individu (ou part de la population définie) arbitrairement. Les individus sélectionnés subiront les phases suivantes de croisement et mutation. La façon dont les individus sont sélectionnés peut varier :
+
+1. **Aléatoire simple** : On sélectionne les individus de manière totalement aléatoire. Elle peut permet d'obtenir une sélection difforme et variée et d'ainsi varier les individus qui suivront.
+2. **Aléatoire pondéré** : On attribue à chaque individu une `valeur sélective` puis, en se basant sur celle-ci, sélectionne les individus de manière aléatoire. Aussi, un individu dont la valeur est plus élevée aura plus de chance d'être sélectionné. *Il est important de garder en tête que l'algorithme ne doit pas être "sur-sélectif". Il n'est donc pas pertinent de rendre la valeur des individus les moins évalués nulle afin de leur donner une chance d'être sélectionné, évoluer et éventuellement s'améliorer.* Elle permet d'obtenir une sélection difforme et variée tout en privilégiant les gènes les plus efficients sans ignorer les moins efficients.
+3. **Prédéterminée** : On attribue un nombre (ou pourcentage) déterminé lors du lancement de l'algorithme qui sélectionnera (en fonction de ce nombre ou pourcentage) les individus parmi une part préalablement déterminée de la population (en fonction de leur évaluation). *Entre autre, il sera opportun d'effectuer notre sélection en grand majorité parmi la population la mieux évalués, et parmi la population dont l'évaluation est moyenne et faible.*
+
+> **Note :** La méthode prédéterministe peut être mixée avec les méthodes aléatoires.
+La méthode de sélection peut différer en fonction du résultat escompté. On privilégiera dans ce projet la méthode de **sélection aléatoire pondérée**.
 
 ### Croisement
-Texte
+Parmi la population sélectionnée par la phase précédente, l'algorithme effectue un croisement de gène. Celui-ci peut se faire entre deux individus ou plus (principalement 2). Cette phase permet de produire une population (dont les individus sont principalement bien évaluée) dont les gènes sont croisés et diversifié par rapport à la population de départ. *La persistence des individus dont les performances sont faibles ou moyennes leur permet de s'améliorer grâce aux individus les mieux évalués.*
+
+> **Note :** Usuellement, la population d'entrée `a` est supprimée et remplacée par la population de sortie `b`. Il faut donc que cette phase produise pour des croisements entre `n` individus, `n` individus croisés afin de garder une population au même nombre que celle d'entrée.
+
+Les méthodes de croisement d'individus existent sous plusieurs formes :
+
+1. **Aléatoire simple** : Chaque élément du gène des `n` individus sont parcourus afin de produire un individu. L'algorithme choisi aléatoirement l'élément de l'individu `A`, `B`, etc. Cela produit alors un nouveau gène mêlant les éléments de l'individu `A`, `B`, etc. Cette opération est effectuée `n` fois afin de produire une population de quantité équivalente.
+2. **Aléatoire pondéré statique** : Ici, les gènes disposent d'une hiérarchie (dont les valeurs sont fixées arbitrairement au départ de la simulation). Chaque élément du gène des individus possèdent un coefficient qui identifie son niveau par rapport à un autre. Prenons la hiérarchie `G>B>N` (dont les coefficients sont donc `3>2>1`) où `B=2` est supérieur à `N=1` mais inférieur à `G=3`. De la même manière qu'une méthode de sélection aléatoire pondérée, l'algorithme choisi un élément aléatoirement basé sur sa valeur hiérarchique.
+3. **Aléatoire pondéré dynamique** : Cette méthode reprend le fonctionnement de la méthode de croisement aléatoire pondéré statique mais dans laquelle la hiérarchie des gènes n'est pas statique mais dynamique. C'est-à-dire qu'elle évolue à chaque génération et chaque population en fonction des gènes de cette dernière. La hiérarchie est recalculée au début de la phase de croisement en fonction de la quantité d'un gène au sein de la population totale ou sélectionnée. Ainsi, une population dans laquelle le gène `G` est dominant verra sa hiérarchie telle que `G>...` Bien entendu, il est possible d'effectuer un *décalage* tel que : `h(n)` de `p(n)` est utilisée sur `p(n+1)` où `h` (hiérarchie), `p` (population) et `n` (numéro de génération). Le dynamisme d'une hiérarchie peut se décliner sous deux formes :
+    - **Dynamisme aléatoire pondéré** : A la manière d'un gène, la hiérarchie
 
 ### Mutation
 Texte
