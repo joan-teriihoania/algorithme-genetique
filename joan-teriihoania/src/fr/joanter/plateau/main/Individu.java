@@ -14,8 +14,15 @@ public class Individu {
                 "\nid='" + id + '\'' +
                 ",\n moves=" + moves +
                 ",\n eval=" + this.evaluate() +
+                ",\n nbPiece=" + this.getNbPiece() +
                 '}';
     }
+
+
+    public int getNbPiece(){
+        return moves.getNbPiece();
+    }
+
 
     public Plateau getPlateau() {
         return plateau;

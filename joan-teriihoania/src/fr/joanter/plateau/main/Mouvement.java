@@ -114,6 +114,54 @@ public class Mouvement {
         }
     }
 
+    public int getNbPiece(){
+        // Initialise visited cases map
+        Boolean[][] visited_coor = new Boolean[this.individu.getPlateau().getSize()][this.individu.getPlateau().getSize()];
+        for (int i = 0;i < visited_coor.length;i++){
+            for (int j = 0;j < visited_coor.length;j++){
+                visited_coor[i][j] = false;
+            }
+        }
+
+        int x = this.individu.getPlateau().getX();
+        int y = this.individu.getPlateau().getY();
+        int nbPiece = 0;
+        // If case has piece and is not visited, add capital
+        // If case has no piece or is visited, remove capital
+        if (this.individu.getPlateau().caseHasPiece(x, y) && !visited_coor[x][y]){
+            nbPiece++;
+        }
+
+        visited_coor[x][y] = true;
+        for (String move: this.moves) {
+            if(move.equals("H")){
+                if(this.individu.getPlateau().caseExist(x, y-1)){
+                    y--;
+                }
+            }
+            if(move.equals("B")) {
+                if(this.individu.getPlateau().caseExist(x, y+1)){
+                    y++;
+                }
+            }
+            if (move.equals("G")) {
+                if(this.individu.getPlateau().caseExist(x-1, y)){
+                    x--;
+                }
+            }
+            if (move.equals("D")){
+                if(this.individu.getPlateau().caseExist(x+1, y)){
+                    x++;
+                }
+            }
+            if (this.individu.getPlateau().caseHasPiece(x, y) && !visited_coor[x][y]){
+                nbPiece++;
+            }
+            visited_coor[x][y] = true;
+        }
+        return nbPiece;
+    }
+
     public int evaluate(){
         // Initialise visited cases map
         Boolean[][] visited_coor = new Boolean[this.individu.getPlateau().getSize()][this.individu.getPlateau().getSize()];
@@ -126,6 +174,7 @@ public class Mouvement {
         int x = this.individu.getPlateau().getX();
         int y = this.individu.getPlateau().getY();
         int capital = 0;
+        int nbPiece = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
         if (this.individu.getPlateau().caseHasPiece(x, y) && !visited_coor[x][y]){
@@ -133,6 +182,10 @@ public class Mouvement {
         } else {
             capital--;
         }
+        if(this.individu.getPlateau().caseHasPiece(x, y)){
+            nbPiece++;
+        }
+
         visited_coor[x][y] = true;
         for (String move: this.moves) {
             if(move.equals("H")){
