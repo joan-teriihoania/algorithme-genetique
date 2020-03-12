@@ -1,9 +1,3 @@
-![](.ressources/logo.jpeg)
-# Algorithme génétique
-### IUT Montpellier-Sète – Département Informatique
-
-[![Build Status](https://travis-ci.org/joan-teriihoania/remote-control.svg?branch=master)](https://travis-ci.org/joan-teriihoania/remote-control)
-
 # Le projet
 Projet créé et initié dans le cadre d'un projet tuteuré par des étudiants en formation de *DUT Année Spéciale en informatique* à l'*Institut Universitaire Technologique de Montpellier-Sète* pour la promotion 2019-2020 :
  - [TERIIHOANIA Joan](http://joan-teriihoania.fr/),
