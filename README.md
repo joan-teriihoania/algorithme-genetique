@@ -1,4 +1,5 @@
-# ![](.ressources/logo.jpeg) Algorithme génétique
+![](.ressources/logo.jpeg)
+# Algorithme génétique
 ### IUT Montpellier-Sète – Département Informatique
 
 [![Build Status](https://travis-ci.org/joan-teriihoania/remote-control.svg?branch=master)](https://travis-ci.org/joan-teriihoania/remote-control)
