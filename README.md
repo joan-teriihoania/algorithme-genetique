@@ -1,9 +1,6 @@
 # ![](.ressources/logo.jpeg) Algorithme génétique
 ### IUT Montpellier-Sète – Département Informatique
 
-| `WARNING: Work in progress` |
-| --- |
-
 [![Build Status](https://travis-ci.org/joan-teriihoania/remote-control.svg?branch=master)](https://travis-ci.org/joan-teriihoania/remote-control)
 
 # Le projet

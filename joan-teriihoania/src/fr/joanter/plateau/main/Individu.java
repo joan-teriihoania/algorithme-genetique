@@ -46,6 +46,10 @@ public class Individu {
         return plateau.getPas();
     }
 
+    public Mouvement getMoves() {
+        return moves;
+    }
+
     public void croiser(Individu individu_croisement){
         moves.croiser(individu_croisement.moves);
     }
