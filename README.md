@@ -8,7 +8,12 @@ Projet créé et initié dans le cadre d'un projet tuteuré par des étudiants e
 Sous la supervision de **[BOUGERET Marin](http://www.lirmm.fr/~bougeret/)**, enseignant-chercheur au *LIRMM de Montpellier*.
 
 
+## Notation et légende
+Au travers de ce document, des termes et expressions cliquables sont disponibles redirigeant vers de la documentation en ligne afin d'apporter un support documentaire éventuel aux idées décrites. Ces éléments cliquables sont indiqués par la présence d'une icône les précédant. Par exemple : [Wikipedia](https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal).
+
+
 # Préambule
+
 ## Définition
 L'algorithme génétique se base sur une évolution par sélection naturelle. Le principe de *[sélection naturelle](https://fr.wikipedia.org/wiki/S%C3%A9lection_naturelle)* est basé sur la théorie de *[Darwin](https://fr.wikipedia.org/wiki/Charles_Darwin)*. Ce principe repose sur la base d'une valeur sélective définie à chaque individu parmi une masse plus ou moins difforme pour obtenir, sur une période donnée, une souche détenant les paramètres les mieux adaptés à un environnement sélectionné sur des critères d'évaluation déterminés. L'individu `a` faisant parti d'une population d'une génération à un instant `t` et pouvant passer ses "gènes" `G` à un individu `b` fils de la génération à l'instant `t+1` en passant par une phase d'évaluation, sélection, croisement, mutation puis réinsertion.
 
@@ -46,7 +51,7 @@ Les méthodes de croisement d'individus existent sous plusieurs formes :
     - **Statique** : Ici, les gènes disposent d'une hiérarchie (dont les valeurs sont fixées arbitrairement au départ de la simulation). Chaque élément du gène des individus possèdent un coefficient qui identifie son niveau par rapport à un autre. Par exemple, la hiérarchie `G>B>N` (dont les coefficients sont `3>2>1`) où `B=2` est supérieur à `N=1` mais inférieur à `G=3`. De la même manière qu'une méthode de sélection aléatoire pondérée, l'algorithme choisi un élément aléatoirement entre l'individu `A` et `B` où l'élément dont la valeur hiérarchique est supérieure a plus de chance d'être sélectionnée.
     - **Dynamique** : Cette méthode reprend le fonctionnement de la méthode de croisement aléatoire pondéré statique mais dans laquelle la hiérarchie des gènes n'est pas statique mais dynamique. C'est-à-dire qu'elle évolue à chaque génération et chaque population en fonction des gènes de cette dernière. Ainsi, une population dans laquelle le gène `G` est dominant verra sa hiérarchie telle que `G>...` Bien entendu, il est possible d'effectuer un *décalage* entre une génération `n` et une génération `n+k` tel que : `h(n)` de `p(n)` est utilisée sur `p(n+1)` où `h` (hiérarchie), `p` (population), `n` (numéro de génération) et `k` (nombre de génération de décalage). Le dynamisme d'une hiérarchie peut se décliner sous deux formes :
         - **Dynamisme général** : Une population possède une hiérarchie commune. Celle-ci est recalculée au début de la phase de croisement en fonction de la quantité du gène au sein de la population totale ou sélectionnée.
-        - **Dynamisme unitaire** : Pour une population avec un gène de `k` élément, il existe `k` hiérarchie recalculée au début de la phase de croisement pour chaque `k`ème élément `e` du gène `G` (noté `e[k]`) qui dispose d'une hiérarchie de l'élément `k` notée `h(e[k])` dont le dynamisme évolue en fonction de la quantité des gènes de la popoulation du `k`ème élémént. *Soit la hiérarchie `h(e[1])`, la hiérarchie de l'élément `1`.*
+        - **Dynamisme unitaire** : Pour une population avec un gène de `k` élément, il existe `k` hiérarchie commune recalculée au début de la phase de croisement pour chaque `k`ème élément `e` du gène `G` (noté `e[k]`) qui dispose d'une hiérarchie de l'élément `k` notée `h(e[k])` dont le dynamisme évolue en fonction de la quantité des gènes de la popoulation du `k`ème élémént. *Soit la hiérarchie `h(e[1])`, la hiérarchie de l'élément `1`.*
 
 ### Mutation
 La population résultant de la phase de croisement est alors soumise à la phase de mutation. Durant cette dernière, chaque élément (ou partie) de leur gène a la possibilité de muter (*Les chances de mutation sont par usage très faibles dans les alentours de 0.05%*) en un autre gène déterminé aléatoirement. Cette phase a pour but de donner une chance d'évolution et de diversification à la population.
@@ -54,14 +59,6 @@ La population résultant de la phase de croisement est alors soumise à la phase
 ## Objectif
 
 L'objectif du principe de sélection naturelle est donc de déterminer l'individu le plus efficient et efficace et obtenir une solution rapide à une situation.
-
-> **Note :** Il est possible de coupler cet algorithme à un réseau de neurones artificiels ou [*Neural Network*](https://fr.wikipedia.org/wiki/R%C3%A9seau_de_neurones_artificiels) basé sur les idées du psychologue [*Franck Rosenblatt*](https://fr.wikipedia.org/wiki/Frank_Rosenblatt). Notamment pour le calcul des poids de neurones. *Quelques lectures peuvent être trouvées à ce sujet dont (en anglais) :*
-> - [*"Deep Learning with Darwin: Evolutionary Synthesis of Deep Neural Networks"*](https://arxiv.org/pdf/1606.04393.pdf) de M. J. Shafiee, A. Mishra et A. Wong;
-> - [*"Evolutionary Robot Behaviors Based on Natural Selection and Neural Network"*](https://link.springer.com/chapter/10.1007/1-4020-8151-0_6) dans *Artificial Intelligence Applications and Innovations* de M. Bramer et V. Devedzic;
-> - [*"Evolving Neural Networks"*](https://home.fnal.gov/~souvik/Brain/index.html) et [*"A biology-inspired neural network evolving through natural
-selection"*](https://home.fnal.gov/~souvik/Brain/BrainInWorld.pdf) de Souvik Das ;
->
-> Ou encore, un jeu de simulation [*"The Bibites"*](https://leocaussan.itch.io/the-bibites) développé par Léo Caussan dont le développement peut être suivi depuis sa chaîne [YouTube](https://www.youtube.com/channel/UCjJEUMnBFHOP2zpBc7vCnsA).
 
 L'objectif de ce projet est :
  - D'une première part, **produire** un algorithme et une structure algorithmique permettant de calculer et **simuler** l'évolution d'une population d'individus dans un environnement pré-déterminé;
@@ -75,6 +72,15 @@ Cette situation, bien que relativement simple, peut avoir des applications vari�
 
 Il est important de garder en tête que l'algorithme et toutes les phases qui le composent, notamment les phases de sélection, mutation et croisement, doivent être optimisés. Etant donné qu'un algorithme génétique se base sur une population avec un nombre élevé pour avoir un résultat adéquat.
 
+## Supports
+
+Il est possible de coupler cet algorithme à un réseau de neurones artificiels ou [*Neural Network*](https://fr.wikipedia.org/wiki/R%C3%A9seau_de_neurones_artificiels) basé sur les idées du psychologue [*Franck Rosenblatt*](https://fr.wikipedia.org/wiki/Frank_Rosenblatt). Notamment pour le calcul des poids de neurones. *Quelques lectures peuvent être trouvées à ce sujet dont (en anglais) :*
+ - [*"Deep Learning with Darwin: Evolutionary Synthesis of Deep Neural Networks"*](https://arxiv.org/pdf/1606.04393.pdf) de M. J. Shafiee, A. Mishra et A. Wong;
+ - [*"Evolutionary Robot Behaviors Based on Natural Selection and Neural Network"*](https://link.springer.com/chapter/10.1007/1-4020-8151-0_6) dans *Artificial Intelligence Applications and Innovations* de M. Bramer et V. Devedzic;
+ - [*"Evolving Neural Networks"*](https://home.fnal.gov/~souvik/Brain/index.html) et [*"A biology-inspired neural network evolving through natural
+selection"*](https://home.fnal.gov/~souvik/Brain/BrainInWorld.pdf) de Souvik Das ;
+ - Ou encore, un jeu de simulation [*"The Bibites"*](https://leocaussan.itch.io/the-bibites) développé par Léo Caussan dont le développement peut être suivi depuis sa chaîne [YouTube](https://www.youtube.com/channel/UCjJEUMnBFHOP2zpBc7vCnsA).
+
 # Déroulement
 
 ## Cas concret
@@ -82,17 +88,17 @@ Afin d'obtenir les résultats escomptés par l'objectif de ce projet, il est opp
 
 **Environnement** : Nous disposons d'un plateau de `W x W` cases. Chaque case peut contenir `Pièce` ou pas (*Ces pièces sont au nombre `nbPiece` réparties aléatoirement sur le plateau*). D'une position initiale `X` du pion `Pion` et d'un entier `n`.
 
-<img src=".ressources/plateau.png" alt="table" width="300"/>
+![](.ressources/plateau.png)
 
 **Problème** : *Quel est l'enchaînement de mouvement/pas `M` à partir de la position `X` qui permet de récupérer le plus de `Pièce` avec `n` pas ?*
 
 **Mouvement** : Un mouvement `M` peut être **H**aut, **B**as, **G**auche, **D**roite relatif à la position actuelle de `Pion` et à l'axe du plateau. Un mouvement `M` est valide tant qu'il ne fait pas sortir le pion en dehors des limites du plateau.
 
-<img src=".ressources/mouvement.png" alt="table" width="150"/>
+![](.ressources/mouvement.png)
 
 **Individu** : Chaque *individu* de la population contiendra une solution/gène `G` : une suite de `n` caractère(s) chacun représentant un mouvement/pas de type `M`.
 
-<img src=".ressources/hhgb.png" alt="table" width="150"/>
+![](.ressources/hhgb.png)
 
 **Evaluation** : Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur sélective` qui sera calculée en fonction du nombre de `Pièce` qu'il aura effectué, de la distance parcourue entre chacune et, éventuellement, du nombre de mouvement invalide. *Il sera opportun d'évaluer chaque individu par rapport à la performance d'autrui en gardant en tête que l'évaluation de l'un ne devrait pas être équivalente à un autre même s'ils ont collectés le même nombre de pièces.*
 
