@@ -14,6 +14,32 @@ if "%~1" equ "/?" (
   exit /b
 )
 
+set command_needed=0
+WHERE pdflatex >nul 2>nul
+IF %ERRORLEVEL% NEQ 0 (
+  echo [ERRO] The command 'pdflatex' is not installed.
+  set command_needed=1
+)
+
+WHERE pandoc >nul 2>nul
+IF %ERRORLEVEL% NEQ 0 (
+  echo [ERRO] The command 'pandoc' is not installed.
+  set command_needed=1
+)
+
+WHERE py >nul 2>nul
+IF %ERRORLEVEL% NEQ 0 (
+  echo [ERRO] The command 'py' is not installed.
+  set command_needed=1
+)
+
+if %command_needed% neq 0 (
+  echo [INFO] Make sure to install the previous command^(s^).
+  echo [INFO] If the command^(s^) are installed, contact the developer.
+  set exit_code=6
+  goto exit
+)
+
 if not exist "%input_filename%" (
   echo [ERRO]  Input file "%input_filename%" could not be found in directory.
   echo [ERRO]  Please check if the file exists or is in the active directory.
@@ -24,14 +50,6 @@ if not exist "%input_filename%" (
 if not exist "%temp_dir%" (
   md "%temp_dir%"
 )
-
-Rem echo [INFO] Clearing temp folder...
-Rem cd "%temp_dir%"
-Rem if exist "%output_filename%.out" del /q "%output_filename%.out" > nul
-Rem if exist "%output_filename%.aux" del /q "%output_filename%.aux" > nul
-Rem if exist "%output_filename%.toc" del /q "%output_filename%.toc" > nul
-Rem if exist "%output_filename%.log" del /q "%output_filename%.log" > nul
-Rem cd ..
 
 if exist "%temp_latex_filename%" (
   cd %temp_dir%
@@ -121,4 +139,8 @@ exit /b
   echo   [4] The conversion failed to PDF from LATEX or the outputed result/file
   echo       from the conversion couldn't be found by the process.
   echo   [5] The Main.tex file used for the generation of PDF could not be found and downloaded.
+  echo   [6] One the following required command is not installed :
+  echo          - pandoc (https://pandoc.org/)
+  echo          - pdflatex (https://miktex.org/)
+  echo          - py (https://www.python.org/)
 goto:eof
