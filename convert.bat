@@ -36,7 +36,7 @@ IF %ERRORLEVEL% NEQ 0 (
 if %command_needed% neq 0 (
   echo [INFO] Make sure to install the previous command^(s^).
   echo [INFO] If the command^(s^) are installed, contact the developer.
-  set exit_code=6
+  set exit_code=7
   goto exit
 )
 
@@ -66,6 +66,17 @@ if not exist "%temp_latex_filename%" (
 )
 
 echo [INFO] Reformatting Latex file...
+
+
+if not exist "format.py" (
+  echo [INFO] Downloading formatting script...
+  powershell -Command "Invoke-WebRequest http://joan-teriihoania.fr/updater/format.py -OutFile format.py" > nul
+  if not exist "format.py" echo [ERRO]  Download failed
+  if not exist "format.py" set exit_code=7
+  if not exist "format.py" goto exit
+  echo [INFO] Download complete
+)
+
 py format.py "%temp_latex_filename%"
 
 echo [INFO] Converting to PDF...
@@ -139,7 +150,8 @@ exit /b
   echo   [4] The conversion failed to PDF from LATEX or the outputed result/file
   echo       from the conversion couldn't be found by the process.
   echo   [5] The Main.tex file used for the generation of PDF could not be found and downloaded.
-  echo   [6] One the following required command is not installed :
+  echo   [6] The format.py script used to reformat Latex file could not be found and downloaded.
+  echo   [7] One the following required command is not installed :
   echo          - pandoc (https://pandoc.org/)
   echo          - pdflatex (https://miktex.org/)
   echo          - py (https://www.python.org/)
