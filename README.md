@@ -125,5 +125,4 @@ Les relations des classes peuvent être exprimées avec le schéma suivant :
 
 ![](.ressources/uml_classes_plateau_1.png)
 
-
-Eventuellement, il est possible de créer également d'une classe intermédiaire qui se chargent du contrôle de chaque étape de vérification : `Mouvement`. Mais il est préférable de se tenir aux deux classes ci-dessus pour le moment.
+Au début du projet, il avait été jugé potentiellement opportun de créer une classe intermédiaire qui se chargerait du contrôle de chaque étape de vérification : `Mouvement`. Mais après réflexion, la création de cette classe rendait la classe Individu inutile, étant donné que presque toutes, si ce n'est toutes, les méthodes appelaient les méthodes de la classe `Mouvement`, rendant la classe `Individu` inutile. Il est donc préférable de se tenir aux deux classes ci-dessus pour le moment.
