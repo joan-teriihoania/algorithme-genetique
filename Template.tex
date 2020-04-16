@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage[french]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{etoolbox}
+\usepackage[letterpaper, left=4cm,right=4cm,top=4cm,bottom=4cm]{geometry}
+\setlength\parskip{1em}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}}
+
+\usepackage{tikz}
+\usepackage[export]{adjustbox}
+
+\newcommand{\displayLinkIcon}{%
+    \tikz[x=1.2ex, y=1.2ex, baseline=-0.05ex]{% 
+        \begin{scope}[x=1ex, y=1ex]
+            \clip (-0.1,-0.1) 
+                --++ (-0, 1.2) 
+                --++ (0.6, 0) 
+                --++ (0, -0.6) 
+                --++ (0.6, 0) 
+                --++ (0, -1);
+            \path[draw, 
+                line width = 0.5, 
+                rounded corners=0.5] 
+                (0,0) rectangle (1,1);
+        \end{scope}
+        \path[draw, line width = 0.5] (0.5, 0.5) 
+            -- (1, 1);
+        \path[draw, line width = 0.5] (0.6, 1) 
+            -- (1, 1) -- (1, 0.6);
+        }
+    }
+
+\begin{document}
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.1mm}}
+\center % Center everything on the page
+ 
+%---------------------------------------------------------------------------------
+%	HEADING SECTIONS (Enter the Homework/assignment No., only)
+%---------------------------------------------------------------------------------
+\textsc{\Large }\\[0.5cm] % heading course Number
+\textsc{\Large Rapport de projet}\\[0.5cm] % heading course name
+% \textsc{\large Projet tuteuré }\\[0.5cm] % Minor heading
+%---------------------------------------------------------------------------------
+%	TITLE SECTION (Replace 'TITLE' with the Homework/assignment Name/title)
+%---------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Algorithme génétique}\\[0.1cm] % Title of your Homework/assignment
+\HRule \\[1.5cm]
+ 
+%---------------------------------------------------------------------------------
+%	AUTHOR SECTION (EDIT THE NAME and T.NO., only)
+%---------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+
+\begin{flushleft} \large
+\emph{Auteurs :}\\
+Thibault \textsc{ODOR}\\  % Enter Your name and T.No.
+\end{flushleft}
+
+\begin{flushleft} \large
+Joan \textsc{TERIIHOANIA}\\  % Enter Your name and T.No.
+\end{flushleft}
+
+\begin{flushleft} \large
+Jean-Baptiste \textsc{BES}\\  % Enter Your name and T.No.
+\end{flushleft}
+
+\begin{flushleft} \large
+Lino \textsc{FAVOT}\\  % Enter Your name and T.No.
+\end{flushleft}
+
+
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Superviseur:} \\
+Marin \textsc{BOUGERET} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[1cm]
+{\large \today}\\[1cm] % Date, change the \today to a set date if you want to be precise
+\includegraphics{.ressources/logo.jpeg}% \\[0.5cm] % 
+\vfill % Fill the rest of the page with white-space
+\end{titlepage}
+
+\makeatletter
+\pretocmd{\chapter}{\addtocontents{toc}{\protect\addvspace{15\p@}}}{}{}
+\pretocmd{\section}{\addtocontents{toc}{\protect\addvspace{5\p@}}}{}{}
+\makeatother
+
+\tableofcontents
+\newpage
+
+\input{Latex}
+\end{document}
