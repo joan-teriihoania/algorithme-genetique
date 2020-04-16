@@ -1,4 +1,4 @@
-package fr.joanter.plateau.test;
+package fr.montpellier.iut;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

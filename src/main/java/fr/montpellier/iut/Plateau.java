@@ -1,14 +1,8 @@
-package fr.joanter.plateau.main;
-
-import com.sun.tools.attach.AgentInitializationException;
-import me.tongfei.progressbar.ProgressBar;
+package fr.montpellier.iut;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
-
-import static java.util.Collections.*;
 
 public class Plateau {
 
@@ -30,8 +24,6 @@ public class Plateau {
         double nb_best = individus.size()*0.3;
         Individu individu_croisement;
         long index = 0;
-        ProgressBar pb = new ProgressBar("Simulation: "+this.id, nbCycles, 100);
-        pb.start();
         for (int i = 0;i < nbCycles ; i++){
             index++;
             ArrayList<Individu> best_individus;
@@ -46,8 +38,6 @@ public class Plateau {
                     individu_croisement = best_individus.get(j);
                 }
 
-                pb.setExtraMessage("Croisement: "+best_individus.get(j).getId()+" et "+individu_croisement.getId());
-
                 best_individus.get(j).croiser(individu_croisement);
                 best_individus.get(j).muter();
                 individu_croisement.muter();
@@ -58,9 +48,7 @@ public class Plateau {
 
             }
             //long percentage = index * 100 / nbCycles;
-            pb.step();
         }
-        pb.stop();
     }
 
     /*

@@ -1,9 +1,9 @@
-package fr.joanter.plateau.main;
+package fr.montpellier.iut;
 
 public class Main {
     public static void main(String[] args) {
         Plateau plateau = new Plateau(10, 10, 5, 1000);
-        plateau.run(500);
+        plateau.run(5);
         System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
         System.out.println(plateau.getX());

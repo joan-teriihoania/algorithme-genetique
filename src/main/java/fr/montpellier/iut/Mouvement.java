@@ -1,4 +1,4 @@
-package fr.joanter.plateau.main;
+package fr.montpellier.iut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
