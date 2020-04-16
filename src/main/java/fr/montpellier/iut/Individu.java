@@ -1,61 +1,282 @@
 package fr.montpellier.iut;
 
-import java.util.UUID;
+import java.util.*;
 
 public class Individu {
 
-    private String id;
+    static private int autoIncrement = 1;
+    static private String[] possibleMove = {"H", "B", "G", "D"};
+
+    private int id;
+    private String[] moves;
     private Plateau plateau;
-    private Mouvement moves;
+
 
     @Override
     public String toString() {
-        return "\nIndividu{" +
-                "\nid='" + id + '\'' +
-                ",\n moves=" + moves +
-                ",\n eval=" + this.evaluate() +
-                ",\n nbPiece=" + this.getNbPiece() +
+        return "\nMouvement{" +
+                "\nmoves=" + Arrays.toString(moves) +
                 '}';
     }
 
-
-    public int getNbPiece(){
-        return moves.getNbPiece();
-    }
-
-
-    public Plateau getPlateau() {
-        return plateau;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public int evaluate(){
-        return moves.evaluate();
-    }
-
-    public Individu(Plateau plateau) {
-        this.id = UUID.randomUUID().toString();
-        this.plateau = plateau;
-        this.moves = new Mouvement(this);
-    }
-
-    public int getPas(){
-        return plateau.getPas();
-    }
-
-    public Mouvement getMoves() {
+    public String[] getMoves() {
         return moves;
     }
 
-    public void croiser(Individu individu_croisement){
-        moves.croiser(individu_croisement.moves);
+    public Individu(Plateau plateau) {
+        this.plateau = plateau;
+        this.moves = getRandomMoves(plateau.getPas(), plateau);
+        this.id = autoIncrement;
+        autoIncrement++;
+
+    }
+
+    public Individu(String[] moves, Plateau plateau) {
+        this.plateau = plateau;
+        if (moves.length != plateau.getPas()){
+            System.out.println("Invalid size of String[] moves on constructor call parameter in Mouvement.");
+            moves = new String[plateau.getPas()];
+        }
+        this.moves = moves;
+        this.id = autoIncrement;
+        autoIncrement++;
+    }
+
+    public String[] getNextValidMoves(String[] moves, int x, int y, int size, int n){
+        String[] validMoves;
+
+        for (int i = 0;i < n;i++){
+            if(moves[i] != null) {
+                if(moves[i].equals("H")){y--;}
+                if(moves[i].equals("B")){y++;}
+                if(moves[i].equals("G")){x--;}
+                if(moves[i].equals("D")){x++;}
+            }
+        }
+
+        validMoves = new String[4];
+        if(y < size-1){validMoves[0] = "B";}
+        if(y != 0){validMoves[1] = "H";}
+        if(x < size-1){validMoves[2] = "D";}
+        if(x > 0){validMoves[3] = "G";}
+        validMoves = removeEmptyEl(validMoves);
+
+        return validMoves;
+    }
+
+    public Boolean nextMoveIsValid(String move, String[] moves, int x, int y, int size, int n){
+        String[] validMoves = getNextValidMoves(moves, x, y, size, n);
+        for (String validMove: validMoves){
+            if(validMove.equals(move)) {return true;}
+        }
+        return false;
+    }
+
+    public static<T> T[] subArray(T[] array, int beg, int end) {
+        return Arrays.copyOfRange(array, beg, end + 1);
+    }
+
+    public Boolean isValid(){
+        int x = this.plateau.getX();
+        int y = this.plateau.getY();
+        int size = this.plateau.getSize();
+        int n = this.plateau.getPas();
+
+        for (int i = 0;i < this.moves.length;i++){
+            if(!nextMoveIsValid(moves[i], subArray(moves, 0, i), x, y, size, n)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void muter(){
-        moves.muter();
+        double mutate_chance = 0.05;
+        double ran;
+        for (int i = 0;i < moves.length;i++){
+            ran = new Random().nextDouble();
+            if(ran<mutate_chance){
+
+                String[] save_moves = new String[moves.length];
+                for (int j = 0;j < moves.length;j++){
+                    save_moves[j] = moves[j];
+                }
+
+                String[] validMoves = getNextValidMoves(subArray(moves, 0, i), this.plateau.getX(), this.plateau.getY(), this.plateau.getSize(), i);
+                moves[i] = getRandomMove(validMoves);
+            }
+        }
     }
 
+    public void croiser(Individu croisement_moves){
+        int move_choosen;
+        for (int i = 0; i < croisement_moves.moves.length;i++){
+            move_choosen = new Random().nextInt(1);
+                if(move_choosen == 0){
+                    moves[i] = croisement_moves.moves[i];
+                } else {
+                    croisement_moves.moves[i] = moves[i];
+                }
+        }
+    }
+
+    public int getNbPiece(){
+        // Initialise visited cases map
+        Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
+        for (int i = 0;i < visited_coor.length;i++){
+            for (int j = 0;j < visited_coor.length;j++){
+                visited_coor[i][j] = false;
+            }
+        }
+
+        int x = this.plateau.getX();
+        int y = this.plateau.getY();
+        int nbPiece = 0;
+        // If case has piece and is not visited, add capital
+        // If case has no piece or is visited, remove capital
+        if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
+            nbPiece++;
+        }
+
+        visited_coor[x][y] = true;
+        for (String move: this.moves) {
+            if(move.equals("H")){
+                if(this.plateau.caseExist(x, y-1)){
+                    y--;
+                }
+            }
+            if(move.equals("B")) {
+                if(this.plateau.caseExist(x, y+1)){
+                    y++;
+                }
+            }
+            if (move.equals("G")) {
+                if(this.plateau.caseExist(x-1, y)){
+                    x--;
+                }
+            }
+            if (move.equals("D")){
+                if(this.plateau.caseExist(x+1, y)){
+                    x++;
+                }
+            }
+            if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
+                nbPiece++;
+            }
+            visited_coor[x][y] = true;
+        }
+        return nbPiece;
+    }
+
+    public int evaluate(){
+        // Initialise visited cases map
+        Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
+        for (int i = 0;i < visited_coor.length;i++){
+            for (int j = 0;j < visited_coor.length;j++){
+                visited_coor[i][j] = false;
+            }
+        }
+
+        int x = this.plateau.getX();
+        int y = this.plateau.getY();
+        int capital = 0;
+        int nbPiece = 0;
+        // If case has piece and is not visited, add capital
+        // If case has no piece or is visited, remove capital
+        if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
+            capital++;
+        } else {
+            capital--;
+        }
+        if(this.plateau.caseHasPiece(x, y)){
+            nbPiece++;
+        }
+
+        visited_coor[x][y] = true;
+        for (String move: this.moves) {
+            if(move.equals("H")){
+                if(this.plateau.caseExist(x, y-1)){
+                    y--;
+                }
+            }
+            if(move.equals("B")) {
+                if(this.plateau.caseExist(x, y+1)){
+                    y++;
+                }
+            }
+            if (move.equals("G")) {
+                if(this.plateau.caseExist(x-1, y)){
+                    x--;
+                }
+            }
+            if (move.equals("D")){
+                if(this.plateau.caseExist(x+1, y)){
+                    x++;
+                }
+            }
+            if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
+                capital = capital+3;
+            } else {
+                capital--;
+            }
+            visited_coor[x][y] = true;
+        }
+        return capital;
+    }
+
+    private String[] getRandomMoves(int n, Plateau plateau){
+        int x = plateau.getX();
+        int y = plateau.getY();
+        int size = plateau.getSize();
+        int offset_x = 0;
+        int offset_y = 0;
+        String[] validMoves;
+        String[] toreturn = new String[n];
+
+        for (int i = 0;i < n;i++){
+            // Réinitialise validMoves
+            validMoves = new String[4];
+
+            // Créé un array avec uniquement les mouvements valides
+            validMoves = getNextValidMoves(toreturn, plateau.getX(), plateau.getY(), size, n);
+
+            toreturn[i] = getRandomMove(validMoves);
+            if(toreturn[i].equals("H")){
+                if(this.plateau.caseExist(x, y-1)){
+                    y--;
+                }
+            }
+            if(toreturn[i].equals("B")) {
+                if(this.plateau.caseExist(x, y+1)){
+                    y++;
+                }
+            }
+            if (toreturn[i].equals("G")) {
+                if(this.plateau.caseExist(x-1, y)){
+                    x--;
+                }
+            }
+            if (toreturn[i].equals("D")){
+                if(this.plateau.caseExist(x+1, y)){
+                    x++;
+                }
+            }
+        }
+        return toreturn;
+    }
+
+    private String getRandomMove(String[] validMove){
+        int ran = new Random().nextInt(validMove.length);
+        return validMove[ran];
+    }
+
+    private String[] removeEmptyEl(String[] array){
+        List<String> values = new ArrayList<>();
+        for(String data: array) {
+            if(data != null && !data.equals("")) {
+                values.add(data);
+            }
+        }
+        return values.toArray(new String[values.size()]);
+    }
 }
