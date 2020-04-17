@@ -128,54 +128,6 @@ public class Individu {
         }
     }
 
-    public int getNbPiece(){
-        // Initialise visited cases map
-        Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
-        for (int i = 0;i < visited_coor.length;i++){
-            for (int j = 0;j < visited_coor.length;j++){
-                visited_coor[i][j] = false;
-            }
-        }
-
-        int x = this.plateau.getX();
-        int y = this.plateau.getY();
-        int nbPiece = 0;
-        // If case has piece and is not visited, add capital
-        // If case has no piece or is visited, remove capital
-        if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
-            nbPiece++;
-        }
-
-        visited_coor[x][y] = true;
-        for (String move: this.moves) {
-            if(move.equals("H")){
-                if(this.plateau.caseExist(x, y-1)){
-                    y--;
-                }
-            }
-            if(move.equals("B")) {
-                if(this.plateau.caseExist(x, y+1)){
-                    y++;
-                }
-            }
-            if (move.equals("G")) {
-                if(this.plateau.caseExist(x-1, y)){
-                    x--;
-                }
-            }
-            if (move.equals("D")){
-                if(this.plateau.caseExist(x+1, y)){
-                    x++;
-                }
-            }
-            if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
-                nbPiece++;
-            }
-            visited_coor[x][y] = true;
-        }
-        return nbPiece;
-    }
-
     public int evaluate(){
         // Initialise visited cases map
         Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
@@ -188,16 +140,12 @@ public class Individu {
         int x = this.plateau.getX();
         int y = this.plateau.getY();
         int capital = 0;
-        int nbPiece = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
-        if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
+        if (this.plateau.caseHasPiece(x, y)){
             capital++;
         } else {
             capital--;
-        }
-        if(this.plateau.caseHasPiece(x, y)){
-            nbPiece++;
         }
 
         visited_coor[x][y] = true;
@@ -206,20 +154,32 @@ public class Individu {
                 if(this.plateau.caseExist(x, y-1)){
                     y--;
                 }
+                else{
+                    capital =- 5;
+                }
             }
             if(move.equals("B")) {
                 if(this.plateau.caseExist(x, y+1)){
                     y++;
+                }
+                else{
+                    capital =- 5;
                 }
             }
             if (move.equals("G")) {
                 if(this.plateau.caseExist(x-1, y)){
                     x--;
                 }
+                else{
+                    capital =- 5;
+                }
             }
             if (move.equals("D")){
                 if(this.plateau.caseExist(x+1, y)){
                     x++;
+                }
+                else{
+                    capital =- 5;
                 }
             }
             if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
@@ -236,8 +196,6 @@ public class Individu {
         int x = plateau.getX();
         int y = plateau.getY();
         int size = plateau.getSize();
-        int offset_x = 0;
-        int offset_y = 0;
         String[] validMoves;
         String[] toreturn = new String[n];
 
