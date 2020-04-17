@@ -95,6 +95,103 @@ public class Plateau {
         return best_individus;
     }
 
+    public StringBuilder parcours(){ //Modif HERE
+        StringBuilder map = new StringBuilder("\n");
+        ArrayList<Individu> best_individus = bestIndividus(3);
+
+        if(best_individus.isEmpty() == false) {
+            for (int a=0;a<best_individus.size();a++) {
+
+                map.append("Chemin de l'individus "+best_individus.get(a).getId());
+                map.append("\n");
+
+                ArrayList<Integer> mouv = new ArrayList<>();
+                mouv.add(x);
+                mouv.add(y);
+
+                StringBuffer sb = new StringBuffer();
+                for(int i = 0; i < best_individus.get(a).getMoves().length; i++) {
+                    sb.append(best_individus.get(a).getMoves()[i]);
+                }
+                String str = sb.toString();
+
+                for(int m=0;m < str.length();m++){
+                    char mouv_actuel = str.charAt(m);
+                    if(mouv_actuel == 'H'){
+                        mouv.add(mouv.get(m*2));
+                        mouv.add(mouv.get((m*2)+1)-1);
+                    }
+                    if(mouv_actuel == 'D'){
+                        mouv.add(mouv.get(m * 2) + 1);
+                        mouv.add(mouv.get((m * 2) + 1));
+                    }
+                    if(mouv_actuel == 'B'){
+                        mouv.add(mouv.get(m * 2));
+                        mouv.add(mouv.get((m * 2) + 1) + 1);
+                    }
+                    if(mouv_actuel == 'G'){
+                        mouv.add(mouv.get(m * 2) - 1);
+                        mouv.add(mouv.get((m * 2) + 1));
+                    }
+
+                    if(mouv.get(mouv.size()-1) < 0) mouv.set(mouv.size()-1, 0);
+                    if(mouv.get(mouv.size()-2) < 0) mouv.set(mouv.size()-2, 0);
+                    if(mouv.get(mouv.size()-1) > getSize()-1) mouv.set(mouv.size()-1, getSize()-1);
+                    if(mouv.get(mouv.size()-2) > getSize()-1) mouv.set(mouv.size()-2, getSize()-1);
+                }
+                System.out.println(mouv);
+
+                for (int i = 0; i < this.cases.length; i++) {
+                    StringBuilder space = new StringBuilder();
+                    int space_needed = String.valueOf(this.getSize()).length();
+                    space_needed = space_needed - String.valueOf(i).length();
+                    for (int j = 0; j < space_needed; j++) {
+                        space.append(" ");
+                    }
+                    map.append("y=" + i + space + ":|");
+                    for (int j = 0; j < this.cases.length; j++) {
+                        if (cases[i][j]) {
+                            boolean ilyaunmouv = false;
+                            for (int z = 0; z < mouv.size()/2; z++) {
+                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && ilyaunmouv == false) {
+                                    map.append(" P ");
+                                    ilyaunmouv = true;
+                                }
+                            }
+                            if(ilyaunmouv == false) {
+                                map.append(" X ");
+                            }
+                        }
+                        else {
+                            boolean ilyaunmouv = false;
+                            for (int z = 0; z < mouv.size()/2; z++) {
+                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && ilyaunmouv == false) {
+                                    map.append(" O ");
+                                    ilyaunmouv = true;
+                                }
+                            }
+                            if(ilyaunmouv == false) {
+                                map.append("   ");
+                            }
+                        }
+
+                        if (j == x && i == y) {
+                            map.append("<");
+                        } else {
+                            map.append("|");
+                        }
+                    }
+                    map.append("\n");
+                }
+                map.append("\n");
+            }
+            return map;
+        }
+        else{
+            return map;
+        }
+    }
+
     public StringBuilder map(){
         StringBuilder map = new StringBuilder("\n");
         for (int i = 0; i < this.cases.length; i++) {
