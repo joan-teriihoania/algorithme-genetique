@@ -15,9 +15,9 @@ public class Main {
             char charYOuN = sc.next().charAt(0);
             if (charYOuN == 'y') {
                 plateau = new Plateau(10, 5);
-                /*System.out.println("Veuillez rentrer le nom du fichier : ");
-                String fileName = sc.nextLine();*/
-                plateau.importBaseDeDonneeIndividus("test.txt");
+                System.out.println("Veuillez rentrer le nom du fichier : ");
+                String fileName = sc.nextLine();
+                plateau.importBaseDeDonneeIndividus(fileName);
                 quitter = true;
             } else if (charYOuN == 'n') {
                 System.out.println("Veulliez rentrer le nombre d'individu(s) : ");
