@@ -33,7 +33,7 @@ public class Main {
             if (charYOuN == 'y') {
                 plateau = new Plateau(10, 5);
                 System.out.println("Veuillez rentrer le nom du fichier : ");
-                String fileName = sc.nextLine();
+                String fileName = sc.next();
                 plateau.importBaseDeDonneeIndividus(fileName);
                 quitter = true;
             } else if (charYOuN == 'n') {
@@ -53,7 +53,7 @@ public class Main {
             System.out.println("Voulez-vous modifier le pourcentage de mutation ?(Y/N) : ");
             char charYOuN = sc.next().charAt(0);
             if (charYOuN == 'y') {
-                System.out.println("Rentrer une valeur(%) : ");
+                System.out.println("Rentrer une valeur (en % et utilisez une \",\" si besoin) : ");
                 double mutate_chance = sc.nextDouble();
                 mutate_chance = mutate_chance / 100;
                 Individu.setMutate_chance(mutate_chance);
