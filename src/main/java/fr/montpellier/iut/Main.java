@@ -1,7 +1,9 @@
 package fr.montpellier.iut;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Plateau plateau = new Plateau(10, 10, 5, 1000);
         plateau.run(5);
         System.out.println(plateau.bestIndividus(3));

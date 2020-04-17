@@ -1,6 +1,11 @@
 package fr.montpellier.iut;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 
@@ -20,7 +25,7 @@ public class Plateau {
     // Nombre de pièces
     private int nbPieces;
 
-    public void run(int nbCycles){
+    public void run(int nbCycles) throws IOException {
         double nb_best = individus.size()*0.3;
         Individu individu_croisement;
         long index = 0;
@@ -49,6 +54,12 @@ public class Plateau {
             }
             //long percentage = index * 100 / nbCycles;
         }
+
+        saveIndividus("individus.txt");
+    }
+
+    public ArrayList<Individu> bestIndividus(){
+        return bestIndividus(individus.size());
     }
 
     /*
@@ -56,14 +67,13 @@ public class Plateau {
     * depending on their evaluation.
     * */
     public ArrayList<Individu> bestIndividus(int nb){
-        ArrayList<Individu> all_individus = new ArrayList<>();
         ArrayList<Individu> sorted_individus = new ArrayList<>();
         ArrayList<Individu> best_individus = new ArrayList<>();
-        all_individus.addAll(individus);
+        ArrayList<Individu> all_individus = new ArrayList<>(individus);
         int max;
         Individu max_individu;
         max_individu = individus.get(0);
-        for (Individu individu: individus) {;
+        for (Individu individu: individus) {
             max = -999999;
             for (Individu individub: all_individus) {
                 if(individub.evaluate()>max){
@@ -92,10 +102,8 @@ public class Plateau {
             StringBuilder space = new StringBuilder();
             int space_needed = String.valueOf(this.getSize()).length();
             space_needed = space_needed - String.valueOf(i).length();
-            for (int j = 0; j < space_needed;j++){
-                space.append(" ");
-            }
-            map.append("y="+i+space+":|");
+            for (int j = 0; j < space_needed;j++) space.append(" ");
+            map.append("y=").append(i).append(space).append(":|");
 
 
             for (int j = 0; j < this.cases.length; j++) {
@@ -182,15 +190,44 @@ public class Plateau {
     }
 
     public Boolean caseExist(int x, int y){
-        if(x > cases.length-1 || x < 0 || y > cases.length-1 || y < 0){
-            return false;
-        }
-        return true;
+        return x <= cases.length - 1 && x >= 0 && y <= cases.length - 1 && y >= 0;
     }
 
     public Boolean caseHasPiece(int x, int y){
         if (!caseExist(x, y)){return false;}
         return cases[x][y];
+    }
+
+    private void createTxtFile(String filename){
+        try {
+            File myObj = new File(filename);
+            if (!myObj.createNewFile()) {
+                System.out.println("File already exists.");
+                myObj.delete();
+                System.out.println("File deleted");
+                myObj.createNewFile();
+            }
+            System.out.println("File created: " + myObj.getName());
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    private void saveIndividus(String filename) throws IOException {
+        //int ts = (int) (new Date().getTime()/1000)
+        this.createTxtFile(filename); //en cours de test
+        String[] lastIndividusMoves = {};
+
+        FileWriter myWriter = new FileWriter(filename);
+        for(Individu individu: bestIndividus()){
+            if(!Arrays.equals(individu.getMoves(), lastIndividusMoves)){
+                myWriter.write(individu.getId()+":"+ Arrays.toString(individu.getMoves()) + "\n");
+            }
+            lastIndividusMoves = individu.getMoves();
+        }
+        myWriter.close();
+        System.out.println("Fin écriture !");
     }
 
 }

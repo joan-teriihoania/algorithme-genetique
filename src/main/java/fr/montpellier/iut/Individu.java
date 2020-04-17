@@ -76,6 +76,10 @@ public class Individu {
         return Arrays.copyOfRange(array, beg, end + 1);
     }
 
+    public int getId() {
+        return id;
+    }
+
     public Boolean isValid(){
         int x = this.plateau.getX();
         int y = this.plateau.getY();
@@ -109,6 +113,10 @@ public class Individu {
     }
 
     public void croiser(Individu croisement_moves){
+        croiser(croisement_moves, 1);
+    }
+
+    public void croiser(Individu croisement_moves, int nb){
         int move_choosen;
         for (int i = 0; i < croisement_moves.moves.length;i++){
             move_choosen = new Random().nextInt(1);
