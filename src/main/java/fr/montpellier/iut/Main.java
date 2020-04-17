@@ -1,11 +1,55 @@
 package fr.montpellier.iut;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Plateau plateau = new Plateau(10, 10, 5, 1000);
-        plateau.run(5);
+        Scanner sc = new Scanner(System.in);
+        boolean quitter = false;
+        Plateau plateau = null;
+
+        System.out.println("------------------------{Algorithme Génétique}------------------------");
+        while(!quitter) {
+            System.out.println("Rentrer une base de données d'individus ?(Y/N) : ");
+            char charYOuN = sc.next().charAt(0);
+            if (charYOuN == 'y') {
+                plateau = new Plateau(10, 5);
+                /*System.out.println("Veuillez rentrer le nom du fichier : ");
+                String fileName = sc.nextLine();*/
+                plateau.importBaseDeDonneeIndividus("test.txt");
+                quitter = true;
+            } else if (charYOuN == 'n') {
+                System.out.println("Veulliez rentrer le nombre d'individu(s) : ");
+                int nbIndividus = sc.nextInt();
+                plateau = new Plateau(10, 10, 5, nbIndividus);
+                quitter = true;
+            } else {
+                System.out.println("Erreur : mauvais caractère.");
+            }
+        }
+
+        System.out.println("Veulliez rentrer le nombre de cycle(s) : ");
+        int nbCycles = sc.nextInt();
+        quitter = false;
+        while(!quitter) {
+            System.out.println("Voulez-vous modifier le pourcentage de mutation ?(Y/N) : ");
+            char charYOuN = sc.next().charAt(0);
+            if (charYOuN == 'y') {
+                System.out.println("Rentrer une valeur(%) : ");
+                double mutate_chance = sc.nextDouble();
+                mutate_chance = mutate_chance / 100;
+                Individu.setMutate_chance(mutate_chance);
+                quitter = true;
+            } else if (charYOuN == 'n') {
+                System.out.println("Le pourcentage sera de 5% (par défaut)");
+                quitter = true;
+            } else {
+                System.out.println("Erreur : mauvais caractère.");
+            }
+        }
+
+        plateau.run(nbCycles);
         System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
         System.out.println(plateau.getX());
