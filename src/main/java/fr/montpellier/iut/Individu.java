@@ -6,6 +6,7 @@ public class Individu {
 
     static private int autoIncrement = 1;
     static private String[] possibleMove = {"H", "B", "G", "D"};
+    static private double mutate_chance = 0.05;
 
     private int id;
     private String[] moves;
@@ -34,7 +35,7 @@ public class Individu {
     public Individu(String[] moves, Plateau plateau) {
         this.plateau = plateau;
         if (moves.length != plateau.getPas()){
-            System.out.println("Invalid size of String[] moves on constructor call parameter in Mouvement.");
+            System.out.println("Invalid size of String[] moves on constructor call parameter in Individu.");
             moves = new String[plateau.getPas()];
         }
         this.moves = moves;
@@ -95,7 +96,6 @@ public class Individu {
     }
 
     public void muter(){
-        double mutate_chance = 0.05;
         double ran;
         for (int i = 0;i < moves.length;i++){
             ran = new Random().nextDouble();
@@ -286,5 +286,9 @@ public class Individu {
             }
         }
         return values.toArray(new String[values.size()]);
+    }
+
+    public static void setMutate_chance(double mutate_chance) {
+        Individu.mutate_chance = mutate_chance;
     }
 }
