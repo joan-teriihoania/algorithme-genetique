@@ -1,9 +1,6 @@
 package fr.montpellier.iut;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -55,7 +52,7 @@ public class Plateau {
             //long percentage = index * 100 / nbCycles;
         }
 
-        saveIndividus("individus.txt");
+        exportIndividus("individus.txt");
     }
 
     public ArrayList<Individu> bestIndividus(){
@@ -171,6 +168,18 @@ public class Plateau {
         }
     }
 
+    public Plateau(int nbPieces, int W) {
+        this.x = new Random().nextInt(W);
+        this.y = new Random().nextInt(W);
+        this.pas = 0;
+        this.nbPieces = nbPieces;
+        this.id = UUID.randomUUID().toString();
+        this.individus = new ArrayList<>();
+
+        this.cases = new Boolean[W][W];
+        this.genPlateau();
+    }
+
     private void genPlateau(){
         for (int i = 0;i < this.cases.length;i++){
             for (int j = 0;j < this.cases.length;j++){
@@ -214,7 +223,7 @@ public class Plateau {
         }
     }
 
-    private void saveIndividus(String filename) throws IOException {
+    private void exportIndividus(String filename) throws IOException {
         //int ts = (int) (new Date().getTime()/1000)
         this.createTxtFile(filename); //en cours de test
         String[] lastIndividusMoves = {};
@@ -222,12 +231,31 @@ public class Plateau {
         FileWriter myWriter = new FileWriter(filename);
         for(Individu individu: bestIndividus()){
             if(!Arrays.equals(individu.getMoves(), lastIndividusMoves)){
-                myWriter.write(individu.getId()+":"+ Arrays.toString(individu.getMoves()) + "\n");
+                myWriter.write(Arrays.toString(individu.getMoves()) + "\n");
             }
             lastIndividusMoves = individu.getMoves();
         }
         myWriter.close();
         System.out.println("Fin écriture !");
+    }
+
+    public void importBaseDeDonneeIndividus(String fileName){
+        try{
+            InputStream flux=new FileInputStream("banque_de_donnees/" + fileName);
+            InputStreamReader lecture=new InputStreamReader(flux);
+            BufferedReader buff=new BufferedReader(lecture);
+            String ligne;
+            while ((ligne=buff.readLine())!=null){
+                ligne = ligne.substring(1,ligne.length()-1);
+                ligne = ligne.replace(" ","");
+                pas = ligne.split(",").length;
+                individus.add(new Individu(ligne.split(","), this));
+            }
+            buff.close();
+        }
+        catch (Exception e){
+            System.out.println(e.toString());
+        }
     }
 
 }
