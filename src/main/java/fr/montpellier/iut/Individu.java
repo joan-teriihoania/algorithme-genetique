@@ -101,10 +101,8 @@ public class Individu {
             ran = new Random().nextDouble();
             if(ran<mutate_chance){
 
-                String[] save_moves = new String[moves.length];
-                for (int j = 0;j < moves.length;j++){
-                    save_moves[j] = moves[j];
-                }
+                var save_moves = new String[moves.length];
+                System.arraycopy(moves, 0, save_moves, 0, moves.length);
 
                 String[] validMoves = getNextValidMoves(subArray(moves, 0, i), this.plateau.getX(), this.plateau.getY(), this.plateau.getSize(), i);
                 moves[i] = getRandomMove(validMoves);
@@ -116,15 +114,25 @@ public class Individu {
         croiser(croisement_moves, 1);
     }
 
-    public void croiser(Individu croisement_moves, int nb){
-        int move_choosen;
-        for (int i = 0; i < croisement_moves.moves.length;i++){
-            move_choosen = new Random().nextInt(1);
-                if(move_choosen == 0){
-                    moves[i] = croisement_moves.moves[i];
-                } else {
-                    croisement_moves.moves[i] = moves[i];
-                }
+    public void croiser(Individu individu_to_croiser, int nb){
+        double move_choosen;
+
+        for (int i = 0; i < individu_to_croiser.moves.length;i = i + nb){
+            String[] move_to_change;
+            String[] move_to_get;
+            move_choosen = new Random().nextDouble();
+
+            if(move_choosen > 0.5){
+                move_to_change = moves;
+                move_to_get = individu_to_croiser.moves;
+            } else {
+                move_to_change = individu_to_croiser.moves;
+                move_to_get = moves;
+            }
+
+            for (int j = i; j < i + nb; j++) {
+                move_to_change[j] = move_to_get[j];
+            }
         }
     }
 
@@ -243,7 +251,7 @@ public class Individu {
                 values.add(data);
             }
         }
-        return values.toArray(new String[values.size()]);
+        return values.toArray(new String[0]);
     }
 
     public static void setMutate_chance(double mutate_chance) {
