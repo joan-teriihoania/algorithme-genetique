@@ -1,10 +1,8 @@
 package fr.montpellier.iut;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Plateau {
 
@@ -52,7 +50,7 @@ public class Plateau {
             //long percentage = index * 100 / nbCycles;
         }
 
-        exportIndividus("individus.txt");
+        exportIndividus();
     }
 
     public ArrayList<Individu> bestIndividus(){
@@ -320,8 +318,18 @@ public class Plateau {
         }
     }
 
-    private void exportIndividus(String filename) throws IOException {
-        //int ts = (int) (new Date().getTime()/1000)
+    private void exportIndividus() throws IOException {
+        SimpleDateFormat date = new SimpleDateFormat ("dd-MM-yyyy" );
+        SimpleDateFormat heure = new SimpleDateFormat ("hh-mm");
+
+        Date today = new Date();
+
+        String dateString = date.format(today);
+        String heureString = heure.format(today);
+
+        String filename = "result/d" + dateString + "_h" + heureString + "_result.txt";
+
+
         this.createTxtFile(filename); //en cours de test
         String[] lastIndividusMoves = {};
 
