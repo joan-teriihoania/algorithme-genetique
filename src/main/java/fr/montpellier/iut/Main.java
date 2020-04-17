@@ -20,7 +20,7 @@ public class Main {
                 plateau.importBaseDeDonneeIndividus(fileName);
                 quitter = true;
             } else if (charYOuN == 'n') {
-                System.out.println("Veulliez rentrer le nombre d'individu(s) : ");
+                System.out.println("Veulliez rentrer le nombre d'individu(s) à générer : ");
                 int nbIndividus = sc.nextInt();
                 plateau = new Plateau(10, 10, 5, nbIndividus);
                 quitter = true;
