@@ -4,12 +4,13 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Plateau plateau = new Plateau(10, 10, 5, 1000);
-        plateau.run(5);
+        Plateau plateau = new Plateau(20, 3, 5, 10);
+        plateau.run(50);
         System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
         System.out.println(plateau.getX());
         System.out.println(plateau.getY());
+        System.out.println(plateau.parcours());
     }
 }
 

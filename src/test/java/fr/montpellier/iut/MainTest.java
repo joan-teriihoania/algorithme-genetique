@@ -1,8 +1,6 @@
 package fr.montpellier.iut;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 class MainTest {
 

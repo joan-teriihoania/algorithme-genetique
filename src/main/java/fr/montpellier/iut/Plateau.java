@@ -95,7 +95,7 @@ public class Plateau {
         return best_individus;
     }
 
-    public StringBuilder parcours(){ //Modif HERE
+    public StringBuilder parcours(){
         StringBuilder map = new StringBuilder("\n");
         ArrayList<Individu> best_individus = bestIndividus(3);
 
@@ -151,26 +151,26 @@ public class Plateau {
                     map.append("y=" + i + space + ":|");
                     for (int j = 0; j < this.cases.length; j++) {
                         if (cases[i][j]) {
-                            boolean ilyaunmouv = false;
+                            boolean hasMouv = false;
                             for (int z = 0; z < mouv.size()/2; z++) {
-                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && ilyaunmouv == false) {
+                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && hasMouv == false) {
                                     map.append(" P ");
-                                    ilyaunmouv = true;
+                                    hasMouv = true;
                                 }
                             }
-                            if(ilyaunmouv == false) {
+                            if(hasMouv == false) {
                                 map.append(" X ");
                             }
                         }
                         else {
-                            boolean ilyaunmouv = false;
+                            boolean hasMouv = false;
                             for (int z = 0; z < mouv.size()/2; z++) {
-                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && ilyaunmouv == false) {
+                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && hasMouv == false) {
                                     map.append(" O ");
-                                    ilyaunmouv = true;
+                                    hasMouv = true;
                                 }
                             }
-                            if(ilyaunmouv == false) {
+                            if(hasMouv == false) {
                                 map.append("   ");
                             }
                         }
