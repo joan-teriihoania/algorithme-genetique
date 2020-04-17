@@ -231,7 +231,7 @@ public class Plateau {
         FileWriter myWriter = new FileWriter(filename);
         for(Individu individu: bestIndividus()){
             if(!Arrays.equals(individu.getMoves(), lastIndividusMoves)){
-                myWriter.write(Arrays.toString(individu.getMoves()) + "\n");
+                myWriter.write(id + ":" + Arrays.toString(individu.getMoves()) + "\n");
             }
             lastIndividusMoves = individu.getMoves();
         }
@@ -246,7 +246,7 @@ public class Plateau {
             BufferedReader buff=new BufferedReader(lecture);
             String ligne;
             while ((ligne=buff.readLine())!=null){
-                ligne = ligne.substring(1,ligne.length()-1);
+                ligne = ligne.substring(ligne.indexOf("[")+1,ligne.length()-1);
                 ligne = ligne.replace(" ","");
                 pas = ligne.split(",").length;
                 individus.add(new Individu(ligne.split(","), this));
