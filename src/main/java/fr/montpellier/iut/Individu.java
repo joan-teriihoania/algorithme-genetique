@@ -115,24 +115,34 @@ public class Individu {
     }
 
     public void croiser(Individu individu_to_croiser, int nb){
-        double move_choosen;
+        ArrayList<Individu> individus_a_croiser = new ArrayList<>();
+        individus_a_croiser.add(this);
+        individus_a_croiser.add(individu_to_croiser);
 
-        for (int i = 0; i < individu_to_croiser.moves.length;i = i + nb){
-            String[] move_to_change;
-            String[] move_to_get;
-            move_choosen = new Random().nextDouble();
+        for(Individu individu_en_traitement: individus_a_croiser) {
+            String[] movesA = Arrays.copyOf(moves, moves.length);
+            String[] movesB = Arrays.copyOf(individu_to_croiser.moves, individu_to_croiser.moves.length);
+            double move_choosen;
 
-            if(move_choosen > 0.5){
-                move_to_change = moves;
-                move_to_get = individu_to_croiser.moves;
-            } else {
-                move_to_change = individu_to_croiser.moves;
-                move_to_get = moves;
+            for (int i = 0; i < individu_en_traitement.moves.length; i = i + nb) {
+                String[] move_to_change;
+                String[] move_to_get;
+                move_choosen = new Random().nextDouble();
+
+                if (move_choosen > 0.5) {
+                    move_to_change = movesA;
+                    move_to_get = movesB;
+                } else {
+                    move_to_change = movesB;
+                    move_to_get = movesA;
+                }
+
+                for (int j = i; j < i + nb; j++) {
+                    move_to_change[j] = move_to_get[j];
+                }
             }
 
-            for (int j = i; j < i + nb; j++) {
-                move_to_change[j] = move_to_get[j];
-            }
+            individu_en_traitement.moves = Arrays.copyOf(movesA, movesA.length);
         }
     }
 
