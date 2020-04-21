@@ -62,8 +62,7 @@ public class Main {
     }
 
     public static void inputs() throws IOException {
-        Scanner sc = new Scanner(System.in);
-        Plateau plateau = null;
+        Plateau plateau;
 
         System.out.println("------------------------{Algorithme Génétique}------------------------");
         if (getInputBoolean("Souhaitez-vous importer une population ?")) {
