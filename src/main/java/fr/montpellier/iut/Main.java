@@ -31,15 +31,19 @@ public class Main {
     }
 
     public static String getInputFilename(String string) {
-        return getInputFilename(string, true);
+        return getInputFilename(string, "", true);
     }
 
-    public static String getInputFilename(String string, boolean verif) {
+    public static String getInputFilename(String string, String path){
+        return getInputFilename(string, path, true);
+    }
+
+    public static String getInputFilename(String string, String path, boolean verif) {
         String toreturn = getInputString(string);
-        File f = new File("banque_de_donnees/" + toreturn);
+        File f = new File(path + "/" + toreturn);
         if (verif && !f.exists()){
             System.out.println("[ERREUR] Le fichier '"+toreturn+"' n'existe pas.\n");
-            return getInputFilename(string, verif);
+            return getInputFilename(string, path, verif);
         }
         return toreturn;
     }
@@ -66,7 +70,7 @@ public class Main {
         System.out.println("------------------------{Algorithme Génétique}------------------------");
         if (getInputBoolean("Souhaitez-vous importer une population ?")) {
             plateau = new Plateau(10, 5);
-            String fileName = getInputFilename("Entrez le nom du fichier de stockage");
+            String fileName = getInputFilename("Entrez le nom du fichier de stockage", "banque_de_donnees");
             plateau.importBaseDeDonneeIndividus(fileName);
         } else {
             int nbIndividus = getInputInt("Entrez le nombre d'individu(s) à générer");
