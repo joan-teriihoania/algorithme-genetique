@@ -2,7 +2,6 @@ package fr.montpellier.iut;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -71,7 +70,7 @@ public class Main {
         if (getInputBoolean("Souhaitez-vous importer une population ?")) {
             plateau = new Plateau(10, 5);
             String fileName = getInputFilename("Entrez le nom du fichier de stockage", "banque_de_donnees");
-            plateau.importBaseDeDonneeIndividus(fileName);
+            plateau.importIndividus(fileName);
         } else {
             int nbIndividus = getInputInt("Entrez le nombre d'individu(s) à générer");
             plateau = new Plateau(10, 10, 5, nbIndividus);

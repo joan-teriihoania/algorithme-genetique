@@ -344,7 +344,7 @@ public class Plateau {
         System.out.println("Fin écriture !");
     }
 
-    public void importBaseDeDonneeIndividus(String fileName){
+    public void importIndividus(String fileName){
         try{
             InputStream flux=new FileInputStream("banque_de_donnees/" + fileName);
             InputStreamReader lecture=new InputStreamReader(flux);
