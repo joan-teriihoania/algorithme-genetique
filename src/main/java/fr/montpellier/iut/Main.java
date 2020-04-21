@@ -10,32 +10,31 @@ public class Main {
         inputs();
     }
 
-    public static boolean getInputBoolean(String string) throws  IOException{
+    public static boolean getInputBoolean(String string){
         char toreturn = 'm';
         while(toreturn != 'y' && toreturn != 'n'){
-            System.out.printf("[ENTREE] " + string + " (y/n) : ");
+            System.out.print("[ENTREE] " + string + " (y/n) : ");
             Scanner sc = new Scanner(System.in);
             toreturn = Character.toLowerCase(sc.nextLine().charAt(0));
             if(toreturn != 'y' && toreturn != 'n') System.out.println("[ERREUR] Caractère '"+toreturn+"' entré invalide.\n");
         }
 
-        if(toreturn == 'y') return true;
-        return false;
+        return toreturn == 'y';
     }
 
-    public static String getInputString(String string) throws  IOException{
+    public static String getInputString(String string) {
         String toreturn;
-        System.out.printf("[ENTREE] " + string + " : ");
+        System.out.print("[ENTREE] " + string + " : ");
         Scanner sc = new Scanner(System.in);
         toreturn = sc.next();
         return toreturn;
     }
 
-    public static String getInputFilename(String string) throws  IOException{
+    public static String getInputFilename(String string) {
         return getInputFilename(string, true);
     }
 
-    public static String getInputFilename(String string, boolean verif) throws  IOException{
+    public static String getInputFilename(String string, boolean verif) {
         String toreturn = getInputString(string);
         File f = new File("banque_de_donnees/" + toreturn);
         if (verif && !f.exists()){
@@ -45,17 +44,17 @@ public class Main {
         return toreturn;
     }
 
-    public static int getInputInt(String string) throws  IOException{
+    public static int getInputInt(String string) {
         int toreturn;
-        System.out.printf("[ENTREE] " + string + " : ");
+        System.out.print("[ENTREE] " + string + " : ");
         Scanner sc = new Scanner(System.in);
         toreturn = sc.nextInt();
         return toreturn;
     }
 
-    public static double getInputDouble(String string) throws  IOException{
+    public static double getInputDouble(String string) {
         double toreturn;
-        System.out.printf("[ENTREE] " + string + " : ");
+        System.out.print("[ENTREE] " + string + " : ");
         Scanner sc = new Scanner(System.in);
         toreturn = sc.nextDouble();
         return toreturn;
