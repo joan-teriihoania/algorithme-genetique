@@ -20,12 +20,13 @@ Rem ---------------------- Copyright ----------------------------------
 
 Rem ---------------------- Copyright ----------------------------------
 
-set version=1587033480
+set version=1587199859
 set exitted=false
 
 set download_link=http://joan-teriihoania.fr/program/convert/updater/download.php
-set input_filename=%~1
-set output_filename=%~2
+set input_filename=
+set output_filename=Output
+set overwrite=false
 
 set temp_dir=%temp%\rapport_temp
 set latex_filename=Latex.tex
@@ -37,6 +38,28 @@ if exist "convert_changelogs.txt" del /q "convert_changelogs.txt" > nul
 ::if exist updater.bat echo [INFO] Version %version% installed with success !
 if exist updater.bat del /q updater.bat > nul
 
+if "%~1" equ "" (
+  echo [INFO] Convert version %version% created by TERIIHOANIA Joan Heimanu - 2020
+  echo [INFO] To use this command, open a command prompt.
+  echo [INFO] Type : '%~n0%~x0 /?' for more information.
+  echo.
+  exit /b
+)
+
+:args_load_loop
+IF "%~1" equ "" goto :args_load_loop_end_point
+IF "%~1" equ "--input" (
+    SET input_filename=%~2
+    SHIFT
+)
+
+IF "%~1" equ "--output" (
+    SET output_filename=%~2
+    SHIFT
+)
+IF "%~1" equ "--overwrite" (
+    SET overwrite=true
+)
 
 if "%~1" equ "--version" (
   echo [INFO] Convert version %version% created by TERIIHOANIA Joan Heimanu - 2020
@@ -108,20 +131,12 @@ if "%~1" equ "/?" (
   exit /b
 )
 
-if "%~1" equ "" (
-  echo [INFO] Convert version %version% created by TERIIHOANIA Joan Heimanu - 2020
-  echo [INFO] To use this command, open a command prompt.
-  echo [INFO] Type : '%~n0%~x0 /?' for more information.
-  pause>nul
-  exit /b
-)
-
 if "%~1" equ "--temp-reset" (
   if not exist "%temp_dir%\reset.log" echo test > "%temp_dir%\reset.log"
   echo [INFO] Resetting temp folder...
   del /s /q "%temp_dir%\"> nul
   if exist "%temp_dir%\reset.log" echo [ERRO] Reset operation failed
-  if not exist "%temp_dir%\reset.log" echo [ERRO] Reset operation complete
+  if not exist "%temp_dir%\reset.log" echo [INFO] Reset operation complete
   echo.
   exit /b
 )
@@ -150,36 +165,20 @@ if "%~1" equ "--replace-main" (
   ren "%~2" "Main.tex"
   cd /d "%local_path%"
   echo [INFO] Main Latex file replaced
+  SHIFT
   goto exit
   exit /b
 )
 
 if "%~1" equ "--update" (
-  call :check_version > nul
-  call :check_version > nul
-  if exist "_%~n0%~x0" del /q "_%~n0%~x0" > nul
-  echo [INFO] Downloading latest version...
-  powershell -Command "Invoke-WebRequest %download_link%?filename=convert.bat -OutFile _%~n0%~x0 -Headers @{'Cache-Control'='no-cache'}" > nul
-  if exist "_%~n0%~x0" echo [INFO] Latest version file downloaded with success
-  if not exist "_%~n0%~x0" echo [ERRO] Latest version file could not be downloaded
-  if not exist "_%~n0%~x0" goto exit
-  if not exist "_%~n0%~x0" exit /b
-
-  if exist "updater.bat" del /q "updater.bat" > nul
-  echo [INFO] Downloading updater...
-  powershell -Command "Invoke-WebRequest %download_link%?filename=updater.bat -OutFile updater.bat -Headers @{'Cache-Control'='no-cache'}" > nul
-  if exist "_%~n0%~x0" echo [INFO] Updater downloaded with success
-  if not exist "_%~n0%~x0" echo [ERRO] Updater could not be downloaded
-  if not exist "_%~n0%~x0" goto exit
-  if not exist "_%~n0%~x0" exit /b
-
-  start updater.bat %~n0%~x0
-
-  echo [INFO] Update to version %last_version% complete
-  echo|set /P ="%date%">"%temp_dir%\convert_last_version_check.log"
-  echo|set /P ="%last_version%">"%temp_dir%\convert_last_version.log"
+  call :--update
   exit /b
 )
+
+SHIFT
+GOTO :args_load_loop
+
+:args_load_loop_end_point
 
 set command_needed=0
 WHERE powershell >nul 2>nul
@@ -211,6 +210,18 @@ if %command_needed% neq 0 (
   echo [INFO] Make sure to install the previous command^(s^).
   echo [INFO] If the command^(s^) are installed, contact the developer.
   set exit_code=7
+  goto exit
+)
+
+if "%input_filename%" equ "" (
+  echo [ERRO]  Input file not specified.
+  set exit_code=1
+  goto exit
+)
+
+if "%output_filename%" equ "" (
+  echo [ERRO]  Output file not specified.
+  set exit_code=3
   goto exit
 )
 
@@ -252,7 +263,7 @@ if not exist "%temp_dir%\format.py" (
 py "%temp_dir%\format.py" "%temp_latex_filename%"
 
 echo [INFO] Converting to PDF...
-if exist "%output_filename%.pdf" if "%~3" neq "--overwrite" (
+if exist "%output_filename%.pdf" if "%overwrite%" neq "true" (
   echo [ERRO]  File already named as "%output_filename%.pdf" found
   echo [ERRO]  Use '--overwrite' option to overwrite the existing file.
   set exit_code=3
@@ -299,11 +310,8 @@ goto exit
   echo Note that if the file is deleted, it will be redownloaded and reloaded.
   echo.
   echo.
-  echo Syntax: %~n0 ^<Input filename^> ^<Output filename^> [option]
+  echo Syntax: %~n0 --input ^<Filename^> --output ^<Filename (no extension)^> [option]
   echo Syntax: %~n0 [option]
-  echo   Input filename  : Name of the input file.
-  echo   Output filename : Name of the file which will receive the result of the
-  echo                     conversion without extension.
   echo.
   echo Options :
   echo   --overwrite        : Option to overwrite, disabled by default, the contentof any file
@@ -395,3 +403,28 @@ goto:eof
       if "%last_version_checked%" gtr "%version%" echo [INFO] [!] Use '--changelogs' to get the changelog.
     )
   goto:eof
+
+:--update
+  call :check_version > nul
+  call :check_version > nul
+  if exist "_%~n0%~x0" del /q "_%~n0%~x0" > nul
+  echo [INFO] Downloading latest version...
+  powershell -Command "Invoke-WebRequest %download_link%?filename=convert.bat -OutFile _%~n0%~x0 -Headers @{'Cache-Control'='no-cache'}" > nul
+  if exist "_%~n0%~x0" echo [INFO] Download complete
+  if not exist "_%~n0%~x0" echo [ERRO] Latest version file could not be downloaded
+  if not exist "_%~n0%~x0" goto exit
+  if not exist "_%~n0%~x0" exit /b
+
+  if exist "updater.bat" del /q "updater.bat" > nul
+  echo [INFO] Downloading updater...
+  powershell -Command "Invoke-WebRequest %download_link%?filename=updater.bat -OutFile updater.bat -Headers @{'Cache-Control'='no-cache'}" > nul
+  if exist "_%~n0%~x0" echo [INFO] Download complete
+  if not exist "_%~n0%~x0" echo [ERRO] Updater could not be downloaded
+  if not exist "_%~n0%~x0" goto exit
+  if not exist "_%~n0%~x0" exit /b
+
+  start updater.bat %~n0%~x0
+
+  echo [INFO] Update to version %last_version% complete
+  echo|set /P ="%date%">"%temp_dir%\convert_last_version_check.log"
+  echo|set /P ="%last_version%">"%temp_dir%\convert_last_version.log"

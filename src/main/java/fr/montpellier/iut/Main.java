@@ -1,69 +1,87 @@
 package fr.montpellier.iut;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        inputs();
+    }
 
-        Plateau plateau1 = new Plateau(30, 10, 10, 10);
-        Individu ind1 = new Individu(plateau1);
-        Individu ind2 = new Individu(plateau1);
+    public static boolean getInputBoolean(String string) throws  IOException{
+        char toreturn = 'm';
+        while(toreturn != 'y' && toreturn != 'n'){
+            System.out.printf("[ENTREE] " + string + " (y/n) : ");
+            Scanner sc = new Scanner(System.in);
+            toreturn = Character.toLowerCase(sc.nextLine().charAt(0));
+            if(toreturn != 'y' && toreturn != 'n') System.out.println("[ERREUR] Caractère '"+toreturn+"' entré invalide.\n");
+        }
 
-        System.out.println(Arrays.toString(ind1.getMoves()));
-        System.out.println(Arrays.toString(ind2.getMoves()));
+        if(toreturn == 'y') return true;
+        return false;
+    }
 
-        ind1.croiser(ind2, 5);
-        System.out.println();
+    public static String getInputString(String string) throws  IOException{
+        String toreturn;
+        System.out.printf("[ENTREE] " + string + " : ");
+        Scanner sc = new Scanner(System.in);
+        toreturn = sc.next();
+        return toreturn;
+    }
 
-        System.out.println(Arrays.toString(ind1.getMoves()));
-        System.out.println(Arrays.toString(ind2.getMoves()));
+    public static String getInputFilename(String string) throws  IOException{
+        return getInputFilename(string, true);
+    }
+
+    public static String getInputFilename(String string, boolean verif) throws  IOException{
+        String toreturn = getInputString(string);
+        File f = new File("banque_de_donnees/" + toreturn);
+        if (verif && !f.exists()){
+            System.out.println("[ERREUR] Le fichier '"+toreturn+"' n'existe pas.\n");
+            return getInputFilename(string, verif);
+        }
+        return toreturn;
+    }
+
+    public static int getInputInt(String string) throws  IOException{
+        int toreturn;
+        System.out.printf("[ENTREE] " + string + " : ");
+        Scanner sc = new Scanner(System.in);
+        toreturn = sc.nextInt();
+        return toreturn;
+    }
+
+    public static double getInputDouble(String string) throws  IOException{
+        double toreturn;
+        System.out.printf("[ENTREE] " + string + " : ");
+        Scanner sc = new Scanner(System.in);
+        toreturn = sc.nextDouble();
+        return toreturn;
     }
 
     public static void inputs() throws IOException {
         Scanner sc = new Scanner(System.in);
-        boolean quitter = false;
         Plateau plateau = null;
 
         System.out.println("------------------------{Algorithme Génétique}------------------------");
-        while(!quitter) {
-            System.out.println("Rentrer une base de données d'individus ?(Y/N) : ");
-            char charYOuN = sc.next().charAt(0);
-            if (charYOuN == 'y') {
-                plateau = new Plateau(10, 5);
-                System.out.println("Veuillez rentrer le nom du fichier : ");
-                String fileName = sc.next();
-                plateau.importBaseDeDonneeIndividus(fileName);
-                quitter = true;
-            } else if (charYOuN == 'n') {
-                System.out.println("Veulliez rentrer le nombre d'individu(s) à générer : ");
-                int nbIndividus = sc.nextInt();
-                plateau = new Plateau(10, 10, 5, nbIndividus);
-                quitter = true;
-            } else {
-                System.out.println("Erreur : mauvais caractère.");
-            }
+        if (getInputBoolean("Souhaitez-vous importer une population ?")) {
+            plateau = new Plateau(10, 5);
+            String fileName = getInputFilename("Entrez le nom du fichier de stockage");
+            plateau.importBaseDeDonneeIndividus(fileName);
+        } else {
+            int nbIndividus = getInputInt("Entrez le nombre d'individu(s) à générer");
+            plateau = new Plateau(10, 10, 5, nbIndividus);
         }
 
-        System.out.println("Veulliez rentrer le nombre de cycle(s) : ");
-        int nbCycles = sc.nextInt();
-        quitter = false;
-        while(!quitter) {
-            System.out.println("Voulez-vous modifier le pourcentage de mutation ?(Y/N) : ");
-            char charYOuN = sc.next().charAt(0);
-            if (charYOuN == 'y') {
-                System.out.println("Rentrer une valeur (en % et utilisez une \",\" si besoin) : ");
-                double mutate_chance = sc.nextDouble();
-                mutate_chance = mutate_chance / 100;
-                Individu.setMutate_chance(mutate_chance);
-                quitter = true;
-            } else if (charYOuN == 'n') {
-                System.out.println("Le pourcentage sera de 5% (par défaut)");
-                quitter = true;
-            } else {
-                System.out.println("Erreur : mauvais caractère.");
-            }
+        int nbCycles = getInputInt("Entrez le nombre de cycle à générer");
+        if (getInputBoolean("Voulez-vous modifier le pourcentage de mutation ?")) {
+            double mutate_chance = getInputDouble("Rentrez une valeur (en % en utilisant une \",\" si besoin)");
+            mutate_chance = mutate_chance / 100;
+            Individu.setMutate_chance(mutate_chance);
+        } else {
+            System.out.println("[INFORM] Pourcentage de mutation défini à 5% (par défaut)");
         }
 
         plateau.run(nbCycles);
