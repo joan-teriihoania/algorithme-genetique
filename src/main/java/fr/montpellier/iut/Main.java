@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         inputs();
     }
 
@@ -30,9 +30,7 @@ public class Main {
         } else {
             System.out.println("[INFORM] Pourcentage de mutation défini à 5% (par défaut)");
         }
-
-        Batch batch = new Batch(plateau);
-        batch.run(Input.getInputInt("Entrez le nombre d'itération"), nbCycles);
+        Batch.run(plateau, Input.getInputInt("Entrez le nombre d'itération"), nbCycles);
         /*System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
         System.out.println(plateau.getX());
