@@ -246,16 +246,17 @@ public class Plateau {
         return x;
     }
 
-    public Plateau(int pas, int nbPieces, int W, int nbIndividus) {
-        this.x = new Random().nextInt(W);
-        this.y = new Random().nextInt(W);
-        this.pas = pas;
-        this.nbPieces = nbPieces;
-        this.id = UUID.randomUUID().toString();
-        this.individus = new ArrayList<>();
+    public Plateau(Plateau plateau){
+        this(plateau.pas, plateau.nbPieces, plateau.cases.length, plateau.individus.size());
+        cases = Arrays.copyOf(plateau.cases, plateau.cases.length);
+        individus = new ArrayList<>(plateau.individus);
+        x = plateau.x;
+        y = plateau.y;
+    }
 
-        this.cases = new Boolean[W][W];
-        this.genPlateau();
+    public Plateau(int pas, int nbPieces, int W, int nbIndividus) {
+        this(nbPieces, W);
+        this.pas = pas;
 
         for (int i = 0; i < nbIndividus; i++){
             Individu individu = new Individu(this);
@@ -318,7 +319,7 @@ public class Plateau {
         }
     }
 
-    private void exportIndividus() throws IOException {
+    private String exportIndividus() throws IOException {
         SimpleDateFormat date = new SimpleDateFormat ("dd-MM-yyyy" );
         SimpleDateFormat heure = new SimpleDateFormat ("hh-mm");
 
@@ -342,6 +343,7 @@ public class Plateau {
         }
         myWriter.close();
         System.out.println("Fin écriture !");
+        return filename;
     }
 
     public void importIndividus(String fileName){
