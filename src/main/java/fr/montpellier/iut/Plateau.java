@@ -20,7 +20,7 @@ public class Plateau {
     // Nombre de pièces
     private int nbPieces;
 
-    public void run(int nbCycles) throws IOException {
+    public String run(int nbCycles) throws IOException {
         double nb_best = individus.size()*0.3;
         Individu individu_croisement;
         long index = 0;
@@ -50,7 +50,7 @@ public class Plateau {
             //long percentage = index * 100 / nbCycles;
         }
 
-        exportIndividus();
+        return exportIndividus();
     }
 
     public ArrayList<Individu> bestIndividus(){
@@ -94,45 +94,45 @@ public class Plateau {
         StringBuilder map = new StringBuilder("\n");
         ArrayList<Individu> best_individus = bestIndividus(3);
 
-        if(best_individus.isEmpty() == false) {
-            for (int a=0;a<best_individus.size();a++) {
+        if(!best_individus.isEmpty()) {
+            for (Individu bestIndividus : best_individus) {
 
-                map.append("Chemin de l'individus "+best_individus.get(a).getId());
+                map.append("Chemin de l'individus ").append(bestIndividus.getId());
                 map.append("\n");
 
                 ArrayList<Integer> mouv = new ArrayList<>();
                 mouv.add(x);
                 mouv.add(y);
 
-                StringBuffer sb = new StringBuffer();
-                for(int i = 0; i < best_individus.get(a).getMoves().length; i++) {
-                    sb.append(best_individus.get(a).getMoves()[i]);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bestIndividus.getMoves().length; i++) {
+                    sb.append(bestIndividus.getMoves()[i]);
                 }
                 String str = sb.toString();
 
-                for(int m=0;m < str.length();m++){
+                for (int m = 0; m < str.length(); m++) {
                     char mouv_actuel = str.charAt(m);
-                    if(mouv_actuel == 'H'){
-                        mouv.add(mouv.get(m*2));
-                        mouv.add(mouv.get((m*2)+1)-1);
+                    if (mouv_actuel == 'H') {
+                        mouv.add(mouv.get(m * 2));
+                        mouv.add(mouv.get((m * 2) + 1) - 1);
                     }
-                    if(mouv_actuel == 'D'){
+                    if (mouv_actuel == 'D') {
                         mouv.add(mouv.get(m * 2) + 1);
                         mouv.add(mouv.get((m * 2) + 1));
                     }
-                    if(mouv_actuel == 'B'){
+                    if (mouv_actuel == 'B') {
                         mouv.add(mouv.get(m * 2));
                         mouv.add(mouv.get((m * 2) + 1) + 1);
                     }
-                    if(mouv_actuel == 'G'){
+                    if (mouv_actuel == 'G') {
                         mouv.add(mouv.get(m * 2) - 1);
                         mouv.add(mouv.get((m * 2) + 1));
                     }
 
-                    if(mouv.get(mouv.size()-1) < 0) mouv.set(mouv.size()-1, 0);
-                    if(mouv.get(mouv.size()-2) < 0) mouv.set(mouv.size()-2, 0);
-                    if(mouv.get(mouv.size()-1) > getSize()-1) mouv.set(mouv.size()-1, getSize()-1);
-                    if(mouv.get(mouv.size()-2) > getSize()-1) mouv.set(mouv.size()-2, getSize()-1);
+                    if (mouv.get(mouv.size() - 1) < 0) mouv.set(mouv.size() - 1, 0);
+                    if (mouv.get(mouv.size() - 2) < 0) mouv.set(mouv.size() - 2, 0);
+                    if (mouv.get(mouv.size() - 1) > getSize() - 1) mouv.set(mouv.size() - 1, getSize() - 1);
+                    if (mouv.get(mouv.size() - 2) > getSize() - 1) mouv.set(mouv.size() - 2, getSize() - 1);
                 }
                 System.out.println(mouv);
 
@@ -140,32 +140,29 @@ public class Plateau {
                     StringBuilder space = new StringBuilder();
                     int space_needed = String.valueOf(this.getSize()).length();
                     space_needed = space_needed - String.valueOf(i).length();
-                    for (int j = 0; j < space_needed; j++) {
-                        space.append(" ");
-                    }
-                    map.append("y=" + i + space + ":|");
+                    space.append(" ".repeat(Math.max(0, space_needed)));
+                    map.append("y=").append(i).append(space).append(":|");
                     for (int j = 0; j < this.cases.length; j++) {
                         if (cases[i][j]) {
                             boolean hasMouv = false;
-                            for (int z = 0; z < mouv.size()/2; z++) {
-                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && hasMouv == false) {
+                            for (int z = 0; z < mouv.size() / 2; z++) {
+                                if (j == mouv.get(z * 2) && i == mouv.get((z * 2) + 1) && !hasMouv) {
                                     map.append(" P ");
                                     hasMouv = true;
                                 }
                             }
-                            if(hasMouv == false) {
+                            if (!hasMouv) {
                                 map.append(" X ");
                             }
-                        }
-                        else {
+                        } else {
                             boolean hasMouv = false;
-                            for (int z = 0; z < mouv.size()/2; z++) {
-                                if (j == mouv.get(z*2) && i == mouv.get((z*2)+1) && hasMouv == false) {
+                            for (int z = 0; z < mouv.size() / 2; z++) {
+                                if (j == mouv.get(z * 2) && i == mouv.get((z * 2) + 1) && !hasMouv) {
                                     map.append(" O ");
                                     hasMouv = true;
                                 }
                             }
-                            if(hasMouv == false) {
+                            if (!hasMouv) {
                                 map.append("   ");
                             }
                         }
@@ -194,7 +191,7 @@ public class Plateau {
             StringBuilder space = new StringBuilder();
             int space_needed = String.valueOf(this.getSize()).length();
             space_needed = space_needed - String.valueOf(i).length();
-            for (int j = 0; j < space_needed;j++) space.append(" ");
+            space.append(" ".repeat(Math.max(0, space_needed)));
             map.append("y=").append(i).append(space).append(":|");
 
 
@@ -250,6 +247,7 @@ public class Plateau {
         this(plateau.pas, plateau.nbPieces, plateau.cases.length, plateau.individus.size());
         cases = Arrays.copyOf(plateau.cases, plateau.cases.length);
         individus = new ArrayList<>(plateau.individus);
+        id = plateau.id;
         x = plateau.x;
         y = plateau.y;
     }
@@ -307,12 +305,12 @@ public class Plateau {
         try {
             File myObj = new File(filename);
             if (!myObj.createNewFile()) {
-                System.out.println("File already exists.");
+                //System.out.println("File already exists.");
                 myObj.delete();
-                System.out.println("File deleted");
+                //System.out.println("File deleted");
                 myObj.createNewFile();
             }
-            System.out.println("File created: " + myObj.getName());
+            //System.out.println("File created: " + myObj.getName());
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -342,7 +340,7 @@ public class Plateau {
             lastIndividusMoves = individu.getMoves();
         }
         myWriter.close();
-        System.out.println("Fin écriture !");
+        //System.out.println("Fin écriture !");
         return filename;
     }
 
