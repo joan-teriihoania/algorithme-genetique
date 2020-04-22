@@ -58,7 +58,7 @@ public class Individu {
             ran = new Random().nextDouble();
             if(ran<mutate_chance){
 
-                var save_moves = new String[moves.length];
+                String[] save_moves = new String[moves.length];
                 System.arraycopy(moves, 0, save_moves, 0, moves.length);
                 moves[i] = getRandomMove(possibleMove);
             }
