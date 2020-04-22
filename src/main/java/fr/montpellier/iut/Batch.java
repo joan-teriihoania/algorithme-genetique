@@ -5,6 +5,7 @@ import java.io.IOException;
 public class Batch {
 
     public static void run(Plateau plateau, int iterations, int cycles) throws IOException {
+        System.out.println(plateau.map());
         for (int i = 0 ; i < iterations ; i++){
             Plateau copy = new Plateau(plateau);
             String save_filename = copy.run(cycles);

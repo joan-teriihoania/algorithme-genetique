@@ -126,6 +126,7 @@ public class Plateau {
             for (Individu bestIndividus : best_individus) {
 
                 map.append("Chemin de l'individu n°" + bestIndividus.getId());
+                map.append("\nMoves :" + Arrays.toString(bestIndividus.getMoves()));
                 map.append("\nEvaluation : " + bestIndividus.evaluate() + "\n");
 
                 ArrayList<Integer> mouv = new ArrayList<>();
