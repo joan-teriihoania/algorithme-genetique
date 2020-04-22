@@ -16,7 +16,8 @@ public class Individu {
     @Override
     public String toString() {
         return "\nMouvement{" +
-                "\nmoves=" + Arrays.toString(moves) +
+                "\n moves=" + Arrays.toString(moves) +
+                "\n eval =" + evaluate() +
                 '}';
     }
 
@@ -184,5 +185,22 @@ public class Individu {
 
     public static void setMutationChance(double mutate_chance) {
         Individu.mutate_chance = mutate_chance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Individu individu = (Individu) o;
+        return id == individu.id &&
+                Arrays.equals(moves, individu.moves) &&
+                Objects.equals(plateau, individu.plateau);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, plateau);
+        result = 31 * result + Arrays.hashCode(moves);
+        return result;
     }
 }

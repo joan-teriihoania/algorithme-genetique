@@ -1,6 +1,7 @@
 package fr.montpellier.iut;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -20,36 +21,63 @@ public class Plateau {
     // Nombre de pièces
     private int nbPieces;
 
+    public ArrayList<Individu> selectIndividus(int nbToSelect){
+        Collection<Individu> selectedIndividus = new HashSet<>();
+        int sumEvaluation = 0;
+        for(Individu individu: individus){
+            sumEvaluation += individu.evaluate();
+        }
+
+        while(selectedIndividus.size() < nbToSelect) {
+            if (sumEvaluation <= 0) {
+                for(int i = 0 ; i < nbToSelect ; i++){
+                    selectedIndividus.add(individus.get(new Random().nextInt(individus.size())));
+                }
+            } else {
+                for (Individu individu : individus) {
+                    if (selectedIndividus.size() < nbToSelect) {
+                        if (individu.evaluate() < new Random().nextInt(sumEvaluation)) {
+                            selectedIndividus.add(individu);
+                        }
+                    }
+                }
+            }
+        }
+
+        return new ArrayList<>(selectedIndividus);
+    }
+
     public String run(int nbCycles) throws IOException {
-        double nb_best = individus.size()*0.3;
+        double nb_selected_individus = individus.size()*0.3;
         Individu individu_croisement;
         long index = 0;
         for (int i = 0;i < nbCycles ; i++){
             index++;
-            ArrayList<Individu> best_individus;
-            best_individus = bestIndividus((int)nb_best);
+            ArrayList<Individu> selected_individus;
+            selected_individus = selectIndividus((int)nb_selected_individus);
             // We select the best individuals
-            for (int j = 0;j < best_individus.size();j=j+2) {
-                individus.remove(best_individus.get(j));
-                if(j+1<best_individus.size()){
-                    individu_croisement = best_individus.get(j+1);
-                    individus.remove(best_individus.get(j+1));
+            for (int j = 0;j < selected_individus.size();j=j+2) {
+                System.out.print("[STATUS] Cycle n°" + (i+1) + "/"+nbCycles+" - Individus selectionnés n°" + (j+1) + "/" + selected_individus.size() + "\r");
+                individus.remove(selected_individus.get(j));
+                if(j+1<selected_individus.size()){
+                    individu_croisement = selected_individus.get(j+1);
+                    individus.remove(selected_individus.get(j+1));
                 } else {
-                    individu_croisement = best_individus.get(j);
+                    individu_croisement = selected_individus.get(j);
                 }
 
-                best_individus.get(j).croiser(individu_croisement);
-                best_individus.get(j).muter();
+                selected_individus.get(j).croiser(individu_croisement);
+                selected_individus.get(j).muter();
                 individu_croisement.muter();
-                individus.add(best_individus.get(j));
-                if(j+1<best_individus.size()){
-                    individus.add(best_individus.get(j+1));
+                individus.add(selected_individus.get(j));
+                if(j+1<selected_individus.size()){
+                    individus.add(selected_individus.get(j+1));
                 }
 
             }
             //long percentage = index * 100 / nbCycles;
         }
-
+        System.out.print("[STATUS] Simulation terminée\n");
         return exportIndividus();
     }
 
@@ -97,8 +125,8 @@ public class Plateau {
         if(!best_individus.isEmpty()) {
             for (Individu bestIndividus : best_individus) {
 
-                map.append("Chemin de l'individus ").append(bestIndividus.getId());
-                map.append("\n");
+                map.append("Chemin de l'individu n°" + bestIndividus.getId());
+                map.append("\nEvaluation : " + bestIndividus.evaluate() + "\n");
 
                 ArrayList<Integer> mouv = new ArrayList<>();
                 mouv.add(x);

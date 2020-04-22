@@ -1,6 +1,12 @@
 package fr.montpellier.iut;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -12,6 +18,19 @@ public class Main {
 
         System.out.println("------------------------{Algorithme Génétique}------------------------");
         if (Input.getInputBoolean("Souhaitez-vous importer une population ?")) {
+            try (Stream<Path> walk = Files.walk(Paths.get("banque_de_donnees"))) {
+
+                List<String> result = walk.map(x -> x.toString())
+                        .filter(f -> f.endsWith(".txt")).collect(Collectors.toList());
+
+                for(String display: result){
+                    System.out.println("[ENTREE] - " + display.replace("banque_de_donnees\\", ""));
+                }
+                System.out.println("");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             plateau = new Plateau(10, 5);
             String fileName = Input.getInputFilename("Entrez le nom du fichier de stockage", "banque_de_donnees");
             plateau.importIndividus(fileName);
@@ -29,6 +48,7 @@ public class Main {
             System.out.println("[INFORM] Pourcentage de mutation défini à 5% (par défaut)");
         }
         Batch.run(plateau, Input.getInputInt("Entrez le nombre d'itération"), nbCycles);
+
         /*System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
         System.out.println(plateau.getX());
