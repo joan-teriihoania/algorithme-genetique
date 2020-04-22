@@ -351,7 +351,7 @@ public class Plateau {
 
     public Boolean caseHasPiece(int x, int y){
         if (!caseExist(x, y)){return false;}
-        return cases[y][x];
+        return cases[x][y];
     }
 
     private void createTxtFile(String filename){

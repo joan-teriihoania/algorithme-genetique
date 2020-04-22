@@ -150,7 +150,7 @@ public class Individu {
                 }
             }
 
-            if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
+            if (this.plateau.caseHasPiece(y, x) && !visited_coor[x][y]){
                 capital = capital+3;
             }
             visited_coor[x][y] = true;
