@@ -39,13 +39,11 @@ public class Main {
                 e.printStackTrace();
             }
             plateau = new Plateau(10, 5);
-            plateau.setCases(cases);
             String fileName = Input.getInputFilename("Entrez le nom du fichier de stockage", "banque_de_donnees");
             plateau.importIndividus(fileName);
         } else {
             int nbIndividus = Input.getInputInt("Entrez le nombre d'individu(s) à générer");
             plateau = new Plateau(10, 10, 5, nbIndividus);
-            plateau.setCases(cases);
         }
 
         int nbCycles = Input.getInputInt("Entrez le nombre de cycle à générer");
@@ -56,6 +54,7 @@ public class Main {
         } else {
             System.out.println("[INFORM] Pourcentage de mutation défini à 5% (par défaut)");
         }
+        plateau.setCases(cases);
         Batch.run(plateau, Input.getInputInt("Entrez le nombre d'itération"), nbCycles);
 
         /*System.out.println(plateau.bestIndividus(3));

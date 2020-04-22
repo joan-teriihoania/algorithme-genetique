@@ -116,9 +116,7 @@ public class Individu {
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
         if (this.plateau.caseHasPiece(x, y)){
-            capital++;
-        } else {
-            capital--;
+            capital = capital + 3;
         }
 
         visited_coor[x][y] = true;
@@ -126,39 +124,34 @@ public class Individu {
             if(move.equals("H")){
                 if(this.plateau.caseExist(x, y-1)){
                     y--;
-                }
-                else{
-                    capital =- 5;
+                } else {
+                    capital = capital - 5;
                 }
             }
             if(move.equals("B")) {
                 if(this.plateau.caseExist(x, y+1)){
                     y++;
-                }
-                else{
-                    capital =- 5;
+                } else {
+                    capital = capital - 5;
                 }
             }
             if (move.equals("G")) {
                 if(this.plateau.caseExist(x-1, y)){
                     x--;
-                }
-                else{
-                    capital =- 5;
+                } else {
+                    capital = capital - 5;
                 }
             }
             if (move.equals("D")){
                 if(this.plateau.caseExist(x+1, y)){
                     x++;
-                }
-                else{
-                    capital =- 5;
+                } else {
+                    capital = capital - 5;
                 }
             }
+
             if (this.plateau.caseHasPiece(x, y) && !visited_coor[x][y]){
                 capital = capital+3;
-            } else {
-                capital--;
             }
             visited_coor[x][y] = true;
         }

@@ -325,13 +325,33 @@ public class Plateau {
         this.cases = cases;
     }
 
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setIndividus(ArrayList<Individu> individus) {
+        this.individus = individus;
+    }
+
+    public ArrayList<Individu> getIndividus() {
+        return individus;
+    }
+
+    public Boolean[][] getCases() {
+        return cases;
+    }
+
     public Boolean caseExist(int x, int y){
         return x <= cases.length - 1 && x >= 0 && y <= cases.length - 1 && y >= 0;
     }
 
     public Boolean caseHasPiece(int x, int y){
         if (!caseExist(x, y)){return false;}
-        return cases[x][y];
+        return cases[y][x];
     }
 
     private void createTxtFile(String filename){
