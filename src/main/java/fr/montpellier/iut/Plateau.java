@@ -321,6 +321,10 @@ public class Plateau {
         }
     }
 
+    public void setCases(Boolean[][] cases) {
+        this.cases = cases;
+    }
+
     public Boolean caseExist(int x, int y){
         return x <= cases.length - 1 && x >= 0 && y <= cases.length - 1 && y >= 0;
     }
