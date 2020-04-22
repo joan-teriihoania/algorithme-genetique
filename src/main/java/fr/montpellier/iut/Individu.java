@@ -43,56 +43,12 @@ public class Individu {
         autoIncrement++;
     }
 
-    public String[] getNextValidMoves(String[] moves, int x, int y, int size, int n){
-        String[] validMoves;
-
-        for (int i = 0;i < n;i++){
-            if(moves[i] != null) {
-                if(moves[i].equals("H")){y--;}
-                if(moves[i].equals("B")){y++;}
-                if(moves[i].equals("G")){x--;}
-                if(moves[i].equals("D")){x++;}
-            }
-        }
-
-        validMoves = new String[4];
-        if(y < size-1){validMoves[0] = "B";}
-        if(y != 0){validMoves[1] = "H";}
-        if(x < size-1){validMoves[2] = "D";}
-        if(x > 0){validMoves[3] = "G";}
-        validMoves = removeEmptyEl(validMoves);
-
-        return validMoves;
-    }
-
-    public Boolean nextMoveIsValid(String move, String[] moves, int x, int y, int size, int n){
-        String[] validMoves = getNextValidMoves(moves, x, y, size, n);
-        for (String validMove: validMoves){
-            if(validMove.equals(move)) {return true;}
-        }
-        return false;
-    }
-
     public static<T> T[] subArray(T[] array, int beg, int end) {
         return Arrays.copyOfRange(array, beg, end + 1);
     }
 
     public int getId() {
         return id;
-    }
-
-    public Boolean isValid(){
-        int x = this.plateau.getX();
-        int y = this.plateau.getY();
-        int size = this.plateau.getSize();
-        int n = this.plateau.getPas();
-
-        for (int i = 0;i < this.moves.length;i++){
-            if(!nextMoveIsValid(moves[i], subArray(moves, 0, i), x, y, size, n)){
-                return false;
-            }
-        }
-        return true;
     }
 
     public void muter(){
@@ -103,9 +59,7 @@ public class Individu {
 
                 var save_moves = new String[moves.length];
                 System.arraycopy(moves, 0, save_moves, 0, moves.length);
-
-                String[] validMoves = getNextValidMoves(subArray(moves, 0, i), this.plateau.getX(), this.plateau.getY(), this.plateau.getSize(), i);
-                moves[i] = getRandomMove(validMoves);
+                moves[i] = getRandomMove(possibleMove);
             }
         }
     }
@@ -214,38 +168,12 @@ public class Individu {
         int x = plateau.getX();
         int y = plateau.getY();
         int size = plateau.getSize();
-        String[] validMoves;
         String[] toreturn = new String[n];
 
         for (int i = 0;i < n;i++){
-            // Réinitialise validMoves
-            validMoves = new String[4];
-
-            // Créé un array avec uniquement les mouvements valides
-            validMoves = getNextValidMoves(toreturn, plateau.getX(), plateau.getY(), size, n);
-
-            toreturn[i] = getRandomMove(validMoves);
-            if(toreturn[i].equals("H")){
-                if(this.plateau.caseExist(x, y-1)){
-                    y--;
-                }
-            }
-            if(toreturn[i].equals("B")) {
-                if(this.plateau.caseExist(x, y+1)){
-                    y++;
-                }
-            }
-            if (toreturn[i].equals("G")) {
-                if(this.plateau.caseExist(x-1, y)){
-                    x--;
-                }
-            }
-            if (toreturn[i].equals("D")){
-                if(this.plateau.caseExist(x+1, y)){
-                    x++;
-                }
-            }
+            toreturn[i] = getRandomMove(possibleMove);
         }
+
         return toreturn;
     }
 
@@ -254,17 +182,7 @@ public class Individu {
         return validMove[ran];
     }
 
-    private String[] removeEmptyEl(String[] array){
-        List<String> values = new ArrayList<>();
-        for(String data: array) {
-            if(data != null && !data.equals("")) {
-                values.add(data);
-            }
-        }
-        return values.toArray(new String[0]);
-    }
-
-    public static void setMutate_chance(double mutate_chance) {
+    public static void setMutationChance(double mutate_chance) {
         Individu.mutate_chance = mutate_chance;
     }
 }

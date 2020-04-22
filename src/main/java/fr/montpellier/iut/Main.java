@@ -1,8 +1,6 @@
 package fr.montpellier.iut;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -26,7 +24,7 @@ public class Main {
         if (Input.getInputBoolean("Voulez-vous modifier le pourcentage de mutation ?")) {
             double mutate_chance = Input.getInputDouble("Rentrez une valeur (en % en utilisant une \",\" si besoin)");
             mutate_chance = mutate_chance / 100;
-            Individu.setMutate_chance(mutate_chance);
+            Individu.setMutationChance(mutate_chance);
         } else {
             System.out.println("[INFORM] Pourcentage de mutation défini à 5% (par défaut)");
         }
