@@ -54,7 +54,6 @@ public class Main {
         } else {
             System.out.println("[INFORM] Pourcentage de mutation défini à 5% (par défaut)");
         }
-        plateau.setCases(cases);
         Batch.run(plateau, Input.getInputInt("Entrez le nombre d'itération"), nbCycles);
 
         /*System.out.println(plateau.bestIndividus(3));

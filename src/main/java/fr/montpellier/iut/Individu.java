@@ -115,7 +115,7 @@ public class Individu {
         int capital = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
-        if (this.plateau.caseHasPiece(x, y)){
+        if (this.plateau.caseHasPiece(y, x)){
             capital = capital + 3;
         }
 
