@@ -14,48 +14,8 @@ public class Main {
     }
 
     public static void inputs() throws IOException {
-        Boolean[][] cases = {
-                {false, true, true, true, false},
-                {false, false, true, false, false},
-                {false, false, true, false, false},
-                {false, false, true, false, false},
-                {false, true, true, false, false},
-        };
-        Plateau plateau;
-
         System.out.println("------------------------{Algorithme Génétique}------------------------");
-        if (Input.getInputBoolean("Souhaitez-vous importer une population ?")) {
-            try (Stream<Path> walk = Files.walk(Paths.get("banque_de_donnees"))) {
-
-                List<String> result = walk.map(x -> x.toString())
-                        .filter(f -> f.endsWith(".txt")).collect(Collectors.toList());
-
-                for(String display: result){
-                    System.out.println("[ENTREE] - " + display.replace("banque_de_donnees\\", ""));
-                }
-                System.out.println("");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            plateau = new Plateau(10, 5);
-            String fileName = Input.getInputFilename("Entrez le nom du fichier de stockage", "banque_de_donnees");
-            plateau.importIndividus(fileName);
-        } else {
-            int nbIndividus = Input.getInputInt("Entrez le nombre d'individu(s) à générer");
-            plateau = new Plateau(10, 10, 5, nbIndividus);
-        }
-
-        int nbCycles = Input.getInputInt("Entrez le nombre de cycle à générer");
-        if (Input.getInputBoolean("Voulez-vous modifier le pourcentage de mutation ?")) {
-            double mutate_chance = Input.getInputDouble("Rentrez une valeur (en % en utilisant une \",\" si besoin)");
-            mutate_chance = mutate_chance / 100;
-            Individu.setMutationChance(mutate_chance);
-        } else {
-            System.out.println("[INFORM] Pourcentage de mutation défini à 5% (par défaut)");
-        }
-        plateau.setCases(cases);
-        Batch.run(plateau, Input.getInputInt("Entrez le nombre d'itération"), nbCycles);
+        Batch.run(Input.getInputInt("Entrez le nombre d'itération"));
 
         /*System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
