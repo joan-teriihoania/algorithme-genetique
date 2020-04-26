@@ -370,6 +370,29 @@ public class Plateau {
         }
     }
 
+    private String export() throws  IOException{
+        SimpleDateFormat date = new SimpleDateFormat ("dd-MM-yyyy" );
+        SimpleDateFormat heure = new SimpleDateFormat ("hh-mm");
+
+        Date today = new Date();
+
+        String dateString = date.format(today);
+        String heureString = heure.format(today);
+
+        String filename = "plateau/d" + dateString + "_h" + heureString + "_result.txt";
+
+
+        this.createTxtFile(filename); //en cours de test
+
+        FileWriter myWriter = new FileWriter(filename);
+        for(Boolean[] line: cases){
+            myWriter.write(Arrays.toString(line) + "\n");
+        }
+        myWriter.close();
+        //System.out.println("Fin écriture !");
+        return filename;
+    }
+
     private String exportIndividus() throws IOException {
         SimpleDateFormat date = new SimpleDateFormat ("dd-MM-yyyy" );
         SimpleDateFormat heure = new SimpleDateFormat ("hh-mm");
