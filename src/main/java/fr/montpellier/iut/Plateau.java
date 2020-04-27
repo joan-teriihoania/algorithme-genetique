@@ -47,7 +47,7 @@ public class Plateau {
         return new ArrayList<>(selectedIndividus);
     }
 
-    public String run(int nbCycles) throws IOException {
+    public void run(int nbCycles) throws IOException {
         double nb_selected_individus = individus.size()*0.3;
         Individu individu_croisement;
         long index = 0;
@@ -78,7 +78,6 @@ public class Plateau {
             //long percentage = index * 100 / nbCycles;
         }
         System.out.print("[STATUS] Simulation terminée\n");
-        return exportIndividus();
     }
 
     public ArrayList<Individu> bestIndividus(){
@@ -370,7 +369,7 @@ public class Plateau {
         }
     }
 
-    private String exportIndividus() throws IOException {
+    public String getTimeFilename(){
         SimpleDateFormat date = new SimpleDateFormat ("dd-MM-yyyy" );
         SimpleDateFormat heure = new SimpleDateFormat ("hh-mm");
 
@@ -379,7 +378,71 @@ public class Plateau {
         String dateString = date.format(today);
         String heureString = heure.format(today);
 
-        String filename = "result/d" + dateString + "_h" + heureString + "_result.txt";
+        return "d" + dateString + "_h" + heureString + "_result.txt";
+    }
+
+    public void exportPlateau() throws  IOException{
+        String filename = "plateau/" + getTimeFilename();
+
+        this.createTxtFile(filename); //en cours de test
+
+        FileWriter myWriter = new FileWriter(filename);
+        myWriter.write("X" + x + "\n");
+        myWriter.write("Y" + y + "\n");
+        for(Boolean[] line: cases){
+            myWriter.write(
+                    Arrays.toString(line)
+                            .replace("true", "1")
+                            .replace("false", "0")
+                            .replace("[", "")
+                            .replace("]", "") +
+                            "\n");
+        }
+        myWriter.close();
+        //System.out.println("Fin écriture !");
+    }
+
+    public Plateau importPlateau(String fileName){
+        try{
+            InputStream flux=new FileInputStream("plateau/" + fileName);
+            InputStreamReader lecture=new InputStreamReader(flux);
+            BufferedReader buff=new BufferedReader(lecture);
+            String ligne;
+            ArrayList<Boolean[]> all_cases = new ArrayList<>();
+            while ((ligne=buff.readLine())!=null){
+                if (ligne.charAt(0) == 'X'){
+                    x = Integer.parseInt(ligne.substring(1));
+                } else if (ligne.charAt(0) == 'Y'){
+                    y = Integer.parseInt(ligne.substring(1));
+                } else {
+                    ligne = ligne.replace(" ", "");
+                    String[] ligne_array = ligne.split(",");
+                    Boolean[] ligne_bool = new Boolean[ligne_array.length];
+                    for (int i = 0; i < ligne_array.length; i++) {
+                        if (ligne_array[i].equals("1")) {
+                            ligne_bool[i] = true;
+                        } else {
+                            ligne_bool[i] = false;
+                        }
+                    }
+                    all_cases.add(Arrays.copyOf(ligne_bool, ligne_bool.length));
+                }
+            }
+
+            for(int i = 0;i < all_cases.size() ; i++){
+                cases[i] = Arrays.copyOf(all_cases.get(i), all_cases.get(i).length);
+            }
+            System.out.println(map());
+            buff.close();
+        }
+        catch (Exception e){
+            System.out.println(e.toString());
+        }
+        return this;
+    }
+
+    private void exportIndividus() throws IOException {
+        String filename = "result/" + getTimeFilename();
 
 
         this.createTxtFile(filename); //en cours de test
@@ -394,7 +457,6 @@ public class Plateau {
         }
         myWriter.close();
         //System.out.println("Fin écriture !");
-        return filename;
     }
 
     public void importIndividus(String fileName){
