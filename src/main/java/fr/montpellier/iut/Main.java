@@ -43,7 +43,7 @@ public class Main {
             plateau.importIndividus(fileName);
         } else {
             int nbIndividus = Input.getInputInt("Entrez le nombre d'individu(s) à générer");
-            plateau = new Plateau(10, 10, 5, nbIndividus);
+            plateau = new Plateau(12, 10, 6, nbIndividus);
         }
 
         int nbCycles = Input.getInputInt("Entrez le nombre de cycle à générer");
