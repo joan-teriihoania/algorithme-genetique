@@ -153,6 +153,11 @@ public class Individu {
             if (this.plateau.caseHasPiece(y, x) && !visited_coor[x][y]){
                 capital = capital+3;
             }
+
+            /*if(visited_coor[x][y]) {
+                capital--;
+            }*/
+
             visited_coor[x][y] = true;
         }
         return capital;
