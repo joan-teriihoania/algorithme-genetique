@@ -6,7 +6,7 @@ public class Individu {
 
     static private int autoIncrement = 1;
     static private String[] possibleMove = {"H", "B", "G", "D"};
-    static private double mutate_chance = 0.05;
+    static private double mutateChance = 0.05;
 
     private int id;
     private String[] moves;
@@ -56,7 +56,7 @@ public class Individu {
         double ran;
         for (int i = 0;i < moves.length;i++){
             ran = new Random().nextDouble();
-            if(ran<mutate_chance){
+            if(ran<mutateChance){
 
                 String[] save_moves = new String[moves.length];
                 System.arraycopy(moves, 0, save_moves, 0, moves.length);
@@ -182,7 +182,7 @@ public class Individu {
     }
 
     public static void setMutationChance(double mutate_chance) {
-        Individu.mutate_chance = mutate_chance;
+        Individu.mutateChance = mutate_chance;
     }
 
     @Override
