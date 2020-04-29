@@ -112,11 +112,11 @@ public class Individu {
 
         int x = this.plateau.getX();
         int y = this.plateau.getY();
-        int capital = 0;
+        int score = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
         if (this.plateau.caseHasPiece(x, y)){
-            capital = capital + 3;
+            score = score + 3;
         }
 
         visited_coor[x][y] = true;
@@ -125,37 +125,37 @@ public class Individu {
                 if(this.plateau.caseExist(x, y-1)){
                     y--;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if(move.equals("B")) {
                 if(this.plateau.caseExist(x, y+1)){
                     y++;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if (move.equals("G")) {
                 if(this.plateau.caseExist(x-1, y)){
                     x--;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if (move.equals("D")){
                 if(this.plateau.caseExist(x+1, y)){
                     x++;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
 
             if (this.plateau.caseHasPiece(y, x) && !visited_coor[x][y]){
-                capital = capital+3;
+                score = score+3;
             }
             visited_coor[x][y] = true;
         }
-        return capital;
+        return score;
     }
 
     private String[] getRandomMoves(int n, Plateau plateau){
