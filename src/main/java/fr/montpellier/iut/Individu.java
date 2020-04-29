@@ -102,6 +102,10 @@ public class Individu {
     }
 
     public int evaluate(){
+        return evaluate("score");
+    }
+
+    public int evaluate(String mode){
         // Initialise visited cases map
         Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
         for (int i = 0;i < visited_coor.length;i++){
@@ -113,10 +117,12 @@ public class Individu {
         int x = this.plateau.getX();
         int y = this.plateau.getY();
         int score = 0;
+        int nbPiece = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
         if (this.plateau.caseHasPiece(x, y)){
             score = score + 3;
+            nbPiece++;
         }
 
         visited_coor[x][y] = true;
@@ -151,10 +157,13 @@ public class Individu {
             }
 
             if (this.plateau.caseHasPiece(y, x) && !visited_coor[x][y]){
+                nbPiece++;
                 score = score+3;
             }
             visited_coor[x][y] = true;
         }
+        if(mode.equals("score")) return score;
+        if(mode.equals("nbPiece")) return nbPiece;
         return score;
     }
 
