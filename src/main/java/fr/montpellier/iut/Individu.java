@@ -11,6 +11,7 @@ public class Individu {
     private int id;
     private String[] moves;
     private Plateau plateau;
+    private int pieceCollecte;
 
 
     @Override
@@ -113,6 +114,7 @@ public class Individu {
         int x = this.plateau.getX();
         int y = this.plateau.getY();
         int capital = 0;
+        pieceCollecte = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
         if (this.plateau.caseHasPiece(x, y)){
@@ -152,6 +154,7 @@ public class Individu {
 
             if (this.plateau.caseHasPiece(y, x) && !visited_coor[x][y]){
                 capital = capital+3;
+                pieceCollecte++;
             }
             visited_coor[x][y] = true;
         }
