@@ -11,7 +11,6 @@ public class Individu {
     private int id;
     private String[] moves;
     private Plateau plateau;
-    private int pieceCollecte;
 
 
     @Override
@@ -103,6 +102,10 @@ public class Individu {
     }
 
     public int evaluate(){
+        return evaluate("score");
+    }
+
+    public int evaluate(String mode){
         // Initialise visited cases map
         Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
         for (int i = 0;i < visited_coor.length;i++){
@@ -113,12 +116,13 @@ public class Individu {
 
         int x = this.plateau.getX();
         int y = this.plateau.getY();
-        int capital = 0;
-        pieceCollecte = 0;
+        int score = 0;
+        int nbPiece = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
         if (this.plateau.caseHasPiece(x, y)){
-            capital = capital + 3;
+            score = score + 3;
+            nbPiece++;
         }
 
         visited_coor[x][y] = true;
@@ -127,38 +131,40 @@ public class Individu {
                 if(this.plateau.caseExist(x, y-1)){
                     y--;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if(move.equals("B")) {
                 if(this.plateau.caseExist(x, y+1)){
                     y++;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if (move.equals("G")) {
                 if(this.plateau.caseExist(x-1, y)){
                     x--;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if (move.equals("D")){
                 if(this.plateau.caseExist(x+1, y)){
                     x++;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
 
             if (this.plateau.caseHasPiece(y, x) && !visited_coor[x][y]){
-                capital = capital+3;
-                pieceCollecte++;
+                nbPiece++;
+                score = score+3;
             }
             visited_coor[x][y] = true;
         }
-        return capital;
+        if(mode.equals("score")) return score;
+        if(mode.equals("nbPiece")) return nbPiece;
+        return score;
     }
 
     private String[] getRandomMoves(int n, Plateau plateau){
