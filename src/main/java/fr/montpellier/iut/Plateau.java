@@ -50,9 +50,13 @@ public class Plateau {
     public void run(int nbCycles) throws IOException {
         double nb_selected_individus = individus.size()*0.3;
         Individu individu_croisement;
-        long index = 0;
+        String display = "";
+
         for (int i = 0;i < nbCycles ; i++){
-            index++;
+            if(i % 100 == 0){
+                display += "Moyenne = " + moyenne() + " - Meilleur = " + bestIndividus(1).get(0).evaluate() + "\n";
+            }
+
             ArrayList<Individu> selected_individus;
             selected_individus = selectIndividus((int)nb_selected_individus);
             // We select the best individuals
@@ -78,6 +82,15 @@ public class Plateau {
             //long percentage = index * 100 / nbCycles;
         }
         System.out.print("[STATUS] Simulation terminée\n");
+        System.out.println(display);
+    }
+
+    public double moyenne() {
+        double moyenne = 0.0;
+        for (Individu individu: individus){
+            moyenne += individu.evaluate();
+        }
+        return (moyenne / individus.size());
     }
 
     public ArrayList<Individu> bestIndividus(){
