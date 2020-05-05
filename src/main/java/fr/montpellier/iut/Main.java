@@ -13,10 +13,11 @@ public class Main {
         inputs();
     }
 
-    public static void inputs() throws IOException {
+    public static void inputs() throws IOException, InterruptedException {
         System.out.println("------------------------{Algorithme Génétique}------------------------");
-        Batch.run(Input.getInputInt("Entrez le nombre d'itération"));
+        //Batch.run(Input.getInputInt("Entrez le nombre d'itération"));
 
+        GUI.run();
         /*System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
         System.out.println(plateau.getX());

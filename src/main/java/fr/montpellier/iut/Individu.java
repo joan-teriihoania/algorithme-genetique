@@ -6,7 +6,7 @@ public class Individu {
 
     static private int autoIncrement = 1;
     static private String[] possibleMove = {"H", "B", "G", "D"};
-    static private double mutateChance = 0.05;
+    static private double mutate_chance = 0.05;
 
     private int id;
     private String[] moves;
@@ -56,7 +56,7 @@ public class Individu {
         double ran;
         for (int i = 0;i < moves.length;i++){
             ran = new Random().nextDouble();
-            if(ran<mutateChance){
+            if(ran<mutate_chance){
 
                 String[] save_moves = new String[moves.length];
                 System.arraycopy(moves, 0, save_moves, 0, moves.length);
@@ -92,7 +92,7 @@ public class Individu {
                     move_to_get = movesA;
                 }
 
-                for (int j = i; j < i + nb - 1; j++) {
+                for (int j = i; j < i + nb; j++) {
                     move_to_change[j] = move_to_get[j];
                 }
             }
@@ -102,6 +102,10 @@ public class Individu {
     }
 
     public int evaluate(){
+        return evaluate("nbPiece");
+    }
+
+    public int evaluate(String mode){
         // Initialise visited cases map
         Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
         for (int i = 0;i < visited_coor.length;i++){
@@ -112,11 +116,13 @@ public class Individu {
 
         int x = this.plateau.getX();
         int y = this.plateau.getY();
-        int capital = 0;
+        int score = 0;
+        int nbPiece = 0;
         // If case has piece and is not visited, add capital
         // If case has no piece or is visited, remove capital
-        if (this.plateau.caseHasPiece(y, x)){
-            capital = capital + 3;
+        if (this.plateau.caseHasPiece(x, y)){
+            score = score + 3;
+            nbPiece++;
         }
 
         visited_coor[x][y] = true;
@@ -125,42 +131,40 @@ public class Individu {
                 if(this.plateau.caseExist(x, y-1)){
                     y--;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if(move.equals("B")) {
                 if(this.plateau.caseExist(x, y+1)){
                     y++;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if (move.equals("G")) {
                 if(this.plateau.caseExist(x-1, y)){
                     x--;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
             if (move.equals("D")){
                 if(this.plateau.caseExist(x+1, y)){
                     x++;
                 } else {
-                    capital = capital - 5;
+                    score = score - 5;
                 }
             }
 
             if (this.plateau.caseHasPiece(y, x) && !visited_coor[x][y]){
-                capital = capital+3;
+                nbPiece++;
+                score = score+3;
             }
-
-            /*if(visited_coor[x][y]) {
-                capital--;
-            }*/
-
             visited_coor[x][y] = true;
         }
-        return capital;
+        if(mode.equals("score")) return score;
+        if(mode.equals("nbPiece")) return nbPiece;
+        return score;
     }
 
     private String[] getRandomMoves(int n, Plateau plateau){
@@ -182,7 +186,7 @@ public class Individu {
     }
 
     public static void setMutationChance(double mutate_chance) {
-        Individu.mutateChance = mutate_chance;
+        Individu.mutate_chance = mutate_chance;
     }
 
     @Override
