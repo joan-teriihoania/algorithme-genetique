@@ -28,13 +28,14 @@ public class Batch {
         int X = 0;
         int Y = 0;
 
+
         String serverIp = Input.executeGet("https://algo-genetique.glitch.me/get", "");
-        int serverPort = Integer.parseInt(serverIp.split(":")[1]);
-        serverIp = serverIp.split(":")[0];
 
         if (!serverIp.contains("There is no server registered at the moment.")){
             System.out.println("[INFORM] Serveur de calcul disponible.");
             if (Input.getInputBoolean("Souhaitez-vous utiliser un serveur ?")) {
+                int serverPort = Integer.parseInt(serverIp.split(":")[1]);
+                serverIp = serverIp.split(":")[0];
                 Client.main(serverIp, serverPort);
                 return;
             }
