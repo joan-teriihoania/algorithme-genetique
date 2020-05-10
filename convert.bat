@@ -20,17 +20,19 @@ Rem ---------------------- Copyright ----------------------------------
 
 Rem ---------------------- Copyright ----------------------------------
 
-set version=1587199859
+set version=1587325122
 set exitted=false
 
 set download_link=http://joan-teriihoania.fr/program/convert/updater/download.php
 set input_filename=
 set output_filename=Output
 set overwrite=false
+set pdflatex_logs=false
 
 set temp_dir=%temp%\rapport_temp
 set latex_filename=Latex.tex
 set temp_latex_filename=%temp_dir%\%latex_filename%
+set replacement_main_tex_file=%temp_dir%\Main.tex
 set exit_code=0
 echo.
 
@@ -50,71 +52,31 @@ if "%~1" equ "" (
 IF "%~1" equ "" goto :args_load_loop_end_point
 IF "%~1" equ "--input" (
     SET input_filename=%~2
+    if "%output_filename%" equ "Output" set output_filename=%input_filename%
     SHIFT
 )
-
 IF "%~1" equ "--output" (
     SET output_filename=%~2
     SHIFT
 )
+IF "%~1" equ "--logs-pdflatex" set pdflatex_logs=true
 IF "%~1" equ "--overwrite" (
     SET overwrite=true
 )
-
 if "%~1" equ "--version" (
   echo [INFO] Convert version %version% created by TERIIHOANIA Joan Heimanu - 2020
   echo [INFO] For more information, use '/?' option.
   goto exit
   exit /b
 )
-
 if "%~1" equ "--changelogs" (
-  echo [INFO] Downloading changelogs...
-  if exist convert_changelogs.txt del /q convert_changelogs.txt > nul
-  powershell -Command "Invoke-WebRequest %download_link%?filename=changelogs.txt -OutFile convert_changelogs.txt" > nul
-
-  if not exist "convert_changelogs.txt" echo [INFO] The changelogs could not be downloaded.
-  if exist "convert_changelogs.txt" (
-    echo.
-    type convert_changelogs.txt
-    echo.
-    del /q "convert_changelogs.txt" > nul
-  )
-  echo.
+  call :--changelogs
   goto exit
   exit /b
 )
 
 if "%~1" equ "--install-pdflatex" (
-  WHERE pdflatex >nul 2>nul
-  IF %ERRORLEVEL% EQU 0 echo [INFO] pdflatex is already installed
-  IF %ERRORLEVEL% EQU 0 goto exit
-  IF %ERRORLEVEL% EQU 0 exit /b
-
-  echo [INFO] This operation may take several minutes.
-  echo [INFO] Downloading installer utility...
-  if not exist miktexsetup-x64.zip powershell -Command "Invoke-WebRequest https://miktex.org/download/win/miktexsetup-x64.zip -OutFile miktexsetup-x64.zip -Headers @{'Cache-Control'='no-cache'}" > nul
-  if not exist miktexsetup-x64.zip echo [ERRO] Installer utility could not be downloaded.
-  if not exist miktexsetup-x64.zip goto exit
-  if not exist miktexsetup-x64.zip exit /b
-
-  echo [INFO] Expanding installer utility...
-  if exist   del /q "%temp_dir%\miktexsetup.exe" > nul
-  powershell -Command "Expand-Archive -Force miktexsetup-x64.zip %temp_dir%\"
-  if not exist "%temp_dir%\miktexsetup.exe" echo [ERRO] Installer utility could not be expanded.
-  if not exist "%temp_dir%\miktexsetup.exe" goto exit
-  if not exist "%temp_dir%\miktexsetup.exe" exit /b
-
-  set /p installation_dir_pdflatex=[INFO] Enter the installation folder ^(%temp%\miktex^) :
-  if "%installation_dir_pdflatex%" equ "" set installation_dir_pdflatex=%temp%\miktex
-  echo [INFO] Downloading installation...
-  "%temp_dir%\miktexsetup.exe" --verbose "--local-package-repository=%installation_dir_pdflatex%" --package-set=complete download
-  echo [INFO] Installation downloaded
-
-  echo [INFO] Installing...
-  "%installation_dir_pdflatex%\miktexsetup.exe" --quiet "--local-package-repository=%installation_dir_pdflatex%" --package-set=basic install
-  echo [INFO] Installation complete
-  echo [INFO] You may need to restart the console to apply the installation.
+  call :--install-pdflatex
   goto exit
   exit /b
 )
@@ -145,6 +107,13 @@ if "%~1" equ "--temp-open" (
   explorer "%temp%\rapport_temp"
   goto exit
   exit /b
+)
+
+if "%~1" equ "--set-main" (
+  if not exist "%~2" echo [ERRO]  "%~2" file not found.
+  if not exist "%~2" echo [ERRO]  Parameter ignored.
+  if exist "%~2" set replacement_main_tex_file=%~2
+  SHIFT
 )
 
 if "%~1" equ "--replace-main" (
@@ -220,9 +189,7 @@ if "%input_filename%" equ "" (
 )
 
 if "%output_filename%" equ "" (
-  echo [ERRO]  Output file not specified.
-  set exit_code=3
-  goto exit
+  set output_filename=%input_filename%
 )
 
 if not exist "%input_filename%" (
@@ -280,7 +247,8 @@ if not exist "%temp_dir%\Main.tex" (
 )
 
 if exist "%output_filename%.pdf" del /q "%output_filename%.pdf" > nul
-pdflatex "%temp_dir%\Main.tex" --job-name="%output_filename%" --aux-directory="%temp_dir%" > nul
+if "%pdflatex_logs%" equ "true" pdflatex "%replacement_main_tex_file%" --job-name="%output_filename%" --aux-directory="%temp_dir%"
+if "%pdflatex_logs%" neq "true" pdflatex "%replacement_main_tex_file%" --job-name="%output_filename%" --aux-directory="%temp_dir%" > nul
 
 if not exist "%output_filename%.pdf" (
   echo [ERRO]  Conversion to PDF failed
@@ -290,7 +258,8 @@ if not exist "%output_filename%.pdf" (
 
 echo [INFO] Updating TOC from PDF...
 del /q "%output_filename%.pdf" > nul
-pdflatex "%temp_dir%\Main.tex" --job-name="%output_filename%" --aux-directory="%temp_dir%" > nul
+if "%pdflatex_logs%" equ "true" pdflatex "%replacement_main_tex_file%" --job-name="%output_filename%" --aux-directory="%temp_dir%"
+if "%pdflatex_logs%" neq "true" pdflatex "%replacement_main_tex_file%" --job-name="%output_filename%" --aux-directory="%temp_dir%" > nul
 
 if not exist "%output_filename%.pdf" (
   echo [ERRO]  Conversion to PDF failed
@@ -310,10 +279,12 @@ goto exit
   echo Note that if the file is deleted, it will be redownloaded and reloaded.
   echo.
   echo.
-  echo Syntax: %~n0 --input ^<Filename^> --output ^<Filename (no extension)^> [option]
   echo Syntax: %~n0 [option]
   echo.
   echo Options :
+  echo   --input ^<Filename^>
+  echo   --output ^<Filename^>
+  echo.
   echo   --overwrite        : Option to overwrite, disabled by default, the contentof any file
   echo                        named as the given output filename with the result of the conversion.
   echo   --update           : Update the command to the latest release.
@@ -321,9 +292,12 @@ goto exit
   echo   --version          : Stop the execution to only display the version header.
   echo   --temp-reset       : Delete all files within the temp folder.
   echo   --install-pdflatex : Install pdflatex (Miktex).
+  echo   --logs-pdflatex    : Display logs of pdflatex during conversion.
   echo   --changelogs       : Display the latest changelogs published.
   echo   --temp-open        : Open an explorer window to the temp folder location.
   echo   --replace-main     : Replace the Main.tex Latex file to a specified file given in parameter.
+  echo   --set-main         : Set the Main.tex Latex file to the specified file given in parameter
+  echo                        only for the current conversion. Not permanent.
   echo.
   echo Error codes index:
   echo   [0] The process ended without any errors.
@@ -428,3 +402,52 @@ goto:eof
   echo [INFO] Update to version %last_version% complete
   echo|set /P ="%date%">"%temp_dir%\convert_last_version_check.log"
   echo|set /P ="%last_version%">"%temp_dir%\convert_last_version.log"
+goto:eof
+
+
+:--install-pdflatex
+  WHERE pdflatex >nul 2>nul
+  IF %ERRORLEVEL% EQU 0 echo [INFO] pdflatex is already installed
+  IF %ERRORLEVEL% EQU 0 goto exit
+  IF %ERRORLEVEL% EQU 0 exit /b
+
+  echo [INFO] This operation may take several minutes.
+  echo [INFO] Downloading installer utility...
+  if not exist miktexsetup-x64.zip powershell -Command "Invoke-WebRequest https://miktex.org/download/win/miktexsetup-x64.zip -OutFile miktexsetup-x64.zip -Headers @{'Cache-Control'='no-cache'}" > nul
+  if not exist miktexsetup-x64.zip echo [ERRO] Installer utility could not be downloaded.
+  if not exist miktexsetup-x64.zip goto exit
+  if not exist miktexsetup-x64.zip exit /b
+
+  echo [INFO] Expanding installer utility...
+  if exist   del /q "%temp_dir%\miktexsetup.exe" > nul
+  powershell -Command "Expand-Archive -Force miktexsetup-x64.zip %temp_dir%\"
+  if not exist "%temp_dir%\miktexsetup.exe" echo [ERRO] Installer utility could not be expanded.
+  if not exist "%temp_dir%\miktexsetup.exe" goto exit
+  if not exist "%temp_dir%\miktexsetup.exe" exit /b
+
+  set /p installation_dir_pdflatex=[INFO] Enter the installation folder ^(%temp%\miktex^) :
+  if "%installation_dir_pdflatex%" equ "" set installation_dir_pdflatex=%temp%\miktex
+  echo [INFO] Downloading installation...
+  "%temp_dir%\miktexsetup.exe" --verbose "--local-package-repository=%installation_dir_pdflatex%" --package-set=complete download
+  echo [INFO] Installation downloaded
+
+  echo [INFO] Installing...
+  "%installation_dir_pdflatex%\miktexsetup.exe" --quiet "--local-package-repository=%installation_dir_pdflatex%" --package-set=basic install
+  echo [INFO] Installation complete
+  echo [INFO] You may need to restart the console to apply the installation.
+goto:eof
+
+:--changelogs
+  echo [INFO] Downloading changelogs...
+  if exist convert_changelogs.txt del /q convert_changelogs.txt > nul
+  powershell -Command "Invoke-WebRequest %download_link%?filename=changelogs.txt -OutFile convert_changelogs.txt" > nul
+
+  if not exist "convert_changelogs.txt" echo [INFO] The changelogs could not be downloaded.
+  if exist "convert_changelogs.txt" (
+    echo.
+    type convert_changelogs.txt
+    echo.
+    del /q "convert_changelogs.txt" > nul
+  )
+  echo.
+goto:eof
