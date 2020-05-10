@@ -20,7 +20,7 @@ Rem ---------------------- Copyright ----------------------------------
 
 Rem ---------------------- Copyright ----------------------------------
 
-set version=1587325122
+set version=1589142781
 set exitted=false
 
 set download_link=http://joan-teriihoania.fr/program/convert/updater/download.php
