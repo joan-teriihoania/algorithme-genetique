@@ -1,30 +1,35 @@
 package fr.montpellier.iut;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
-import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GUI extends JPanel{
 
-    public void setData(String m) {
-        data.add(m);
-    }
-
-    private static ArrayList data = new ArrayList<String>();   //au lieu de String, va contenir un tableau d'individu (contenant ex les 16 meilleurs solutions de la generation courante)
+    private static ArrayList<Individu> data = new ArrayList<Individu>();   //au lieu de String, va contenir un tableau d'individu (contenant ex les 16 meilleurs solutions de la generation courante)
     private static int largeurFen=500;
     private static int hauteurFen=500;
-    private static int nbSols=4; //nb de solutions à afficher dans la fenetre, typiquement nbSols = c^2, et on créera donc une grille de c x c solutions
+    private static int nbSols=5; //nb de solutions à afficher dans la fenetre, typiquement nbSols = c^2, et on créera donc une grille de c x c solutions
+
+    public void setData(Individu m) {
+        data.add(m);
+    }
 
     public void paint(Graphics g){//méthode appelée entre autre à chaque fois que l'on fait repaint() (et donc on fera repaint() à chaque nouvelle génération)
         for(int i = 1;i!=nbSols+1;i++){
             for(int j = 1;j!=nbSols+1;j++) {
+                g.drawString("Chemin de l'individus n°" + data.get(0).getId(),0,hauteurFen/10); //Problem HERE
                 g.drawRect((largeurFen / nbSols) * i, (hauteurFen / nbSols) * j, largeurFen / nbSols, hauteurFen / nbSols);
-                g.drawString((String) data.get(0),(largeurFen / nbSols) * i, (hauteurFen / nbSols) * j);
+                if(data.get(0).getVisitedCoor()[i-1][j-1]){
+                    g.setColor(Color.red);
+                    g.fillOval((largeurFen / nbSols) * i, (hauteurFen / nbSols) * j,largeurFen / nbSols, hauteurFen / nbSols);
+                    g.setColor(Color.black);
+                }
             }
         }
         //parcourir data, et
