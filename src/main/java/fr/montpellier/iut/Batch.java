@@ -56,7 +56,7 @@ public class Batch {
                 e.printStackTrace();
             }
             String fileName = Input.getInputFilename("Entrez le nom du fichier de stockage", "plateau");
-            Plateau temp = new Plateau(10, 5).importPlateau(fileName);
+            Plateau temp = new Plateau(50, 20).importPlateau(fileName);
             forcePlateau = Arrays.copyOf(temp.getCases(), temp.getCases().length);
             X = temp.getX();
             Y = temp.getY();
@@ -78,12 +78,12 @@ public class Batch {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                plateau = new Plateau(10, 5);
+                plateau = new Plateau(50, 20);
                 String fileName = Input.getInputFilename("Entrez le nom du fichier de stockage", "banque_de_donnees");
                 plateau.importIndividus(fileName);
             } else {
                 int nbIndividus = Input.getInputInt("Entrez le nombre d'individu(s) à générer");
-                plateau = new Plateau(10, 10, 5, nbIndividus);
+                plateau = new Plateau(50, 50, 20, nbIndividus);
             }
 
             int nbCycles = Input.getInputInt("Entrez le nombre de cycle à générer");

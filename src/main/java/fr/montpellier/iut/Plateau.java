@@ -70,7 +70,7 @@ public class Plateau {
                     individu_croisement = selected_individus.get(j);
                 }
 
-                selected_individus.get(j).croiser(individu_croisement);
+                selected_individus.get(j).croiser(individu_croisement,3);
                 selected_individus.get(j).muter();
                 individu_croisement.muter();
                 individus.add(selected_individus.get(j));
