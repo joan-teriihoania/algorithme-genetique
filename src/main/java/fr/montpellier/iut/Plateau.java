@@ -218,6 +218,14 @@ public class Plateau {
                 }
                 map.append("\n");
             }
+            GUI gui = new GUI();
+            gui.setData(map.toString());
+            try {
+                GUI.run();
+            }
+            catch (InterruptedException e) {    //surrounding
+                e.printStackTrace();
+            }
             return map;
         }
         else{
