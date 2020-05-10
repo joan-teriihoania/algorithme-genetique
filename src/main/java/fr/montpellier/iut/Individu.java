@@ -11,6 +11,7 @@ public class Individu {
     private int id;
     private String[] moves;
     private Plateau plateau;
+    private Boolean[][] visited_coor;
 
 
     @Override
@@ -30,6 +31,8 @@ public class Individu {
         this.moves = getRandomMoves(plateau.getPas(), plateau);
         this.id = autoIncrement;
         autoIncrement++;
+        visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
+        evaluate();
 
     }
 
@@ -42,10 +45,6 @@ public class Individu {
         this.moves = moves;
         this.id = autoIncrement;
         autoIncrement++;
-    }
-
-    public static<T> T[] subArray(T[] array, int beg, int end) {
-        return Arrays.copyOfRange(array, beg, end + 1);
     }
 
     public int getId() {
@@ -107,7 +106,6 @@ public class Individu {
 
     public int evaluate(String mode){
         // Initialise visited cases map
-        Boolean[][] visited_coor = new Boolean[this.plateau.getSize()][this.plateau.getSize()];
         for (int i = 0;i < visited_coor.length;i++){
             for (int j = 0;j < visited_coor.length;j++){
                 visited_coor[i][j] = false;
@@ -162,9 +160,14 @@ public class Individu {
             }
             visited_coor[x][y] = true;
         }
+
         if(mode.equals("score")) return score;
         if(mode.equals("nbPiece")) return nbPiece;
         return score;
+    }
+
+    public Boolean[][] getVisitedCoor(){
+        return visited_coor;
     }
 
     private String[] getRandomMoves(int n, Plateau plateau){
