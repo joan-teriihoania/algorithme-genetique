@@ -13,14 +13,15 @@ public class Main {
         inputs();
     }
 
-    public static void inputs() throws IOException {
+    public static void inputs() throws IOException, InterruptedException {
         System.out.println("------------------------{Algorithme Génétique}------------------------");
         Batch.run(Input.getInputInt("Entrez le nombre d'itération"));
 
-        /*System.out.println(plateau.bestIndividus(3));
+        Plateau plateau = new Plateau(5,5);
+        System.out.println(plateau.bestIndividus(3));
         System.out.println(plateau.map());
         System.out.println(plateau.getX());
-        System.out.println(plateau.getY());*/
+        System.out.println(plateau.getY());
     }
 }
 
