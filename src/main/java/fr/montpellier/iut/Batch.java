@@ -1,11 +1,14 @@
 package fr.montpellier.iut;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,6 +27,19 @@ public class Batch {
         Boolean[][] forcePlateau = {};
         int X = 0;
         int Y = 0;
+
+        String serverIp = Input.executeGet("https://algo-genetique.glitch.me/get", "");
+        int serverPort = Integer.parseInt(serverIp.split(":")[1]);
+        serverIp = serverIp.split(":")[0];
+
+        if (!serverIp.contains("There is no server registered at the moment.")){
+            System.out.println("[INFORM] Serveur de calcul disponible.");
+            if (Input.getInputBoolean("Souhaitez-vous utiliser un serveur ?")) {
+                Client.main(serverIp, serverPort);
+                return;
+            }
+        }
+
         if (Input.getInputBoolean("Souhaitez-vous importer un plateau ?")) {
             try (Stream<Path> walk = Files.walk(Paths.get("plateau"))) {
 
