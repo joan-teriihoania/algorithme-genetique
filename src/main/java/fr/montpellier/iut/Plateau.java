@@ -81,6 +81,13 @@ public class Plateau {
             }
             //long percentage = index * 100 / nbCycles;
         }
+        GUI gui = new GUI();
+        gui.setData(bestIndividus(1).get(0));
+        try {
+            GUI.run();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.print("[STATUS] Simulation terminée\n");
         System.out.println(display);
     }

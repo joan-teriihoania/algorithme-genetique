@@ -1,6 +1,10 @@
 package fr.montpellier.iut;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Scanner;
 
 public class Input {
@@ -56,5 +60,14 @@ public class Input {
         Scanner sc = new Scanner(System.in);
         toreturn = sc.nextDouble();
         return toreturn;
+    }
+
+    public static String executeGet(String targetURL, String urlParameters) throws IOException {
+        URLConnection connection = new URL(targetURL + "?" + urlParameters).openConnection();
+        connection.setRequestProperty("Accept-Charset", "UTF-8");
+        InputStream response = connection.getInputStream();
+        try (Scanner scanner = new Scanner(response)) {
+            return scanner.useDelimiter("\\A").next();
+        }
     }
 }
