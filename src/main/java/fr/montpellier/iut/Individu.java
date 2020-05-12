@@ -92,7 +92,9 @@ public class Individu {
                 }
 
                 for (int j = i; j < i + nb; j++) {
-                    move_to_change[j] = move_to_get[j];
+                    if(j < move_to_change.length) {
+                        move_to_change[j] = move_to_get[j];
+                    }
                 }
             }
 
