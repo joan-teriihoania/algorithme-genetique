@@ -138,6 +138,7 @@ Les relations des classes peuvent être exprimées avec le schéma suivant :
 Au début du projet, il avait été jugé opportun de créer une classe intermédiaire qui se chargerait du contrôle de chaque étape de vérification : `Mouvement`. Mais après réflexion, la création de cette classe rendait la classe `Individu` inutile, étant donné que presque toutes, si ce n'est toutes, les méthodes de `Individu` appelaient les méthodes de `Mouvement`. Il est donc préférable de se tenir aux deux classes ci-dessus pour le moment.
 
 
+# Manuel
 
 
 
