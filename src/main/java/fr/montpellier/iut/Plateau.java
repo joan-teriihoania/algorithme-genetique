@@ -50,11 +50,14 @@ public class Plateau {
     public void run(int nbCycles) throws IOException {
         double nb_selected_individus = individus.size()*0.3;
         Individu individu_croisement;
+        ArrayList<Double> table_moyenne = new ArrayList<>();
+        ArrayList<Double> table_evaluate = new ArrayList<>();
         String display = "";
 
         for (int i = 0;i < nbCycles ; i++){
-            if(i % 100 == 0){
-                display += "Moyenne = " + moyenne() + " - Meilleur = " + bestIndividus(1).get(0).evaluate() + "\n";
+            if(i % 10 == 0){
+                table_moyenne.add(moyenne());
+                table_evaluate.add(bestIndividus(1).get(0).evaluate() * 1.0);
             }
 
             ArrayList<Individu> selected_individus;
@@ -84,6 +87,8 @@ public class Plateau {
         GUI gui = new GUI();
         gui.setPlateau(this);
         gui.setAllData(bestIndividus());
+        gui.setAllEvaluate(table_evaluate);
+        gui.setAllMoyenne(table_moyenne);
         try {
             GUI.run();
         } catch (InterruptedException e) {
@@ -372,6 +377,12 @@ public class Plateau {
     public Boolean caseHasPiece(int x, int y){
         if (!caseExist(x, y)){return false;}
         return cases[x][y];
+    }
+
+    public Boolean caseIsBeginning(int x, int y){
+        if (!caseExist(x, y)){return false;}
+        if (this.x == x && this.y == y){return true;}
+        return false;
     }
 
     private void createTxtFile(String filename){
