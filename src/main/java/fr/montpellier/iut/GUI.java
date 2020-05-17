@@ -2,6 +2,7 @@ package fr.montpellier.iut;
 
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -12,26 +13,132 @@ import javax.swing.JPanel;
 public class GUI extends JPanel{
 
     private static ArrayList<Individu> data = new ArrayList<Individu>();   //au lieu de String, va contenir un tableau d'individu (contenant ex les 16 meilleurs solutions de la generation courante)
-    private static int largeurFen=500;
-    private static int hauteurFen=500;
-    private static int nbSols=5; //nb de solutions à afficher dans la fenetre, typiquement nbSols = c^2, et on créera donc une grille de c x c solutions
+    private static ArrayList<Double> table_moyenne = new ArrayList<>();
+    private static ArrayList<Double> table_evaluate = new ArrayList<>();
+
+    private static Plateau plateau;
+    private static int largeurFen=750;
+    private static int hauteurFen=750;
+    private static int nbSols=2; //nb de solutions à afficher dans la fenetre, typiquement nbSols = c^2, et on créera donc une grille de c x c solutions
 
     public void setData(Individu m) {
         data.add(m);
     }
 
-    public void paint(Graphics g){//méthode appelée entre autre à chaque fois que l'on fait repaint() (et donc on fera repaint() à chaque nouvelle génération)
-        for(int i = 1;i!=nbSols+1;i++){
-            for(int j = 1;j!=nbSols+1;j++) {
-                g.drawString("Chemin de l'individus n°" + data.get(0).getId(),0,hauteurFen/10); //Problem HERE
-                g.drawRect((largeurFen / nbSols) * i, (hauteurFen / nbSols) * j, largeurFen / nbSols, hauteurFen / nbSols);
-                if(data.get(0).getVisitedCoor()[i-1][j-1]){
-                    g.setColor(Color.red);
-                    g.fillOval((largeurFen / nbSols) * i, (hauteurFen / nbSols) * j,largeurFen / nbSols, hauteurFen / nbSols);
+    public void setPlateau(Plateau p){plateau = p;}
+
+    public void setAllData(ArrayList<Individu> m){data.addAll(m);}
+    public void setAllMoyenne(ArrayList<Double> m){table_moyenne.addAll(m);}
+    public void setAllEvaluate(ArrayList<Double> m){table_evaluate.addAll(m);}
+
+    public void paint(Graphics g) {//méthode appelée entre autre à chaque fois que l'on fait repaint() (et donc on fera repaint() à chaque nouvelle génération)
+        int plateauSize = plateau.getSize();
+        int sizeCase = largeurFen / (nbSols + 1);
+        int sizeInnerCase = sizeCase / plateauSize;
+
+        int margin = sizeInnerCase * 2;
+        int x = margin;
+        int y = margin;
+
+        for (Individu individu : data) {
+            if (y > hauteurFen - (sizeCase + sizeInnerCase * 2)) {
+                break;
+            }
+
+            Boolean[][] visited = individu.getVisitedCoor();
+            int ix = 0;
+            int iy = 0;
+            for (int i = 0; i < plateauSize; i++) {
+                for (int j = 0; j < plateauSize; j++) {
+                    ix = x + (i * sizeInnerCase);
+                    iy = y + (j * sizeInnerCase);
+
                     g.setColor(Color.black);
+                    g.drawRect(ix, iy, sizeInnerCase, sizeInnerCase);
+
+                    if (visited[i][j]) {
+                        g.setColor(Color.green);
+                        int innerMarginPiece = (int) Math.round(sizeInnerCase * 0.05);
+                        g.fillRect(ix + innerMarginPiece, iy + innerMarginPiece, sizeInnerCase - innerMarginPiece * 2, sizeInnerCase - innerMarginPiece * 2);
+                    }
+
+                    if (plateau.caseHasPiece(j, i)) {
+                        if (visited[i][j]) {
+                            g.setColor(Color.blue);
+                        } else {
+                            g.setColor(Color.red);
+                        }
+                        int innerMarginPiece = (int) Math.round(sizeInnerCase * 0.2);
+                        g.fillRect(ix + innerMarginPiece, iy + innerMarginPiece, sizeInnerCase - innerMarginPiece * 2, sizeInnerCase - innerMarginPiece * 2);
+                    }
+
+                    if (plateau.caseIsBeginning(i, j)){
+                        g.setColor(Color.orange);
+                        int innerMarginPiece = (int) Math.round(sizeInnerCase * 0.2);
+                        g.fillOval(ix + innerMarginPiece, iy + innerMarginPiece, sizeInnerCase - innerMarginPiece * 2, sizeInnerCase - innerMarginPiece * 2);
+                    }
                 }
             }
+
+            drawStringCentered(g, "Individu " + individu.getId() + " (Score: "+individu.evaluate()+")", x, y - sizeInnerCase / 2, sizeCase);
+            x += sizeCase + sizeInnerCase * 2;
+            if (x > largeurFen - (sizeCase + sizeInnerCase * 2)) {
+                x = margin;
+                y += sizeCase + sizeInnerCase * 2;
+            }
         }
+
+        x = (sizeCase + sizeInnerCase * 2) * nbSols + margin;
+        y = margin;
+        int width = getWidth() - x - sizeInnerCase * 2;
+        int height = getHeight() - margin * 2;
+        int timeStep = width / table_moyenne.size();
+        int bottom = y + height;
+
+        double maxMoyenne = Collections.max(table_moyenne);
+        double maxEvaluate = Collections.max(table_evaluate);
+        double maxGraph = Math.max(maxEvaluate, maxMoyenne);
+
+        double minMoyenne = Collections.min(table_moyenne);
+        double minEvaluate = Collections.min(table_evaluate);
+        double minGraph = Math.min(minEvaluate, minMoyenne);
+
+        double betweenGraph = maxGraph - minGraph;
+
+        g.setColor(Color.black);
+        g.drawRect(x, y, ((table_evaluate.size() - 1) * timeStep + 1), height);
+        g.drawString("Max: " + maxGraph, x + sizeInnerCase / 2, y - sizeInnerCase / 2);
+        g.drawString("Min: " + minGraph, x + sizeInnerCase / 2, y + height + sizeInnerCase);
+
+        int tableIndex = 0;
+        Color[] tablesColor = new Color[]{Color.blue, Color.green};
+        ArrayList<ArrayList<Double>> tables = new ArrayList<>();
+        tables.add(table_evaluate);
+        tables.add(table_moyenne);
+
+        for (ArrayList<Double> table : tables){
+            int dx = x;
+            int dy = bottom;
+            int prevLineX = -1;
+            int prevLineY = -1;
+            for (Double moyenne : table) {
+                dy = bottom - (int) (((moyenne - minMoyenne) / (maxGraph - minMoyenne)) * height);
+                dy = Math.min(dy, bottom);
+
+                g.setColor(Color.black);
+                //g.drawString("" + moyenne, dx, dy - sizeInnerCase/2);
+
+                g.setColor(tablesColor[tableIndex]);
+                //g.fillRect(dx, dy, 5, 5);
+
+                if(prevLineX >= 0 && prevLineY >= 0) g.drawLine(prevLineX, prevLineY, dx, dy);
+                prevLineX = dx;
+                prevLineY = dy;
+                dx += timeStep;
+            }
+            tableIndex++;
+        }
+
         //parcourir data, et
         //    pour chaque Individu ind = data[i],
         //      faire ind.dessine(g,largeurFen,hauteuFen,nbSols,i);
@@ -39,11 +146,35 @@ public class GUI extends JPanel{
         //    qui correspond à son indice :
     }
 
+    private void drawStringCentered(Graphics g, String string, int x, int y, int width){
+        g.setColor(Color.black);
+        g.drawString(string, x + getXCoordinateCentered(g, string, width),y);
+    }
+
+    private int getXCoordinateCentered(Graphics g, String string, int width) {
+        String message2 = string;
+        int stringWidth = 0;
+        int stringAccent = 0;
+        int xCoordinate = 0;
+        int yCoordinate = 0;
+        // get the FontMetrics for the current font
+        FontMetrics fm = g.getFontMetrics();
+
+
+        /** display new message */
+        /** Centering the text */
+        // find the center location to display
+        stringWidth = fm.stringWidth(message2);
+        // get the position of the leftmost character in the baseline
+        xCoordinate = width / 2 - stringWidth / 2;
+        return xCoordinate;
+    }
+
     public static void run() throws InterruptedException{
         JFrame frame= new JFrame("Generation");
         GUI m = new GUI();
         frame.getContentPane().add(m);
-        frame.setSize(largeurFen+(largeurFen/nbSols)*2, hauteurFen+(hauteurFen/nbSols)*2);
+        frame.setSize(largeurFen + 200, hauteurFen);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
