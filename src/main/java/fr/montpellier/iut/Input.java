@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Input {
@@ -47,18 +48,34 @@ public class Input {
     }
 
     public static int getInputInt(String string) {
-        int toreturn;
-        System.out.print("[ENTREE] " + string + " : ");
-        Scanner sc = new Scanner(System.in);
-        toreturn = sc.nextInt();
+        int toreturn = 0;
+        boolean valid = false;
+        while(!valid) {
+            try {
+                System.out.print("[ENTREE] " + string + " : ");
+                Scanner sc = new Scanner(System.in);
+                toreturn = sc.nextInt();
+                valid = true;
+            } catch (InputMismatchException e) {
+                System.out.println("[ERREUR] La valeur spécifiée n'est pas un entier.");
+            }
+        }
         return toreturn;
     }
 
     public static double getInputDouble(String string) {
-        double toreturn;
-        System.out.print("[ENTREE] " + string + " : ");
-        Scanner sc = new Scanner(System.in);
-        toreturn = sc.nextDouble();
+        double toreturn = 0.0;
+        boolean valid = false;
+        while(!valid) {
+            try {
+                System.out.print("[ENTREE] " + string + " : ");
+                Scanner sc = new Scanner(System.in);
+                toreturn = sc.nextDouble();
+                valid = true;
+            } catch (InputMismatchException e) {
+                System.out.println("[ERREUR] La valeur spécifiée n'est pas un entier.");
+            }
+        }
         return toreturn;
     }
 
