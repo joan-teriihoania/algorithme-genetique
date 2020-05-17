@@ -111,6 +111,30 @@ Chacun *individu* sera évalué et obtiendra un capital d'évaluation ou `valeur
  - Le sanctionnement paar un score `-1`. *Qui aura pour effet de rendre les individus concernés moins efficients. De plus, ils ne seront pas écartés de la sélection.*
  - Aucun sanctionnement. *En effet, selon notre méthode d'évaluation, le score des individus est retiré du **nombre de pas**. Ceci est en soit une sanction, étant donné qu'un mouvement dans un mur équivaut à un pas perdu que l'individu n'utilisera pas pour obtenir une pièce.*
 
+## Analyse Fonctionnelle
+
+![](.ressources/Diagramme_pieuvre_analyse_fonctionnelle.PNG)
+
+**FP1 :** L'utilisateur doit pouvoir avoir accès aux résultats stockés à la fin d'une simulation.
+
+**FP2 :** L’utilisateur doit pouvoir modifier les paramètres de la simulation.
+
+**FP3 :** L’utilisateur doit pouvoir donner un plateau.
+
+**FP4 :** L’utilisateur doit pouvoir donner un ensemble d’individus à tester.
+
+**FC1 :** Récupérer un ensemble d’individus.
+
+**FC2 :** Retourner le ou les individu(s) solution(s).
+
+**FC3 :** Afficher graphiquement le ou les individu(s) solution(s) à l'utilisateur.
+
+**FC4 :** Stocker le ou les individu(s) solution(s) dans un fichier texte nommé en fonction de la date et de l’heure.
+
+**FC5 :** Modifier les paramètres de la simulation.
+
+**FC6 :** Récupérer un plateau.
+
 ## Architecture du code
 
 L'architecture du code se base sur la logique orientée objet du langage Java qui sera utilisé pour le développement de l'algorithme génétique. Afin de rendre la structure du code générale à toute sorte d'application de l'algorithme, il sera opportun d'utiliser des classes **abstraites** ou des **interfaces** (vues en cours de *Programmation orientée objet*) et l'intégration des fonctions essentielles à l'exécution de l'algorithme.
