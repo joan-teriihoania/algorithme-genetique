@@ -28,8 +28,12 @@ public class Batch {
         int X = 0;
         int Y = 0;
 
+        int nbPieces = 50;
+        int nbPas = 50;
+        int size = 20;
 
-        String serverIp = Input.executeGet("https://algo-genetique.glitch.me/get", "");
+
+        /*String serverIp = Input.executeGet("https://algo-genetique.glitch.me/get", "");
 
         if (!serverIp.contains("There is no server registered at the moment.")){
             System.out.println("[INFORM] Serveur de calcul disponible.");
@@ -39,7 +43,7 @@ public class Batch {
                 Client.main(serverIp, serverPort);
                 return;
             }
-        }
+        }*/
 
         if (Input.getInputBoolean("Souhaitez-vous importer un plateau ?")) {
             try (Stream<Path> walk = Files.walk(Paths.get("plateau"))) {
@@ -56,7 +60,7 @@ public class Batch {
                 e.printStackTrace();
             }
             String fileName = Input.getInputFilename("Entrez le nom du fichier de stockage", "plateau");
-            Plateau temp = new Plateau(50, 20).importPlateau(fileName);
+            Plateau temp = new Plateau(nbPieces, size).importPlateau(fileName);
             forcePlateau = Arrays.copyOf(temp.getCases(), temp.getCases().length);
             X = temp.getX();
             Y = temp.getY();
@@ -78,12 +82,12 @@ public class Batch {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                plateau = new Plateau(50, 20);
+                plateau = new Plateau(nbPieces, size);
                 String fileName = Input.getInputFilename("Entrez le nom du fichier de stockage", "banque_de_donnees");
                 plateau.importIndividus(fileName);
             } else {
                 int nbIndividus = Input.getInputInt("Entrez le nombre d'individu(s) à générer");
-                plateau = new Plateau(50, 50, 20, nbIndividus);
+                plateau = new Plateau(nbPas, nbPieces, size, nbIndividus);
             }
 
             int nbCycles = Input.getInputInt("Entrez le nombre de cycle à générer");
