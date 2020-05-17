@@ -82,7 +82,8 @@ public class Plateau {
             //long percentage = index * 100 / nbCycles;
         }
         GUI gui = new GUI();
-        gui.setData(bestIndividus(1).get(0));
+        gui.setPlateau(this);
+        gui.setAllData(bestIndividus());
         try {
             GUI.run();
         } catch (InterruptedException e) {
@@ -449,14 +450,18 @@ public class Plateau {
                 }
             }
 
+            cases = new Boolean[all_cases.size()][all_cases.size()];
             for(int i = 0;i < all_cases.size() ; i++){
                 cases[i] = Arrays.copyOf(all_cases.get(i), all_cases.get(i).length);
             }
+
+
             System.out.println(map());
             buff.close();
-        }
-        catch (Exception e){
-            System.out.println(e.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return this;
     }
