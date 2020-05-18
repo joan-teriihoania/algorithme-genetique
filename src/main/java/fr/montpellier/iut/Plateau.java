@@ -1,7 +1,6 @@
 package fr.montpellier.iut;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -51,13 +50,43 @@ public class Plateau {
         double nb_selected_individus = individus.size()*0.3;
         Individu individu_croisement;
         ArrayList<Double> table_moyenne = new ArrayList<>();
-        ArrayList<Double> table_evaluate = new ArrayList<>();
+        ArrayList<Double> table_best = new ArrayList<>();
+        ArrayList<Double> table_worst = new ArrayList<>();
         String display = "";
 
+
+        GUI gui = new GUI();
+        gui.setPlateau(this);
+
+
+        ArrayList<Individu> bestIndividus = bestIndividus();
+        table_moyenne.add(moyenne());
+        table_best.add(bestIndividus.get(0).evaluate() * 1.0);
+        table_worst.add(bestIndividus.get(individus.size()-1).evaluate() * 1.0);
+
+        gui.setAllData(bestIndividus());
+        gui.setAllBest(table_best);
+        gui.setAllWorst(table_worst);
+        gui.setAllMoyenne(table_moyenne);
+
+        try {
+            GUI.run();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         for (int i = 0;i < nbCycles ; i++){
-            if(i % 50 == 0){
+            if(i % 100 == 0 || i == nbCycles-1){
+                bestIndividus = bestIndividus();
                 table_moyenne.add(moyenne());
-                table_evaluate.add(bestIndividus(1).get(0).evaluate() * 1.0);
+                table_best.add(bestIndividus.get(0).evaluate() * 1.0);
+                table_worst.add(bestIndividus.get(individus.size()-1).evaluate() * 1.0);
+
+                gui.setAllData(bestIndividus());
+                gui.setAllBest(table_best);
+                gui.setAllWorst(table_worst);
+                gui.setAllMoyenne(table_moyenne);
+                GUI.update("Génération n°" + (i+1) + "/" + nbCycles);
             }
 
             ArrayList<Individu> selected_individus;
@@ -83,16 +112,6 @@ public class Plateau {
 
             }
             //long percentage = index * 100 / nbCycles;
-        }
-        GUI gui = new GUI();
-        gui.setPlateau(this);
-        gui.setAllData(bestIndividus());
-        gui.setAllEvaluate(table_evaluate);
-        gui.setAllMoyenne(table_moyenne);
-        try {
-            GUI.run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         System.out.print("[STATUS] Simulation terminée\n");
         System.out.println(display);
@@ -121,7 +140,7 @@ public class Plateau {
         int max;
         Individu max_individu;
         max_individu = individus.get(0);
-        for (Individu individu: individus) {
+        for (Individu ignored: individus) {
             max = -999999;
             for (Individu individub: all_individus) {
                 if(individub.evaluate()>max){
@@ -137,9 +156,7 @@ public class Plateau {
             nb = sorted_individus.size();
         }
 
-        for (int i = 0;i < nb; i++) {
-            best_individus.add(sorted_individus.get(i));
-        }
+        best_individus.addAll(sorted_individus);
         return best_individus;
     }
 
