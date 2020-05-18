@@ -55,7 +55,7 @@ public class Plateau {
         String display = "";
 
         for (int i = 0;i < nbCycles ; i++){
-            if(i % 10 == 0){
+            if(i % 50 == 0){
                 table_moyenne.add(moyenne());
                 table_evaluate.add(bestIndividus(1).get(0).evaluate() * 1.0);
             }
