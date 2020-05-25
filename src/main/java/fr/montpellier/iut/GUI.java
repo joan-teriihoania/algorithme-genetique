@@ -1,8 +1,6 @@
 package fr.montpellier.iut;
 
 import java.awt.*;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -14,22 +12,41 @@ public class GUI extends JPanel{
 
     private static ArrayList<Individu> data = new ArrayList<Individu>();   //au lieu de String, va contenir un tableau d'individu (contenant ex les 16 meilleurs solutions de la generation courante)
     private static ArrayList<Double> table_moyenne = new ArrayList<>();
-    private static ArrayList<Double> table_evaluate = new ArrayList<>();
+    private static ArrayList<Double> table_best = new ArrayList<>();
+    private static ArrayList<Double> table_worst = new ArrayList<>();
+
+    private static JFrame frame;
 
     private static Plateau plateau;
     private static int largeurFen=750;
     private static int hauteurFen=750;
     private static int nbSols=2; //nb de solutions à afficher dans la fenetre, typiquement nbSols = c^2, et on créera donc une grille de c x c solutions
 
+    public void setPlateau(Plateau p){plateau = p;}
+
     public void setData(Individu m) {
         data.add(m);
     }
 
-    public void setPlateau(Plateau p){plateau = p;}
+    public void setAllData(ArrayList<Individu> m){
+        data.clear();
+        data.addAll(m);
+    }
 
-    public void setAllData(ArrayList<Individu> m){data.addAll(m);}
-    public void setAllMoyenne(ArrayList<Double> m){table_moyenne.addAll(m);}
-    public void setAllEvaluate(ArrayList<Double> m){table_evaluate.addAll(m);}
+    public void setAllMoyenne(ArrayList<Double> m){
+        table_moyenne.clear();
+        table_moyenne.addAll(m);
+    }
+
+    public void setAllBest(ArrayList<Double> m){
+        table_best.clear();
+        table_best.addAll(m);
+    }
+
+    public void setAllWorst(ArrayList<Double> m){
+        table_worst.clear();
+        table_worst.addAll(m);
+    }
 
     public void paint(Graphics g) {//méthode appelée entre autre à chaque fois que l'on fait repaint() (et donc on fera repaint() à chaque nouvelle génération)
         int plateauSize = plateau.getSize();
@@ -92,43 +109,46 @@ public class GUI extends JPanel{
         y = margin;
         int width = getWidth() - x - sizeInnerCase * 2;
         int height = getHeight() - margin * 2;
-        int timeStep = width / table_moyenne.size();
+        int timeStep = width / (table_moyenne.size() + 1);
         int bottom = y + height;
 
         double maxMoyenne = Collections.max(table_moyenne);
-        double maxEvaluate = Collections.max(table_evaluate);
-        double maxGraph = Math.max(maxEvaluate, maxMoyenne);
+        double maxBest = Collections.max(table_best);
+        double maxGraph = Math.max(maxBest, maxMoyenne);
 
         double minMoyenne = Collections.min(table_moyenne);
-        double minEvaluate = Collections.min(table_evaluate);
-        double minGraph = Math.min(minEvaluate, minMoyenne);
+        double minWorst = Collections.min(table_worst);
+        double minGraph = Math.min(minWorst, minMoyenne);
 
         double betweenGraph = maxGraph - minGraph;
 
         g.setColor(Color.black);
-        g.drawRect(x, y, ((table_evaluate.size() - 1) * timeStep + 1), height);
+        g.drawRect(x, y, ((table_best.size() - 1) * timeStep + 1), height);
         g.drawString("Max: " + maxGraph, x + sizeInnerCase / 2, y - sizeInnerCase / 2);
         g.drawString("Min: " + minGraph, x + sizeInnerCase / 2, y + height + sizeInnerCase);
 
         int tableIndex = 0;
-        Color[] tablesColor = new Color[]{Color.blue, Color.green};
+        Color[] tablesColor = new Color[]{Color.green, Color.orange, Color.red};
         ArrayList<ArrayList<Double>> tables = new ArrayList<>();
-        tables.add(table_evaluate);
+        tables.add(table_best);
         tables.add(table_moyenne);
+        tables.add(table_worst);
 
         for (ArrayList<Double> table : tables){
             int dx = x;
             int dy = bottom;
             int prevLineX = -1;
             int prevLineY = -1;
-            for (Double moyenne : table) {
-                dy = bottom - (int) (((moyenne - minMoyenne) / (maxGraph - minMoyenne)) * height);
+            for (Double value : table) {
+                dy = bottom - (int) (((value - minGraph) / (maxGraph - minGraph)) * height);
                 dy = Math.min(dy, bottom);
 
                 g.setColor(Color.black);
-                //g.drawString("" + moyenne, dx, dy - sizeInnerCase/2);
+                // Affichage des moyennes
+                //g.drawString("" + value, dx, dy - sizeInnerCase/2);
 
                 g.setColor(tablesColor[tableIndex]);
+                // Affichage de points
                 //g.fillRect(dx, dy, 5, 5);
 
                 if(prevLineX >= 0 && prevLineY >= 0) g.drawLine(prevLineX, prevLineY, dx, dy);
@@ -171,7 +191,7 @@ public class GUI extends JPanel{
     }
 
     public static void run() throws InterruptedException{
-        JFrame frame= new JFrame("Generation");
+        frame= new JFrame("Generation");
         GUI m = new GUI();
         frame.getContentPane().add(m);
         frame.setSize(largeurFen + 200, hauteurFen);
@@ -181,5 +201,14 @@ public class GUI extends JPanel{
         TimeUnit.SECONDS.sleep(1);
         frame.repaint();
         //ici, une des options du main lancera un calcul, et à chaque generation (qui sera stockée dans data), on fera frame.repaint();
+    }
+
+    public static void update(){
+        update("Génération");
+    }
+
+    public static void update(String title){
+        frame.repaint();
+        frame.setTitle(title);
     }
 }
