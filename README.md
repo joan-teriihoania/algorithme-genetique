@@ -52,7 +52,7 @@ Nous pouvons représenter ce schéma de réalisation par le suivant :
 
 Il est important de garder en tête que l'algorithme et toutes les phases qui le composent, notamment les phases de sélection, mutation et croisement, doivent être optimisés. Etant donné qu'un algorithme génétique se base sur une population avec un nombre élevé pour avoir un résultat adéquat.
 
-> **Important :** Afin de préserver un potentiel d'évolutivité, l'algorithme ne doit ni être eugéniste (_[Eugénisme](https://fr.wikipedia.org/wiki/Eug%C3%A9nisme)_) ni élitiste. Les individus de la population, qu'ils soient faiblement ou moyennement évalués ne doivent pas être supprimés pour conserver une certaine diversité au sein de la population et éviter une stagnation. Par la même occasion, la sélection des individus à croiser et muter ne doit pas totalement ignorer les individus faiblement ou moyennement évalués.
+**Important :** Afin de préserver un potentiel d'évolutivité, l'algorithme ne doit ni être eugéniste (_[Eugénisme](https://fr.wikipedia.org/wiki/Eug%C3%A9nisme)_) ni élitiste. Les individus de la population, qu'ils soient faiblement ou moyennement évalués ne doivent pas être supprimés pour conserver une certaine diversité au sein de la population et éviter une stagnation. Par la même occasion, la sélection des individus à croiser et muter ne doit pas totalement ignorer les individus faiblement ou moyennement évalués.
 
 \newpage
 
@@ -139,7 +139,6 @@ Afin de mieux visualiser les fonctionnalités du programme. Nous avons réalisé
 
 ## Architecture du code
 
-
 L'architecture du code se base sur la logique orientée objet du langage Java qui sera utilisé pour le développement de l'algorithme génétique.
 La relation entre les objets `Individus` avec leur `Plateau` se base sur un modèle de responsabilité `MEDIATOR`. La classe Plateau englobant les Individus dans une liste de manière individuelle et les rend indépendants les uns des autres.
 Au niveau des modèles de construction, Individus se base sur un modèle `BUILDER`, sa construction ayant lieu au niveau du Plateau et ce dernier étant instancié et construit dans la classe Batch (ou celle de l'utilisateur).
@@ -152,6 +151,13 @@ Les relations des classes peuvent être exprimées avec le schéma suivant :
 ![](.ressources/Diagramme_de_classes.PNG)
 
 Au début du projet, il avait été jugé opportun de créer une classe intermédiaire qui se chargerait du contrôle de chaque étape de vérification : `Mouvement`. Mais après réflexion, la création de cette classe rendait la classe `Individu` inutile, étant donné que presque toutes, si ce n'est toutes, les méthodes de `Individu` appelaient les méthodes de `Mouvement`. Il est donc préférable de se tenir aux deux classes ci-dessus pour le moment.
+
+
+## Manuel d'utilisation
+
+Cette production a été développée et testée dans un environnement Windows 10 sous Java 11 avec l'application IntelliJ IDEA. Aucun autre environnement n'a encore été testé.
+Pour exécuter cet algorithme, compilé les classes contenues dans le dossier `src/main/java/fr/montpellier/iut` puis exécuté la classe Main. Un utilitaire d'exécution
+de simulation s'affichera, il ne vous restera plus qu'à suivre les instructions.
 
 # Gestion de projet
 
@@ -180,11 +186,27 @@ Au départ du projet, nous avons débuté le code en créant des dossiers sépar
 
 Utilisation du logiciel de cartographie mentale et de gestion de projet **MindView** afin de répartir éfficacement les taches tout le long du projet.
 
-Ci dessous le diagramme GANTT permettant de visualiser les différentes étapes de notre projet :
+Ci-dessous le diagramme GANTT permettant de visualiser les différentes étapes de notre projet :
 
-**ICI METTRE DIAGRAMME GANTT**
+# Conclusion
+Nous avons réussi à produire une application basée sur le concept d'algorithmie génétique afin de tenter de résoudre le cas concret décrit ci-dessus.
+Malheureusement, les résultats obtenus sont loins d'être ceux escomptés. En outre, nous obtenions un résultat qui rendait l'utilisation d'un algorithme
+génétique peu pertinent par rapport à une résolution algorithmique conventionnelle voir même une résolution à la main.
 
-# Manuel
+Le très grand nombre de paramètres modifiables et de phases influants sur le résultat de la simulation peut être la cause de ces mauvais résultats.
+
+En effet, le résultat de la simulation pouvait différer drastiquement avec une modification mineure des variables (*phases et paramètres*)
+montrant une très haute sensibilité du résultat par par rapport à ces dernières.
+Nous avons sous-estimé la recherche des paramètres optimaux et n'avons par conséquent pas attribué assez de temps à cette partie.
+
+Néanmoins, nous estimons que ce projet et cette expérience nous a permis d'acquérir des connaissances et des compétences clés de l'algorithmie génétique.
+Non seulement afin de développer un esprit d'observation et de réflexion aux différents aspects inhérents à ce concept, mais également nous a mis en face
+de la difficulté à obtenir un résultat satisfaisant escompté au début du projet.
+
+Nous avons également pu abordé la programmation d'une interface graphique, chose que nous n'avons pas pu voir durant notre formation.
+Ce projet nous a permis de mettre en pratique les compétences de programmation orientée objet (*structures de données : HashSet* pour l'optimisation)
+et surtout d'avoir une première expérience concrète avec les logiciels de versionning (Github) et de collaboration (Floobits).
+
 
 # Bibliographie
 
