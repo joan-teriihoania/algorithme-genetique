@@ -47,7 +47,7 @@ ses "gènes" `G` à un individu `b` fils de la génération à l'instant `t+1` e
 
 Nous pouvons représenter ce schéma de réalisation par le suivant :
 
-![](.ressources/algo_gen_scheme.png)
+![](.ressources/algo_gen_scheme.PNG)
 
 
 Il est important de garder en tête que l'algorithme et toutes les phases qui le composent, notamment les phases de sélection, mutation et croisement, doivent être optimisés. Etant donné qu'un algorithme génétique se base sur une population avec un nombre élevé pour avoir un résultat adéquat.
