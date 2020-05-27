@@ -18,31 +18,39 @@ Au travers de ce document, des termes et expressions cliquables sont disponibles
 
 Dans ce projet, nous produirons un algorithme génétique et étudierons les résultats obtenus afin d'en mesurer la pertinence. Dans cette optique, nous partirons d'un cas établi afin d'en déduire des observations par rapport aux résultats attendus et obtenus. Observations qui nous permettront de mesurer l'utilité d'un algorithme génétique.
 
-L'algorithme génétique n'est pas un algorithme en soit, mais un modèle permettant de mimer le concept d'évolution génétique par génération. Il permet de créer pour un problème donné une solution correspondante la plus optimale possible en s'adaptant à l'environnement fourni.
+L'algorithme génétique n'est pas un algorithme en soit, mais un modèle de conception permettant de mimer le concept d'évolution génétique par génération pour résoudre un problème.
+Il permet de créer pour un problème donné une solution correspondante la plus optimale possible en s'adaptant à l'environnement fourni.
 
 **L'objectif de ce projet est** d'une première part, d'instancier le principe des algorithmes génétiques sur un nouveau problème. D'une seconde part, d'ajuster les paramètres de cet algorithme afin d'obtenir la meilleure solution possible.
 
-Enfin, à partir de nos observations, d'**étudier** la pertinence de l'utilisation d'un algorithme génétique pour la résolution d'un problème donné au regard des résultats obtenus. _Est-ce qu'une résolution à la main ou via un algorithme classique donne de meilleurs résultats au regard de sa simplicité et du temps requis à son implantation ?_
+Le choix des paramètres de la simulation, du nombre d'individus générés et du nombre de cycle notamment, sont des facteurs importants. Leur choix permet d'obtenir un ratio coût-résultat idéal. Un trop grand nombre d'individus et de cycles peut rallonger la durée de calcul inutilement. Un trop faible nombre peut produire des individus qui ne sont pas assez performants.
 
-Dans un environnement déterminé surnommé `problème`, des individus surnommés `solutions` sont confrontés afin de déterminer lequel, selon des critères donnés, a le plus de valeur et sera sélectionné pour l'environnement confronté à le surmonter. Pour un problème établi, nous émettons des "_hypothèses_" de solutions qui, au fur et à mesure de la simulation, établiront selon leur évaluation leur efficacité à résoudre le problème édicté. _On peut considérer que la solution de chaque individu est un gène `G` qui leur est inné et qu'ils peuvent transmettre, croiser et muter_.
+Enfin, à partir de nos observations, d'**étudier** la pertinence de l'utilisation d'un algorithme génétique pour la résolution d'un problème donné au regard des résultats obtenus. _Est-ce qu'une résolution à la main ou via un algorithme classique donne de meilleurs résultats au regard de sa simplicité et du temps requis à son implantation ?_
 
 Cette situation, bien que relativement simple, peut avoir des applications variées. Qu'il s'agisse d'une simulation naturelle ou d'un environnement économique où les individus sont des entreprises pour en déterminer le comportement le plus efficient pour, par exemple, un résultat lucratif maximal.
 
-Il est important de garder en tête que l'algorithme et toutes les phases qui le composent, notamment les phases de sélection, mutation et croisement, doivent être optimisés. Etant donné qu'un algorithme génétique se base sur une population avec un nombre élevé pour avoir un résultat adéquat.
-
-Le choix des paramètres de la simulation, du nombre d'individus générés et du nombre de cycle notamment, sont des facteurs importants. Leur choix permet d'obtenir un ratio coût-résultat idéal. Un trop grand nombre d'individus et de cycles peut rallonger la durée de calcul inutilement. Un trop faible nombre peut produire des individus qui ne sont pas assez performants.
-
-**Ajouter annonce du plan ici**
+En premier lieu, nous allons expliquer les bases générales et le fonctionnement d'un algorithme génétique, par la suite, nous expliquerons la production d'un algorithme
+génétique pour un cas concret. Nous étudierons ses besoins, ses spécificités et fonctionnalités. Enfin, nous conclurons par les diverses méthodes de gestion
+utilisée dans le cadre de la production de cet algorithme.
 
 # Cahier des charges
 
 ## Principe général
 
-L'algorithme génétique se base sur une évolution par sélection naturelle. Le principe de _[sélection naturelle](https://fr.wikipedia.org/wiki/S%C3%A9lection_naturelle)_ est basé sur la théorie de _[Darwin](https://fr.wikipedia.org/wiki/Charles_Darwin)_. Ce principe repose sur la base d'une valeur sélective définie à chaque individu parmi une masse plus ou moins difforme pour obtenir, sur une période donnée, une souche détenant les paramètres les mieux adaptés à un environnement sélectionné sur des critères d'évaluation déterminés. L'individu `a` faisant parti d'une population d'une génération à un instant `t` et pouvant passer ses "gènes" `G` à un individu `b` fils de la génération à l'instant `t+1` en passant par une phase d'évaluation, sélection, croisement, mutation puis réinsertion.
+Dans un environnement (`problème`), des individus (`solutions`) sont confrontés afin de déterminer lequel a le plus de valeur.
+_On peut considérer que la solution de chaque individu est un gène `G` qui leur est inné et qu'ils peuvent transmettre, croiser et muter_.
+
+L'algorithme génétique se base sur une évolution par sélection naturelle. Le principe de _[sélection naturelle](https://fr.wikipedia.org/wiki/S%C3%A9lection_naturelle)_ est basé sur la théorie de _[Darwin](https://fr.wikipedia.org/wiki/Charles_Darwin)_. Ce principe repose sur la base d'une valeur sélective
+définie à chaque individu parmi une masse plus ou moins difforme pour obtenir, sur une période donnée, une souche détenant les paramètres les mieux adaptés à un
+environnement sélectionné sur des critères d'évaluation déterminés. L'individu `a` faisant parti d'une population d'une génération à un instant `t` et pouvant passer
+ses "gènes" `G` à un individu `b` fils de la génération à l'instant `t+1` en passant par une phase d'évaluation, sélection, croisement, mutation puis réinsertion.
 
 Nous pouvons représenter ce schéma de réalisation par le suivant :
 
 ![](.ressources/algo_gen_scheme.png)
+
+
+Il est important de garder en tête que l'algorithme et toutes les phases qui le composent, notamment les phases de sélection, mutation et croisement, doivent être optimisés. Etant donné qu'un algorithme génétique se base sur une population avec un nombre élevé pour avoir un résultat adéquat.
 
 > **Important :** Afin de préserver un potentiel d'évolutivité, l'algorithme ne doit ni être eugéniste (_[Eugénisme](https://fr.wikipedia.org/wiki/Eug%C3%A9nisme)_) ni élitiste. Les individus de la population, qu'ils soient faiblement ou moyennement évalués ne doivent pas être supprimés pour conserver une certaine diversité au sein de la population et éviter une stagnation. Par la même occasion, la sélection des individus à croiser et muter ne doit pas totalement ignorer les individus faiblement ou moyennement évalués.
 
@@ -53,7 +61,7 @@ Nous pouvons représenter ce schéma de réalisation par le suivant :
 L'algorithme sélectionne un certain nombre d'individu (ou part de la population définie) arbitrairement. Les individus sélectionnés subiront les phases suivantes de croisement et mutation. La façon dont les individus sont sélectionnés peut varier :
 
 1. **Sélection aléatoire simple** : On sélectionne les individus de manière totalement aléatoire. Elle permet d'obtenir une sélection difforme et variée et d'ainsi varier les individus qui suivront.
-2. **Sélection aléatoire pondérée** : On attribue à chaque individu une `valeur sélective` puis, en se basant sur celle-ci, on sélectionne les individus de manière aléatoire. Aussi, un individu dont la valeur est plus élevée aura plus de chance d'être sélectionné. _Il est important de garder en tête que l'algorithme ne doit pas être "sur-sélectif". Il n'est donc pas pertinent de rendre la valeur des individus les moins évalués nulle afin de leur donner une chance d'être sélectionné, évoluer et éventuellement s'améliorer._ Elle permet d'obtenir une sélection difforme et variée tout en privilégiant les gènes les plus efficients sans ignorer les autres.
+2. **Sélection aléatoire pondérée** : On attribue à chaque individu une `valeur sélective` (calculée par la fonction d'évaluation) puis, en se basant sur celle-ci, on sélectionne les individus de manière aléatoire. Aussi, un individu dont la valeur est plus élevée aura plus de chance d'être sélectionné. _Il est important de garder en tête que l'algorithme ne doit pas être "sur-sélectif". Il n'est donc pas pertinent de rendre la valeur des individus les moins évalués nulle afin de leur donner une chance d'être sélectionné, évoluer et éventuellement s'améliorer._ Elle permet d'obtenir une sélection difforme et variée tout en privilégiant les gènes les plus efficients sans ignorer les autres.
 
 > **Note :** La méthode de sélection peut différer en fonction du résultat escompté. On privilégiera dans ce projet la méthode de **sélection aléatoire pondérée**.
 
@@ -75,8 +83,6 @@ Les méthodes de croisement d'individus existent sous plusieurs formes :
 ### Mutation
 
 La population résultant de la phase de croisement est alors soumise à la phase de mutation. Durant cette dernière, chaque élément (ou partie) de leur gène a la possibilité de muter (_Les chances de mutation sont par usage très faibles dans les alentours de 0.05%_) en un autre gène déterminé aléatoirement. Cette phase a pour but de donner une chance d'évolution et de diversification à la population.
-
-## Application
 
 # Rapport technique
 
@@ -133,8 +139,10 @@ Afin de mieux visualiser les fonctionnalités du programme. Nous avons réalisé
 
 ## Architecture du code
 
-L'architecture du code se base sur la logique orientée objet du langage Java qui sera utilisé pour le développement de l'algorithme génétique. Afin de rendre la structure du code générale à toute sorte d'application de l'algorithme, il sera opportun d'utiliser des classes **abstraites** ou des **interfaces** (vues en cours de _Programmation orientée objet_) et l'intégration des fonctions essentielles à l'exécution de l'algorithme.
-Visiblement, nous aurons besoin d'au moins deux classes pour l'environnement (`Plateau`) et l'individu (`Pion`). A partir de cette situation, il nous est possible d'identifier plusieurs classes permettant la réalisation de cet algorithme :
+
+L'architecture du code se base sur la logique orientée objet du langage Java qui sera utilisé pour le développement de l'algorithme génétique.
+La relation entre les objets `Individus` avec leur `Plateau` se base sur un modèle de responsabilité `MEDIATOR`. La classe Plateau englobant les Individus dans une liste de manière individuelle et les rend indépendants les uns des autres.
+Au niveau des modèles de construction, Individus se base sur un modèle `BUILDER`, sa construction ayant lieu au niveau du Plateau et ce dernier étant instancié et construit dans la classe Batch (ou celle de l'utilisateur).
 
 - `Plateau` ;
 - Et `Individu`.
@@ -174,7 +182,7 @@ Utilisation du logiciel de cartographie mentale et de gestion de projet **MindVi
 
 Ci dessous le diagramme GANTT permettant de visualiser les différentes étapes de notre projet :
 
-
+**ICI METTRE DIAGRAMME GANTT**
 
 # Manuel
 
