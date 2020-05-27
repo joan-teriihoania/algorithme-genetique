@@ -76,7 +76,7 @@ public class Plateau {
         }
 
         for (int i = 0;i < nbCycles ; i++){
-            if(i % 100 == 0 || i == nbCycles-1){
+            if(i % 50 == 0 || i == nbCycles-1){
                 bestIndividus = bestIndividus();
                 table_moyenne.add(moyenne());
                 table_best.add(bestIndividus.get(0).evaluate() * 1.0);
@@ -494,7 +494,7 @@ public class Plateau {
         return this;
     }
 
-    private void exportIndividus() throws IOException {
+    public void exportIndividus() throws IOException {
         String filename = "result/" + getTimeFilename();
 
 
