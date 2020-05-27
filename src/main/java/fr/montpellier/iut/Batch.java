@@ -106,6 +106,7 @@ public class Batch {
             }
 
             plateau.exportPlateau();
+            plateau.exportIndividus();
             System.out.println(plateau.map());
             for (int i = 0; i < iterations; i++) {
                 Plateau copy = new Plateau(plateau);
