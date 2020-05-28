@@ -19,14 +19,20 @@ public class MainTest {
         Individu ind1 = new Individu(plateau1);
         Individu ind2 = new Individu(plateau1);
 
-        //System.out.println(Arrays.toString(ind1.getMoves()));
-        //System.out.println(Arrays.toString(ind2.getMoves()));
+        System.out.println(Arrays.toString(ind1.getMoves()));
+        System.out.println(Arrays.toString(ind2.getMoves()));
 
         ind1.croiser(ind2, 5);
-        //System.out.println();
+        System.out.println();
 
-        //System.out.println(Arrays.toString(ind1.getMoves()));
-        //System.out.println(Arrays.toString(ind2.getMoves()));
+        System.out.println(Arrays.toString(ind1.getMoves()));
+        System.out.println(Arrays.toString(ind2.getMoves()));
+    }
+
+    @Test
+    public void select_test(){
+        Plateau plateau1 = new Plateau(30, 10, 10, 10);
+        assert(plateau1.selectIndividus(2).size() == 2);
     }
 
     @Test

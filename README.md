@@ -152,6 +152,7 @@ Les relations des classes peuvent être exprimées avec le schéma suivant :
 
 Au début du projet, il avait été jugé opportun de créer une classe intermédiaire qui se chargerait du contrôle de chaque étape de vérification : `Mouvement`. Mais après réflexion, la création de cette classe rendait la classe `Individu` inutile, étant donné que presque toutes, si ce n'est toutes, les méthodes de `Individu` appelaient les méthodes de `Mouvement`. Il est donc préférable de se tenir aux deux classes ci-dessus pour le moment.
 
+# Résultat
 
 ## Manuel d'utilisation
 
@@ -159,15 +160,74 @@ Cette production a été développée et testée dans un environnement Windows 1
 Pour exécuter cet algorithme, compilé les classes contenues dans le dossier `src/main/java/fr/montpellier/iut` puis exécuté la classe Main. Un utilitaire d'exécution
 de simulation s'affichera, il ne vous restera plus qu'à suivre les instructions.
 
+## Tests de validation
+
+Nous utilisons Junit pour exécuter les tests de validation ainsi que des méthodes conventionnelles d'affichage, au vu de l'imprévisibilité des résultats pour certaines parties et fonctionnalités
+intégrées au sein de l'algorithme.
+
+### Fonction de sélection
+```
+    @Test
+    public void select_test(){
+        Plateau plateau1 = new Plateau(30, 10, 10, 10);
+        assert(plateau1.selectIndividus(2).size() == 2);
+    }
+```
+
+### Fonction de croisement
+```
+    @Test
+    public void test(){
+        Individu ind1 = new Individu(plateau1);
+        Individu ind2 = new Individu(plateau1);
+
+        System.out.println(Arrays.toString(ind1.getMoves()));
+        System.out.println(Arrays.toString(ind2.getMoves()));
+
+        ind1.croiser(ind2, 5);
+        System.out.println();
+
+        System.out.println(Arrays.toString(ind1.getMoves()));
+        System.out.println(Arrays.toString(ind2.getMoves()));
+    }
+```
+
+### Fonction d'évaluation
+```
+    @Test
+    public void evaluate_test() throws IOException {
+        Boolean[][] cases = {
+                {false, true, true, true, false},
+                {false, false, true, false, false},
+                {false, false, true, false, false},
+                {false, false, true, false, false},
+                {false, true, true, false, false},
+        };
+        Plateau plateau = new Plateau(6, 10, 10, 3);
+        ArrayList<Individu> listIndividus = new ArrayList<>();
+
+        listIndividus.add(new Individu(new String[]{"B", "D", "D", "G", "D", "G"}, plateau));
+        listIndividus.add(new Individu(new String[]{"D", "D", "D", "B", "G", "B"}, plateau));
+
+        plateau.setIndividus(listIndividus);
+        plateau.setX(0);
+        plateau.setY(0);
+        plateau.setCases(cases);
+        plateau.run(1);
+        System.out.println(plateau.parcours());
+        if(plateau.getIndividus().get(0).evaluate() == 3) System.out.println("1 = c bon");
+        if(plateau.getIndividus().get(1).evaluate() == 15) System.out.println("2 = c bon");
+    }
+```
+
+
 # Gestion de projet
 
-## Démarche personnelle
-
-### Méthode de développement
+## Méthode de développement
 
 Nous avons opté pour la méthode agile qui se déroule sur une période bouclée d'une semaine. A la fin de chaque sprint, nous effectuons une réunion avec notre tuteur afin de discuter de nos avancées, des éventuelles modifications et améliorations à faire et de la suite du travail. Cette méthode de travail correspond à notre contexte de développement où nous développons dans le but d'observer un résultat plutôt que d'essayer d'obtenir un résultat. Ainsi, nous pouvons, afin nos observations, faire des modifications et réfléchir sur l'algorithme afin de l'améliorer.
 
-### Gestion du code
+## Gestion du code
 
 Qu'il s'agisse de la phase de versionning ou de travail collaboratif, plusieurs plateformes ont été utilisées afin de permettre un partage efficace du code. En outre, nous avons utilisé, utilisons ou avons tenté d'utiliser des applications telles que :
 
@@ -176,16 +236,13 @@ Qu'il s'agisse de la phase de versionning ou de travail collaboratif, plusieurs 
 
 Néanmoins, après avoir essayé la plateforme _Floobits_, nous avons observé que cette méthode de travail et de fonctionnement n'était pas adapté à notre méthode de fonctionnement et n'incluait pas un suivi d'historique des changements qu'offrait Github.
 
-Nous avons utilisé également un package implémenté dans Java dans notre code ou afin de tester l'application : _Junit_ pour produire des tests unitaires et vérifier le fonctionnement de nos méthodes et fonctions.
-
 Au départ du projet, nous avons débuté le code en créant des dossiers séparés au sein du dépôt afin de pouvoir créer une version de notre projet de manière individuelle. Après quelques semaines, nous avons rapidement conclus qu'il s'agissait d'une mauvaise idée, car menant à de trop grandes différences et un travail de synchronisation supplémentaire qui aurait pu être évité. Après cette conclusion, nous avons donc refactorisé le code dans une version unique et commune sur laquelle chaque membre aura des tâches à faire spécifiques, en profitant de cette refactorisation pour mettre en commun nos idées.
 
 Également afin d'obtenir un résultat visuel et attrayant pour notre interface nous avons utilisé les packages _JFrame_ (Pour la gestion des fenêtres) et _Jpanel_ (Afin de dessiner les solutions).
 
-### Gestion des taches
+## Gestion des taches
 
 Utilisation du logiciel de cartographie mentale et de gestion de projet **MindView** afin de répartir éfficacement les taches tout le long du projet.
-
 Ci-dessous le diagramme GANTT permettant de visualiser les différentes étapes de notre projet :
 
 # Conclusion
@@ -206,7 +263,6 @@ de la difficulté à obtenir un résultat satisfaisant escompté au début du pr
 Nous avons également pu abordé la programmation d'une interface graphique, chose que nous n'avons pas pu voir durant notre formation.
 Ce projet nous a permis de mettre en pratique les compétences de programmation orientée objet (*structures de données : HashSet* pour l'optimisation)
 et surtout d'avoir une première expérience concrète avec les logiciels de versionning (Github) et de collaboration (Floobits).
-
 
 # Bibliographie
 
