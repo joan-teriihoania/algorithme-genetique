@@ -270,8 +270,14 @@ Il est possible de coupler cet algorithme à un réseau de neurones artificiels 
 
 Quelques lectures peuvent être trouvées à ce sujet dont (en anglais) :
 
-- [_"Deep Learning with Darwin: Evolutionary Synthesis of Deep Neural Networks"_](https://arxiv.org/pdf/1606.04393.pdf) de M. J. Shafiee, A. Mishra et A. Wong;
-- [_"Evolutionary Robot Behaviors Based on Natural Selection and Neural Network"_](https://link.springer.com/chapter/10.1007/1-4020-8151-0_6) dans _Artificial Intelligence Applications and Innovations_ de M. Bramer et V. Devedzic;
-- [_"Evolving Neural Networks"_](https://home.fnal.gov/~souvik/Brain/index.html) et [_"A biology-inspired neural network evolving through natural
-  selection"_](https://home.fnal.gov/~souvik/Brain/BrainInWorld.pdf) de Souvik Das ;
-- Ou encore, un jeu de simulation [_"The Bibites"_](https://leocaussan.itch.io/the-bibites) développé par Léo Caussan dont le développement peut être suivi depuis sa chaîne [YouTube](https://www.youtube.com/channel/UCjJEUMnBFHOP2zpBc7vCnsA).
+[1] S. Das, « A biology-inspired neural network evolving through natural selection », p. 5.
+
+[2] « Artificial Intelligence: A Modern Approach ». http://aima.cs.berkeley.edu/ (consulté le févr. 28, 2020).
+
+[3] M. J. Shafiee, A. Mishra, et A. Wong, « Deep Learning with Darwin: Evolutionary Synthesis of Deep Neural Networks », arXiv:1606.04393 [cs, stat], févr. 2017, Consulté le: févr. 11, 2020. [En ligne]. Disponible sur: http://arxiv.org/abs/1606.04393.
+
+[4] J. Yang, Y. Zhuang, et H. Wang, « Evolutionary Robot Behaviors Based on Natural Selection and Neural Network », in Artificial Intelligence Applications and Innovations: IFIP 18th World Computer Congress TC12 First International Conference on Artificial Intelligence Applications and Innovations (AIAI-2004) 22–27 August 2004 Toulouse, France, M. Bramer et V. Devedzic, Éd. Boston, MA: Springer US, 2004, p. 55‑66.
+
+[5] « Evolving Neural Networks ». https://home.fnal.gov/~souvik/Brain/index.html (consulté le févr. 11, 2020).
+
+[6] « The Bibites by Léo Caussan », itch.io. https://leocaussan.itch.io/the-bibites (consulté le févr. 11, 2020).
