@@ -68,11 +68,45 @@ public class Individu {
         croiser(croisement_moves, 1);
     }
 
-    public void croiser(Individu individu_to_croiser, int nb){
+    public void croiserMieux(Individu individu_to_croiser, int nb){
         if (individu_to_croiser.evaluate() > evaluate()){
             moves = Arrays.copyOf(individu_to_croiser.moves, individu_to_croiser.moves.length);
         } else if(evaluate() > individu_to_croiser.evaluate()) {
             individu_to_croiser.moves = Arrays.copyOf(moves, moves.length);
+        }
+    }
+
+    public void croiser(Individu individu_to_croiser, int nb){
+        ArrayList<Individu> individus_a_croiser = new ArrayList<>();
+        individus_a_croiser.add(this);
+        individus_a_croiser.add(individu_to_croiser);
+
+        for(Individu individu_en_traitement: individus_a_croiser) {
+            String[] movesA = Arrays.copyOf(moves, moves.length);
+            String[] movesB = Arrays.copyOf(individu_to_croiser.moves, individu_to_croiser.moves.length);
+            double move_choosen;
+
+            for (int i = 0; i < individu_en_traitement.moves.length; i = i + nb) {
+                String[] move_to_change;
+                String[] move_to_get;
+                move_choosen = new Random().nextDouble();
+
+                if (move_choosen > 0.5) {
+                    move_to_change = movesA;
+                    move_to_get = movesB;
+                } else {
+                    move_to_change = movesB;
+                    move_to_get = movesA;
+                }
+
+                for (int j = i; j < i + nb; j++) {
+                    if(j < move_to_change.length) {
+                        move_to_change[j] = move_to_get[j];
+                    }
+                }
+            }
+
+            individu_en_traitement.moves = Arrays.copyOf(movesA, movesA.length);
         }
     }
 
