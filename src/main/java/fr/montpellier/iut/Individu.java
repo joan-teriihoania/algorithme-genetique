@@ -116,6 +116,7 @@ public class Individu {
 
     public int evaluate(String mode){
         // Initialise visited cases map
+        visited_coor = new Boolean[plateau.getSize()][plateau.getSize()];
         for (int i = 0;i < visited_coor.length;i++){
             for (int j = 0;j < visited_coor.length;j++){
                 visited_coor[i][j] = false;
