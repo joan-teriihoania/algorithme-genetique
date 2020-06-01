@@ -111,7 +111,7 @@ public class Individu {
     }
 
     public int evaluate(){
-        return evaluate("nbPiece");
+        return evaluate("score");
     }
 
     public int evaluate(String mode){
